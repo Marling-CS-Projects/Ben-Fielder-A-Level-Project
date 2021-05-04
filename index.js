@@ -8,7 +8,7 @@ var config = {
       update: update
     }
 };
-  
+
 var game = new Phaser.Game(config);
 
 let left
@@ -16,7 +16,7 @@ let right
 let up
 let down
 let speed = 1
-  
+
 function create (){
     this.r1 = this.add.rectangle(400, 300, 50, 50, 0xff0000)
   
@@ -25,7 +25,7 @@ function create (){
     up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
     down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 }
-  
+
 function update(){
     if(left.isDown){
         this.r1.setPosition(this.r1.x-speed, this.r1.y)
