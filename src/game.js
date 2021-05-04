@@ -2,7 +2,8 @@ import React from "react"
 import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
-import {createNewPlatforms, createNewPlayer} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys} from "./components"
+import {handleUserInput} from "./controls"
 
 class Game extends React.Component{
   state = {
@@ -48,40 +49,11 @@ function create (){
 
   this.physics.add.collider(this.players, this.platforms)
 
-  this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-  this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-  this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-  this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-  this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-  this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+  createNewKeys(this)
 }
 
 function update(){
-  if(this.left.isDown){
-    this.player1.body.setVelocityX(-100)
-  }
-  else if(this.right.isDown){
-    this.player1.body.setVelocityX(100)
-  }
-  else{
-    this.player1.body.setVelocityX(0)
-  }
-  if(this.up.isDown && this.player1.body.touching.down){
-    this.player1.body.setVelocityY(-300)
-  }
-
-  if(this.keyA.isDown){
-    this.player2.body.setVelocityX(-100)
-  }
-  else if(this.keyD.isDown){
-    this.player2.body.setVelocityX(100)
-  }
-  else{
-    this.player2.body.setVelocityX(0)
-  }
-  if(this.keyW.isDown && this.player2.body.touching.down){
-    this.player2.body.setVelocityY(-300)
-  }
+  handleUserInput(this)
 }
 
-export default Game;
+export default Game
