@@ -1,0 +1,25 @@
+{
+  "name": "computer-science-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenFielder1/Ben-Fielder-A-Level-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenFielder1/Ben-Fielder-A-Level-Project/issues"
+  },
+  "homepage": "https://github.com/BenFielder1/Ben-Fielder-A-Level-Project#readme"
+}
