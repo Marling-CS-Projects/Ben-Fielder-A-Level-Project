@@ -22,3 +22,8 @@ export function createNewKeys(game){
     game.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     game.keyD = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
 }
+
+export function createFollowCamera(game, playerToFollow){
+    game.cameras.main.setBounds(0, 0, 1600, 600)
+    game.cameras.main.startFollow(playerToFollow)
+}
