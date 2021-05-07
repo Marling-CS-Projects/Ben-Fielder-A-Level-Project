@@ -3,7 +3,7 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera} from "./components"
-import {handleUserInput1} from "./controls"
+import {handleUserInput} from "./controls"
 
 import {updatePlayerPositions, setPlatformData} from "./game2"
 
@@ -60,7 +60,7 @@ function create (){
 }
 
 function update(){
-  handleUserInput1(this)
+  handleUserInput(this)
   updatePlayerPositions(this.player1, this.player2)
 }
 
