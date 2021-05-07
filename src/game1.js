@@ -2,10 +2,12 @@ import React from "react"
 import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera} from "./components"
-import {handleUserInput} from "./controls"
+import {createNewPlatforms, createNewPlayer, createNewKeys1, createFollowCamera} from "./components"
+import {handleUserInput1} from "./controls"
 
-class Game extends React.Component{
+import {updatePlayerPositions, setPlatformData} from "./game2"
+
+class Game1 extends React.Component{
   state = {
     initialize: true,
     game: {
@@ -44,19 +46,22 @@ function create (){
 
   let platformData = [{x:800,y:575,w:1600,h:50},{x:-5,y:300,w:10,h:700},{x:1605,y:300,w:10,h:700},
     {x:100,y:450,w:200,h:50},{x:400,y:310,w:300,h:50},{x:150,y:160,w:150,h:50},{x:650,y:200,w:100,h:50},
-    {x:850,y:425,w:250,h:50},{x:925,y:300,w:300,h:50},{x:1200,y:175,w:175,h:50},{x:1500,y:375,w:200,h:50}]
+    {x:850,y:425,w:250,h:50},{x:925,y:300,w:300,h:50},{x:1200,y:175,w:175,h:50},{x:1500,y:375,w:200,h:50}];
+
+  setPlatformData(platformData)
 
   createNewPlatforms(this, this.platforms, platformData)
 
   this.physics.add.collider(this.players, this.platforms)
 
-  createFollowCamera(this, this.player1)
+  createFollowCamera(this, this.player2)
 
-  createNewKeys(this)
+  createNewKeys1(this)
 }
 
 function update(){
-  handleUserInput(this)
+  handleUserInput1(this)
+  updatePlayerPositions(this.player1, this.player2)
 }
 
-export default Game;
+export default Game1

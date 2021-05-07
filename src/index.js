@@ -1,10 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Game from './game'
+import Game1 from './game1'
+import Game2 from './game2'
+
+import "./index.css"
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
+    <Game1 />
+    <Game2 />
   </React.StrictMode>,
   document.getElementById('root')
 )
