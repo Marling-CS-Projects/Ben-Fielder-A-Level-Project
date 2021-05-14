@@ -1,8 +1,8 @@
 /node_modules
 /cycles
 
-/src/game1.js
-/src/game2.js
+#/src/game1.js
+#/src/game2.js
 /src/game3.js
 /src/game4.js
 /src/game5.js
