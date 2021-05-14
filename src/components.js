@@ -30,7 +30,7 @@ export function createFollowCamera(game, playerToFollow){
 }
 
 //creating the moving platforms and setting the information for the target position to move to
-export function createNewMovingPlatform(game, physicsGroup, info, target, increment){
+export function createNewMovingPlatform(game, physicsGroup, info, target, increment, trigger){
     let movingPlatform = game.add.rectangle(info.x, info.y, info.w, info.h, 0x0000ff)
     physicsGroup.add(movingPlatform)
     //the moving platforms need gravity turned off and are set to not be moved by collisions
@@ -39,5 +39,15 @@ export function createNewMovingPlatform(game, physicsGroup, info, target, increm
     movingPlatform.origin = {x:info.x, y:info.y}
     movingPlatform.target = target
     movingPlatform.increment = increment
+    //the trigger is the button that tells the platform to move or not
+    movingPlatform.trigger = trigger
     return movingPlatform
+}
+
+//create a new button
+export function createNewButton(game, physicsGroup, info){
+    let button = game.add.rectangle(info.x, info.y, info.w, info.h, 0xffff00)
+    physicsGroup.add(button)
+    button.on= false
+    return button
 }
