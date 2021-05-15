@@ -13,3 +13,12 @@ export function handleUserInput(game){
     game.player1.body.setVelocityY(-300)
   }
 }
+
+//called every frame to check if the interaction keys have been released
+export function checkInteractionKeyPress(game){
+  game.players.children.entries.forEach((player)=>{
+    if(!player.interactionKey.isDown){
+      player.interactionKey.pressed = false
+    }
+  })
+}

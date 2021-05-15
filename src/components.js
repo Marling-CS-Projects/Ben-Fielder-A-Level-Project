@@ -21,6 +21,9 @@ export function createNewKeys(game){
     game.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
     game.right = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     game.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+    
+    game.player1.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACK_SLASH)
+    game.player1.interactionKey.pressed = false
 }
 
 //creating the side-scrolling camera
@@ -44,17 +47,26 @@ export function createNewMovingPlatform(game, physicsGroup, info, target, increm
     return movingPlatform
 }
 
-//create a new button
-export function createNewButton(game, physicsGroup, info){
-    let button = game.add.rectangle(info.x, info.y, info.w, info.h, 0xffff00)
-    physicsGroup.add(button)
-    button.on= false
-    return button
-}
-
 //create a new box
 export function createNewBox(game, physicsGroup, info){
     let box = game.add.rectangle(info.x, info.y, info.w, info.h, 0xff00ff)
     physicsGroup.add(box)
     return box
+}
+
+//create a new button
+export function createNewButton(game, physicsGroup, info){
+    let button = game.add.rectangle(info.x, info.y, info.w, info.h, 0xffff00)
+    physicsGroup.add(button)
+    button.on = false
+    return button
+}
+
+//create a new lever
+export function createNewLever(game, physicsGroup, info){
+    let lever = game.add.rectangle(info.x, info.y, info.w, info.h, 0x00ffff)
+    physicsGroup.add(lever)
+    lever.setRotation(-45*Math.PI/180)
+    lever.on = false
+    return lever
 }
