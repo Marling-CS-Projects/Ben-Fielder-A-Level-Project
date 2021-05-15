@@ -51,3 +51,10 @@ export function createNewButton(game, physicsGroup, info){
     button.on= false
     return button
 }
+
+//create a new box
+export function createNewBox(game, physicsGroup, info){
+    let box = game.add.rectangle(info.x, info.y, info.w, info.h, 0xff00ff)
+    physicsGroup.add(box)
+    return box
+}

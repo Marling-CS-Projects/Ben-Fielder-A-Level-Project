@@ -4,9 +4,9 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //importing functions from my other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewBox} from "./components"
 import {handleUserInput} from "./controls"
-import {moveMovingPlatforms, resetButtonValues} from "./frame-events"
+import {moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
 import {handleButtonPress} from "./collision-events"
 
 
@@ -42,7 +42,7 @@ class Game extends React.Component{
   }
 }
 
-//create function called by Phaser game object
+//create function called once by Phaser game object
 function create (){
   //creating the players physics group and a player
   this.players = this.physics.add.group()
@@ -58,25 +58,35 @@ function create (){
   //Creating the platforms and attaching them to the platforms physics group
   createNewPlatforms(this, this.platforms, platformData)
 
-  //setting a collider
+  //setting collider between the platforms and players
   this.physics.add.collider(this.players, this.platforms)
+
+  //creating boxes physics group and 2 boxes
+  this.boxes = this.physics.add.group()
+  this.box1 = createNewBox(this, this.boxes, {x:600,y:525,w:33,h:33})
+  this.box2 = createNewBox(this, this.boxes, {x:600,y:160,w:33,h:33})
+
+  //Setting colliders for boxes
+  this.physics.add.collider(this.players, this.boxes)
+  this.physics.add.collider(this.platforms, this.boxes)
+  this.physics.add.collider(this.boxes, this.boxes)
 
   //setting the buttons physics group and creating a button
   this.buttons = this.physics.add.staticGroup()
   this.button = createNewButton(this, this.buttons, {x:650,y:175,w:25,h:10})
 
-  //setting a collider between the player and the button
+  //setting the colliders that trigger an event when a button is pressed
   this.physics.add.collider(this.players, this.buttons, handleButtonPress)
+  this.physics.add.overlap(this.boxes, this.buttons, handleButtonPress)
 
-  //moving platforms physics group
+  //moving platforms physics group and 2 moving platforms
   this.movingPlatforms = this.physics.add.group()
-
-  //creating moving platforms
   this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:900,y:175,w:200,h:50}, {x:1250,y:175}, {x:1,y:0}, this.button)
   this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:100,y:525,w:200,h:50}, {x:100,y:325}, {x:0,y:-1}, null)
 
-  //setting a collider
+  //setting colliders
   this.physics.add.collider(this.players, this.movingPlatforms)
+  this.physics.add.collider(this.movingPlatforms, this.boxes)
 
   //making a side-scrolling camera to follow the player
   createFollowCamera(this, this.player1)
@@ -90,6 +100,7 @@ function update(){
   handleUserInput(this)
   moveMovingPlatforms(this)
   resetButtonValues(this)
+  resetBoxVelocity(this)
 }
 
 export default Game

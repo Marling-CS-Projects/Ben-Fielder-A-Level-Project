@@ -23,3 +23,10 @@ export function moveMovingPlatforms(game){
 export function resetButtonValues(game){
     game.button.on = false
 }
+
+//set the velocity of the box back to 0, so they stop after being pushed
+export function resetBoxVelocity(game){
+    game.boxes.children.entries.forEach((box)=>{
+        box.body.setVelocityX(0)
+    })
+}
