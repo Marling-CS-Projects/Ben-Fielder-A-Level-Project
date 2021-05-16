@@ -82,10 +82,12 @@ export function createNewSpikeSet(game, physicsGroup, info, count){
     }
 }
 
+//create a new enemy
 export function createNewEnemy(game, physicsGroup, info, target, moveSpeed){
     let enemy = game.add.rectangle(info.x, info.y, 50, 50, 0xdf7000)
     physicsGroup.add(enemy)
     enemy.patrolPath = {x1:info.x,x2:target}
     enemy.moveSpeed = moveSpeed
+    enemy.seekPlayer = false
     return enemy
 }

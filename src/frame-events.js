@@ -21,7 +21,9 @@ export function moveMovingPlatforms(game){
 
 //default value for button.on should be set to false
 export function resetButtonValues(game){
-    game.button.on = false
+    game.buttons.children.entries.forEach((button)=>{
+        button.on = false
+    })
 }
 
 //set the velocity of the box back to 0, so they stop after being pushed
@@ -44,12 +46,35 @@ export function setLastSafePlayerPosition(game){
 //called every frame to move the enemies
 export function moveEnemies(game){
     game.enemies.children.entries.forEach((enemy)=>{
-        enemy.setPosition(enemy.x+enemy.moveSpeed, enemy.y)
-        if(enemy.x <= enemy.patrolPath.x1){
-            enemy.moveSpeed = enemy.moveSpeed*-1
+        if(!enemy.seekPlayer){
+            enemy.setPosition(enemy.x+enemy.moveSpeed, enemy.y)
+            if(enemy.x <= enemy.patrolPath.x1){
+                enemy.moveSpeed = Math.abs(enemy.moveSpeed)
+            }
+            else if(enemy.x > enemy.patrolPath.x2){
+                enemy.moveSpeed = -Math.abs(enemy.moveSpeed)
+            }
         }
-        else if(enemy.x > enemy.patrolPath.x2){
-            enemy.moveSpeed = enemy.moveSpeed*-1
-        }
+    })
+}
+
+//if the distance of an enemy to player is less than 150, then the enemy will move towards the player istead of following the patrol path
+export function checkEnemyDistanceToPlayer(game){
+    game.enemies.children.entries.forEach((enemy)=>{
+        game.players.children.entries.forEach((player)=>{
+            let distanceToPlayer = player.x-enemy.x
+            if(Math.abs(distanceToPlayer) < 150  && enemy.y === player.y){
+                enemy.seekPlayer = true
+                if(distanceToPlayer > 0){
+                    enemy.setPosition(enemy.x+Math.abs(enemy.moveSpeed), enemy.y)
+                }
+                else{
+                    enemy.setPosition(enemy.x-Math.abs(enemy.moveSpeed), enemy.y)
+                }
+            }
+            else{
+                enemy.seekPlayer = false
+            }
+        })
     })
 }

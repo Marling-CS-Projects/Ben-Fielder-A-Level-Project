@@ -6,7 +6,7 @@ import { IonPhaser } from "@ion-phaser/react"
 //importing functions from my other scripts
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
+import {checkEnemyDistanceToPlayer, moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
 import {handleButtonPress, handleEnemyCollision, handleLeverPress, handleSpikeCollision} from "./collision-events"
 
 
@@ -63,7 +63,7 @@ function create (){
 
   //creating boxes physics group and 2 boxes
   this.boxes = this.physics.add.group()
-  this.box1 = createNewBox(this, this.boxes, {x:600,y:525,w:33,h:33})
+  this.box1 = createNewBox(this, this.boxes, {x:550,y:525,w:33,h:33})
   this.box2 = createNewBox(this, this.boxes, {x:600,y:160,w:33,h:33})
 
   //Setting colliders for boxes
@@ -97,16 +97,17 @@ function create (){
 
   //creating the spikes physics group and 2 spike sets
   this.spikes = this.physics.add.staticGroup()
-  createNewSpikeSet(this, this.spikes, {x:500,y:550}, 3)
+  createNewSpikeSet(this, this.spikes, {x:300,y:550}, 3)
   createNewSpikeSet(this, this.spikes, {x:1000,y:550}, 25)
 
   //setting the colliders for colliders for spikes
   this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
   this.physics.add.collider(this.boxes, this.spikes)
 
-  //create the eniemies physics group and an enemy
+  //create the eniemies physics group and 2 enemies
   this.enemies = this.physics.add.group()
-  this.enemy = createNewEnemy(this, this.enemies, {x:300,y:260}, 500, 0.75)
+  this.enemy1 = createNewEnemy(this, this.enemies, {x:300,y:260}, 500, 0.75)
+  this.enemy2 = createNewEnemy(this, this.enemies, {x:600,y:525}, 900, 0.75)
 
   //set colliders for enemies including an event for between players and enemies
   this.physics.add.collider(this.enemies, this.platforms)
@@ -128,6 +129,7 @@ function update(){
   checkInteractionKeyPress(this)
   setLastSafePlayerPosition(this)
   moveEnemies(this)
+  checkEnemyDistanceToPlayer(this)
 }
 
 export default Game
