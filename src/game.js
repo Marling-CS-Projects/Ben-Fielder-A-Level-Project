@@ -4,10 +4,10 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //importing functions from my other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
-import {handleButtonPress, handleLeverPress} from "./collision-events"
+import {moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
+import {handleButtonPress, handleLeverPress, handleSpikeCollision} from "./collision-events"
 
 
 //The class to render the Phaser game
@@ -95,12 +95,20 @@ function create (){
   this.physics.add.collider(this.players, this.movingPlatforms)
   this.physics.add.collider(this.movingPlatforms, this.boxes)
 
+  //creating the spikes physics group and 2 spike sets
+  this.spikes = this.physics.add.staticGroup()
+  createNewSpikeSet(this, this.spikes, {x:500,y:550}, 3)
+  createNewSpikeSet(this, this.spikes, {x:1000,y:550}, 25)
+
+  //setting the colliders for colliders for spikes
+  this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
+  this.physics.add.collider(this.boxes, this.spikes)
+
   //making a side-scrolling camera to follow the player
   createFollowCamera(this, this.player1)
 
   //making the varibles to listen to key presses
   createNewKeys(this)
-
 }
 
 //update function called every frame
@@ -110,6 +118,7 @@ function update(){
   resetButtonValues(this)
   resetBoxVelocity(this)
   checkInteractionKeyPress(this)
+  setLastSafePlayerPosition(this)
 }
 
 export default Game
