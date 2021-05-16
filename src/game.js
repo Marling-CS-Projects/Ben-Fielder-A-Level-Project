@@ -4,10 +4,10 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //importing functions from my other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
-import {handleButtonPress, handleLeverPress, handleSpikeCollision} from "./collision-events"
+import {moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
+import {handleButtonPress, handleEnemyCollision, handleLeverPress, handleSpikeCollision} from "./collision-events"
 
 
 //The class to render the Phaser game
@@ -104,6 +104,14 @@ function create (){
   this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
   this.physics.add.collider(this.boxes, this.spikes)
 
+  //create the eniemies physics group and an enemy
+  this.enemies = this.physics.add.group()
+  this.enemy = createNewEnemy(this, this.enemies, {x:300,y:260}, 500, 0.75)
+
+  //set colliders for enemies including an event for between players and enemies
+  this.physics.add.collider(this.enemies, this.platforms)
+  this.physics.add.overlap(this.players, this.enemies, handleEnemyCollision)
+
   //making a side-scrolling camera to follow the player
   createFollowCamera(this, this.player1)
 
@@ -119,6 +127,7 @@ function update(){
   resetBoxVelocity(this)
   checkInteractionKeyPress(this)
   setLastSafePlayerPosition(this)
+  moveEnemies(this)
 }
 
 export default Game

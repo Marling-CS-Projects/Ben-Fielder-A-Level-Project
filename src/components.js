@@ -13,6 +13,7 @@ export function createNewPlatforms(game, physicsGroup, platformData){
 export function createNewPlayer(game, physicsGroup, x, y){
     let player = game.add.rectangle(x, y, 50, 50, 0xff0000)
     physicsGroup.add(player)
+    player.origin = {x:x,y:y}
     player.safePos = {x:x,y:y}
     return player
 }
@@ -79,4 +80,12 @@ export function createNewSpikeSet(game, physicsGroup, info, count){
         spike = game.add.triangle(info.x+i*25, info.y-12, 0, 25, 25, 25, 12, 0, 0xffffff)
         physicsGroup.add(spike)
     }
+}
+
+export function createNewEnemy(game, physicsGroup, info, target, moveSpeed){
+    let enemy = game.add.rectangle(info.x, info.y, 50, 50, 0xdf7000)
+    physicsGroup.add(enemy)
+    enemy.patrolPath = {x1:info.x,x2:target}
+    enemy.moveSpeed = moveSpeed
+    return enemy
 }

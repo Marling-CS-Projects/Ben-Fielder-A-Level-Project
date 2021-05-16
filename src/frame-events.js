@@ -40,3 +40,16 @@ export function setLastSafePlayerPosition(game){
         }
     })
 }
+
+//called every frame to move the enemies
+export function moveEnemies(game){
+    game.enemies.children.entries.forEach((enemy)=>{
+        enemy.setPosition(enemy.x+enemy.moveSpeed, enemy.y)
+        if(enemy.x <= enemy.patrolPath.x1){
+            enemy.moveSpeed = enemy.moveSpeed*-1
+        }
+        else if(enemy.x > enemy.patrolPath.x2){
+            enemy.moveSpeed = enemy.moveSpeed*-1
+        }
+    })
+}

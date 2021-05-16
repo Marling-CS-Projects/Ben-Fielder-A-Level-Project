@@ -21,5 +21,9 @@ export function handleLeverPress(player, lever){
 //called when a player and collides with a spike. The player moves back to their last safe position
 export function handleSpikeCollision(player, spike){
     player.setPosition(player.safePos.x, player.safePos.y)
-    console.log("hello")
+}
+
+//called when a player and enemy collide. Sends the player back to the spawn point
+export function handleEnemyCollision(player, enemy){
+    player.setPosition(player.origin.x, player.origin.y)
 }
