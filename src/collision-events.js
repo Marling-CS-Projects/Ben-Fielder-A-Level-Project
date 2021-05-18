@@ -27,3 +27,11 @@ export function handleSpikeCollision(player, spike){
 export function handleEnemyCollision(player, enemy){
     player.setPosition(player.origin.x, player.origin.y)
 }
+
+//sets the player's safe position if they are on a static platform
+export function setSafePlayerPosition(player, platform){
+    if(player.body.touching.down){
+        player.safePos.x = player.x
+        player.safePos.y = player.y
+    }
+}

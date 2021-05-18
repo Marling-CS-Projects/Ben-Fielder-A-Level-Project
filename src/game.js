@@ -6,8 +6,8 @@ import { IonPhaser } from "@ion-phaser/react"
 //importing functions from my other scripts
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {checkEnemyDistanceToPlayer, moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, setLastSafePlayerPosition} from "./frame-events"
-import {handleButtonPress, handleEnemyCollision, handleLeverPress, handleSpikeCollision} from "./collision-events"
+import {checkEnemyDistanceToPlayer, moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
+import {handleButtonPress, handleEnemyCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./collision-events"
 
 
 //The class to render the Phaser game
@@ -58,8 +58,8 @@ function create (){
   //Creating the platforms and attaching them to the platforms physics group
   createNewPlatforms(this, this.platforms, platformData)
 
-  //setting collider between the platforms and players
-  this.physics.add.collider(this.players, this.platforms)
+  //setting collider between the platforms and players which also sets a safe player position
+  this.physics.add.collider(this.players, this.platforms, setSafePlayerPosition)
 
   //creating boxes physics group and 2 boxes
   this.boxes = this.physics.add.group()
@@ -127,7 +127,6 @@ function update(){
   resetButtonValues(this)
   resetBoxVelocity(this)
   checkInteractionKeyPress(this)
-  setLastSafePlayerPosition(this)
   moveEnemies(this)
   checkEnemyDistanceToPlayer(this)
 }

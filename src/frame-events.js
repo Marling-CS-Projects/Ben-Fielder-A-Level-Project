@@ -33,16 +33,6 @@ export function resetBoxVelocity(game){
     })
 }
 
-//when a player collides with a spike, they will be set to this position
-export function setLastSafePlayerPosition(game){
-    game.players.children.entries.forEach((player)=>{
-        if(player.body.touching.down){
-            player.safePos.x = player.x
-            player.safePos.y = player.y
-        }
-    })
-}
-
 //called every frame to move the enemies
 export function moveEnemies(game){
     game.enemies.children.entries.forEach((enemy)=>{
