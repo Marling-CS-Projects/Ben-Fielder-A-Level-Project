@@ -53,7 +53,8 @@ export function checkEnemyDistanceToPlayer(game){
     game.enemies.children.entries.forEach((enemy)=>{
         game.players.children.entries.forEach((player)=>{
             let distanceToPlayer = player.x-enemy.x
-            if(Math.abs(distanceToPlayer) < 150  && enemy.y === player.y){
+            let distanceToPlayerSpawn = player.origin.x-enemy.x
+            if(Math.abs(distanceToPlayer) < 150 && (Math.abs(distanceToPlayerSpawn) > 75 || enemy.y !== player.origin.y) && enemy.y === player.safePos.y){
                 enemy.seekPlayer = true
                 if(distanceToPlayer > 0){
                     enemy.setPosition(enemy.x+Math.abs(enemy.moveSpeed), enemy.y)
