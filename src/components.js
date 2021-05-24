@@ -20,17 +20,22 @@ export function createNewPlayer(game, physicsGroup, x, y){
 
 //creating the key listeners for keyboard input
 export function createNewKeys(game){
-    game.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-    game.right = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-    game.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-    
+    game.player1.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+    game.player1.right = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+    game.player1.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
     game.player1.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACK_SLASH)
     game.player1.interactionKey.pressed = false
+
+    game.player2.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    game.player2.right = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    game.player2.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    game.player2.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    game.player2.interactionKey.pressed = false
 }
 
 //creating the side-scrolling camera
-export function createFollowCamera(game, playerToFollow){
-    game.cameras.main.setBounds(0, 0, 1600, 600)
+export function createFollowCamera(game, playerToFollow, bounds){
+    game.cameras.main.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2)
     game.cameras.main.startFollow(playerToFollow)
 }
 

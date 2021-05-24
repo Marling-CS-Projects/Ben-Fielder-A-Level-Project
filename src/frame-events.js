@@ -51,19 +51,22 @@ export function moveEnemies(game){
 //if the distance of an enemy to player is less than 150, then the enemy will move towards the player istead of following the patrol path
 export function checkEnemyDistanceToPlayer(game){
     game.enemies.children.entries.forEach((enemy)=>{
+        let targetingPlayer = false
         game.players.children.entries.forEach((player)=>{
             let distanceToPlayer = player.x-enemy.x
             let distanceToPlayerSpawn = player.origin.x-enemy.x
-            if(Math.abs(distanceToPlayer) < 150 && (Math.abs(distanceToPlayerSpawn) > 75 || enemy.y !== player.origin.y) && enemy.y === player.safePos.y){
+            if(Math.abs(distanceToPlayer) < 150 && enemy.y === player.safePos.y && (Math.abs(distanceToPlayerSpawn) > 75 || enemy.y !== player.origin.y)){
                 enemy.seekPlayer = true
+                targetingPlayer = true
                 if(distanceToPlayer > 0){
                     enemy.setPosition(enemy.x+Math.abs(enemy.moveSpeed), enemy.y)
                 }
                 else{
                     enemy.setPosition(enemy.x-Math.abs(enemy.moveSpeed), enemy.y)
                 }
+                return
             }
-            else{
+            else if(!targetingPlayer){
                 enemy.seekPlayer = false
             }
         })
