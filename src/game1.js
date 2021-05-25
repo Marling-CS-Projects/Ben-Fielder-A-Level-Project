@@ -4,13 +4,13 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //importing functions from my other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {checkEnemyDistanceToPlayer, moveEnemies, moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
-import {handleButtonPress, handleEnemyCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./collision-events"
+import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveFinishPlatformBody, moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
+import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./collision-events"
 
 //import functions from game 2 in order to communicate with it
-import { setBoxData, setButtonData, setCameraBounds, setEnemyData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateMovingPlatformPositions, updatePlayerPositions } from "./game2"
+import { setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions } from "./game2"
 
 
 //The class to render the Phaser game
@@ -124,8 +124,8 @@ function create (){
 
   //create the enemies for the level
   this.enemies = this.physics.add.group()
-  this.enemy1 = createNewEnemy(this, this.enemies, {x:1200,y:725}, 1500, 0.75)
-  this.enemy2 = createNewEnemy(this, this.enemies, {x:2000,y:375}, 2400, 0.75)
+  this.enemy1 = createNewEnemy(this, this.enemies, {x:1200,y:725}, 1500, 50)
+  this.enemy2 = createNewEnemy(this, this.enemies, {x:2000,y:375}, 2400, 50)
 
   //send the enemy data to game 2
   setEnemyData([{x:1200,y:725},{x:2000,y:375}])
@@ -135,29 +135,42 @@ function create (){
   this.physics.add.overlap(this.players, this.enemies, handleEnemyCollision)
   this.physics.add.overlap(this.enemies, this.buttons, handleButtonPress)
 
-  //create the moving platforms for use in the level
   this.movingPlatforms = this.physics.add.group()
+  this.finishPlatforms = this.physics.add.group()
+
+  this.finishPlatformBody = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:100,w:200,h:50}, {x:950,y:100}, {x:0,y:0}, null)
+  this.finishPlatform = createNewFinishPlatform(this, this.finishPlatforms, {x:950,y:100,w:200,h:50}, this.finishPlatformBody)
+
+  this.physics.add.collider(this.finishPlatforms, this.movingPlatforms)
+
+  //create the moving platforms for use in the level
   this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:1600,y:625,w:50,h:250}, {x:1600,y:500}, {x:0,y:-1}, this.button1)
   this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:725,w:200,h:50}, {x:500,y:550}, {x:0,y:-1}, this.lever2)
   this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:450,w:200,h:50}, {x:500,y:250}, {x:0,y:-1}, this.button2)
   this.movingPlatform4 = createNewMovingPlatform(this, this.movingPlatforms, {x:760,y:200,w:150,h:50}, {x:800,y:500}, {x:0,y:1}, this.button1)
-  this.movingPlatform5 = createNewMovingPlatform(this, this.movingPlatforms, {x:890,y:650,w:50,h:200}, {x:890,y:550}, {x:0,y:-1}, this.lever3)
-  this.movingPlatform6 = createNewMovingPlatform(this, this.movingPlatforms, {x:1010,y:650,w:50,h:200}, {x:1010,y:550}, {x:0,y:-1}, this.lever1)
+  this.movingPlatform5 = createNewMovingPlatform(this, this.movingPlatforms, {x:890,y:650,w:50,h:200}, {x:890,y:450}, {x:0,y:-1}, this.lever3)
+  this.movingPlatform6 = createNewMovingPlatform(this, this.movingPlatforms, {x:1010,y:650,w:50,h:200}, {x:1010,y:450}, {x:0,y:-1}, this.lever1)
   this.movingPlatform7 = createNewMovingPlatform(this, this.movingPlatforms, {x:2500,y:425,w:200,h:50}, {x:2700,y:700}, {x:1,y:0}, this.button4)
   this.movingPlatform8 = createNewMovingPlatform(this, this.movingPlatforms, {x:2600,y:500,w:200,h:50}, {x:2100,y:750}, {x:-1,y:0.5}, this.button3)
   this.movingPlatform9 = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:150,w:200,h:50}, {x:1250,y:150}, {x:1,y:0}, this.button1)
 
-  this.finishPlatform = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:100,w:200,h:50}, {x:950,y:100}, {x:0,y:0}, null)
-  this.finishPlatform.body.allowGravity = true
-  this.finishPlatform.body.immovable = false
-
   //send the moving platformm data to game 2
-  setMovingPlatformData([{x:1600,y:625,w:50,h:250},{x:500,y:725,w:200,h:50},{x:500,y:450,w:200,h:50},{x:760,y:200,w:150,h:50},{x:890,y:650,w:50,h:200},{x:1010,y:650,w:50,h:200},{x:2500,y:425,w:200,h:50},{x:2600,y:500,w:200,h:50},{x:950,y:150,w:200,h:50},{x:950,y:100,w:200,h:50}])
+  setMovingPlatformData([{x:950,y:100,w:200,h:50},{x:1600,y:625,w:50,h:250},{x:500,y:725,w:200,h:50},{x:500,y:450,w:200,h:50},{x:760,y:200,w:150,h:50},{x:890,y:650,w:50,h:200},{x:1010,y:650,w:50,h:200},{x:2500,y:425,w:200,h:50},{x:2600,y:500,w:200,h:50},{x:950,y:150,w:200,h:50}])
 
   //setting colliders
   this.physics.add.collider(this.players, this.movingPlatforms)
   this.physics.add.collider(this.movingPlatforms, this.boxes)
   this.physics.add.collider(this.movingPlatforms, this.movingPlatforms)
+
+  //create the exit door
+  this.exitDoors = this.physics.add.group()
+  this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:950,y:100}, this.finishPlatform)
+
+  //send the exit door data to game 2
+  setExitDoorData([{x:950,y:100,floor:this.finishPlatform}])
+
+  //add overlap between the players and exit door
+  this.physics.add.overlap(this.players, this.exitDoors, handleExitDoorCollision)
 
   //making a side-scrolling camera to follow the player
   createFollowCamera(this, this.player2, {x1:0,y1:0,x2:3200,y2:800})
@@ -179,6 +192,8 @@ function update(){
   checkInteractionKeyPress(this)
   checkEnemyDistanceToPlayer(this)
   moveEnemies(this)
+  moveExitDoor(this)
+  moveFinishPlatformBody(this.finishPlatform)
 
   //functions to send data to game 2
   updatePlayerPositions(this.players.children.entries)
@@ -186,6 +201,7 @@ function update(){
   updateBoxPosition(this.boxes.children.entries)
   upadateLeverRotation(this.levers.children.entries)
   updateEnemyPosition(this.enemies.children.entries)
+  updateExitDoorPosition(this.exitDoors.children.entries)
 }
 
 export default Game1

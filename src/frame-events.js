@@ -37,12 +37,11 @@ export function resetBoxVelocity(game){
 export function moveEnemies(game){
     game.enemies.children.entries.forEach((enemy)=>{
         if(!enemy.seekPlayer){
-            enemy.setPosition(enemy.x+enemy.moveSpeed, enemy.y)
             if(enemy.x <= enemy.patrolPath.x1){
-                enemy.moveSpeed = Math.abs(enemy.moveSpeed)
+                enemy.body.setVelocityX(enemy.moveSpeed)
             }
-            else if(enemy.x > enemy.patrolPath.x2){
-                enemy.moveSpeed = -Math.abs(enemy.moveSpeed)
+            else if(enemy.x >= enemy.patrolPath.x2){
+                enemy.body.setVelocityX(-enemy.moveSpeed)
             }
         }
     })
@@ -59,10 +58,10 @@ export function checkEnemyDistanceToPlayer(game){
                 enemy.seekPlayer = true
                 targetingPlayer = true
                 if(distanceToPlayer > 0){
-                    enemy.setPosition(enemy.x+Math.abs(enemy.moveSpeed), enemy.y)
+                    enemy.body.setVelocityX(enemy.moveSpeed)
                 }
                 else{
-                    enemy.setPosition(enemy.x-Math.abs(enemy.moveSpeed), enemy.y)
+                    enemy.body.setVelocityX(-enemy.moveSpeed)
                 }
                 return
             }
@@ -71,4 +70,16 @@ export function checkEnemyDistanceToPlayer(game){
             }
         })
     })
+}
+
+//move the exit door to stay on the platform
+export function moveExitDoor(game){
+    game.exitDoors.children.entries.forEach((exitDoor)=>{
+        exitDoor.setPosition(exitDoor.floor.x, exitDoor.floor.y-50)
+        exitDoor.playerCount = 0
+    })
+}
+
+export function moveFinishPlatformBody(finishPlatform){
+    finishPlatform.targetBody.setPosition(finishPlatform.x, finishPlatform.y)
 }

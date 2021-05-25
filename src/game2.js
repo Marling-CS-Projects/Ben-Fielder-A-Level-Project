@@ -4,7 +4,7 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //import functions from other scripts
-import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy} from "./components"
+import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./components"
 
 //class to initialise the game
 class Game2 extends React.Component{
@@ -46,6 +46,7 @@ let leverData
 let movingPlatformData
 let spikeData
 let enemyData
+let exitDoorData
 let cameraBounds
 
 let playerPositions
@@ -53,6 +54,7 @@ let movingPlatformPositions
 let boxPositions
 let leverRotations
 let enemyPositions
+let exitDoorPositions
 
 //create function called at the start of the game
 function create (){
@@ -103,6 +105,12 @@ function create (){
     createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h})
   })
 
+  //create the exit doors
+  this.exitDoors = this.physics.add.staticGroup()
+  exitDoorData.forEach((exitDoor)=>{
+    createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor)
+  })
+
   //create the side-scrolling camera
   createFollowCamera(this, this.player1, cameraBounds)
 }
@@ -128,6 +136,10 @@ function update(){
   //update the position of the enemies
   for(let i = 0; i < enemyPositions.length; i++){
     this.enemies.children.entries[i].setPosition(enemyPositions[i].x, enemyPositions[i].y)
+  }
+  //update posititions for exit doors
+  for(let i = 0; i < exitDoorPositions.length; i++){
+    this.exitDoors.children.entries[i].setPosition(exitDoorPositions[i].x, exitDoorPositions[i].y)
   }
 }
 
@@ -171,6 +183,11 @@ export function setEnemyData(enemyInfo){
     enemyData = enemyInfo
 }
 
+//receiving the exit door data
+export function setExitDoorData(exitDoorInfo){
+    exitDoorData = exitDoorInfo
+}
+
 //receiving the camera data
 export function setCameraBounds(bounds){
     cameraBounds = bounds
@@ -199,6 +216,11 @@ export function upadateLeverRotation(data){
 //receiving the positions of the enemies
 export function updateEnemyPosition(data){
     enemyPositions = data
+}
+
+//receiving the exit door position
+export function updateExitDoorPosition(data){
+    exitDoorPositions = data
 }
 
 export default Game2

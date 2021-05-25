@@ -54,6 +54,13 @@ export function createNewMovingPlatform(game, physicsGroup, info, target, increm
     return movingPlatform
 }
 
+export function createNewFinishPlatform(game, physicsGroup, info, targetBody){
+    let finishPlatform = game.add.rectangle(info.x, info.y, info.w, info.h, 0x0000ff)
+    physicsGroup.add(finishPlatform)
+    finishPlatform.targetBody = targetBody
+    return finishPlatform
+}
+
 //create a new box
 export function createNewBox(game, physicsGroup, info){
     let box = game.add.rectangle(info.x, info.y, info.w, info.h, 0xff00ff)
@@ -95,4 +102,15 @@ export function createNewEnemy(game, physicsGroup, info, target, moveSpeed){
     enemy.moveSpeed = moveSpeed
     enemy.seekPlayer = false
     return enemy
+}
+
+//create an exit door
+export function createNewExitDoor(game, physicsGroup, info, floor){
+    let exitDoor = game.add.rectangle(info.x, info.y, 50, 100, 0xaaaaaa)
+    physicsGroup.add(exitDoor)
+    exitDoor.body.allowGravity = false
+    exitDoor.body.immovable = true
+    exitDoor.floor = floor
+    exitDoor.playerCount = 0
+    return exitDoor
 }

@@ -35,3 +35,10 @@ export function setSafePlayerPosition(player, platform){
         player.safePos.y = player.y
     }
 }
+
+export function handleExitDoorCollision(player, exitDoor){
+    exitDoor.playerCount += 1
+    if(exitDoor.playerCount === 2){
+        console.log("level complete")
+    }
+}
