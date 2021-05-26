@@ -1,6 +1,7 @@
 //this is called when a player and button collide. obj2 refers to the button
 export function handleButtonPress(obj1, button){
     button.on = true
+    console.log(button)
 }
 
 //this is called when a player and lever collide. It turns the lever on or off if the interaction key has been pressed
@@ -36,6 +37,7 @@ export function setSafePlayerPosition(player, platform){
     }
 }
 
+//check if both players are at the exit door at the same time
 export function handleExitDoorCollision(player, exitDoor){
     exitDoor.playerCount += 1
     if(exitDoor.playerCount === 2){

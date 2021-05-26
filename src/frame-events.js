@@ -1,3 +1,6 @@
+import { createNewPlatforms } from "./components"
+import { addTrapPlatforms } from "./game2"
+
 //called every frame to move the moving platforms
 export function moveMovingPlatforms(game){
     game.movingPlatforms.children.entries.forEach((movingPlatform)=>{
@@ -80,6 +83,19 @@ export function moveExitDoor(game){
     })
 }
 
+//The finish platform needs a body for the players to stand on
 export function moveFinishPlatformBody(finishPlatform){
     finishPlatform.targetBody.setPosition(finishPlatform.x, finishPlatform.y)
+}
+
+export function checkTrap(game, trap){
+    if(trap.initialised){
+        trap.initialised = false
+        return
+    }
+    else if(trap.trigger.on){
+        trap.initialised = true
+        createNewPlatforms(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
+        addTrapPlatforms(trap.trapPlatforms)
+    }
 }

@@ -37,24 +37,13 @@ class Game2 extends React.Component{
   }
 }
 
-//variables in use
-let playerData
-let platformData
-let boxData
-let buttonData
-let leverData
-let movingPlatformData
-let spikeData
-let enemyData
-let exitDoorData
-let cameraBounds
+//variables for getting data on how to create each element
+let playerData, platformData, boxData, buttonData, leverData, movingPlatformData, spikeData, enemyData, exitDoorData, cameraBounds
 
-let playerPositions
-let movingPlatformPositions
-let boxPositions
-let leverRotations
-let enemyPositions
-let exitDoorPositions
+//variable for getting data on how to update each element
+let playerPositions, movingPlatformPositions, boxPositions, leverRotations, enemyPositions, exitDoorPositions
+
+let trapPlatforms
 
 //create function called at the start of the game
 function create (){
@@ -141,6 +130,11 @@ function update(){
   for(let i = 0; i < exitDoorPositions.length; i++){
     this.exitDoors.children.entries[i].setPosition(exitDoorPositions[i].x, exitDoorPositions[i].y)
   }
+
+  if(trapPlatforms){
+    createNewPlatforms(this, this.platforms, trapPlatforms)
+    trapPlatforms = null
+  }
 }
 
 //receiving the player data
@@ -221,6 +215,10 @@ export function updateEnemyPosition(data){
 //receiving the exit door position
 export function updateExitDoorPosition(data){
     exitDoorPositions = data
+}
+
+export function addTrapPlatforms(data){
+    trapPlatforms = data
 }
 
 export default Game2

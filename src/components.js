@@ -54,6 +54,7 @@ export function createNewMovingPlatform(game, physicsGroup, info, target, increm
     return movingPlatform
 }
 
+//creates a new finish platform. They are fairly similar to moving platforms
 export function createNewFinishPlatform(game, physicsGroup, info, targetBody){
     let finishPlatform = game.add.rectangle(info.x, info.y, info.w, info.h, 0x0000ff)
     physicsGroup.add(finishPlatform)
@@ -113,4 +114,13 @@ export function createNewExitDoor(game, physicsGroup, info, floor){
     exitDoor.floor = floor
     exitDoor.playerCount = 0
     return exitDoor
+}
+
+export function createNewTrap(game, trapPhysicsGroup, trigger, platformData){
+    let trap = game.add.rectangle(0,0,0,0,0x000000)
+    trap.initialised = false
+    trap.trigger = trigger
+    trap.trapPlatforms = platformData
+    trap.trapPlatformsPhysicsGroup = trapPhysicsGroup
+    return trap
 }

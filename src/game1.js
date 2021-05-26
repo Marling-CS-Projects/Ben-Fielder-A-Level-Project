@@ -4,13 +4,13 @@ import Phaser from "phaser"
 import { IonPhaser } from "@ion-phaser/react"
 
 //importing functions from my other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform} from "./components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform, createNewTrap} from "./components"
 import {handleUserInput, checkInteractionKeyPress} from "./controls"
-import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveFinishPlatformBody, moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
+import {checkEnemyDistanceToPlayer, checkTrap, moveEnemies, moveExitDoor, moveFinishPlatformBody, moveMovingPlatforms, resetBoxVelocity, resetButtonValues} from "./frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./collision-events"
 
 //import functions from game 2 in order to communicate with it
-import { setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions } from "./game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions } from "./game2"
 
 
 //The class to render the Phaser game
@@ -135,12 +135,15 @@ function create (){
   this.physics.add.overlap(this.players, this.enemies, handleEnemyCollision)
   this.physics.add.overlap(this.enemies, this.buttons, handleButtonPress)
 
+  //create physics groups for moving and finish platforms
   this.movingPlatforms = this.physics.add.group()
   this.finishPlatforms = this.physics.add.group()
 
+  //create the finish platform body and finish platform
   this.finishPlatformBody = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:100,w:200,h:50}, {x:950,y:100}, {x:0,y:0}, null)
   this.finishPlatform = createNewFinishPlatform(this, this.finishPlatforms, {x:950,y:100,w:200,h:50}, this.finishPlatformBody)
 
+  //set the collider for finish platforms
   this.physics.add.collider(this.finishPlatforms, this.movingPlatforms)
 
   //create the moving platforms for use in the level
@@ -172,6 +175,8 @@ function create (){
   //add overlap between the players and exit door
   this.physics.add.overlap(this.players, this.exitDoors, handleExitDoorCollision)
 
+  this.trap = createNewTrap(this, this.platforms, this.button1, [{x:890,y:650,w:50,h:200},{x:1010,y:650,w:50,h:200}])
+
   //making a side-scrolling camera to follow the player
   createFollowCamera(this, this.player2, {x1:0,y1:0,x2:3200,y2:800})
 
@@ -187,13 +192,14 @@ function update(){
   //functions to manage the level
   handleUserInput(this)
   moveMovingPlatforms(this)
-  resetButtonValues(this)
-  resetBoxVelocity(this)
   checkInteractionKeyPress(this)
   checkEnemyDistanceToPlayer(this)
   moveEnemies(this)
   moveExitDoor(this)
   moveFinishPlatformBody(this.finishPlatform)
+  checkTrap(this, this.trap)
+  resetButtonValues(this)
+  resetBoxVelocity(this)
 
   //functions to send data to game 2
   updatePlayerPositions(this.players.children.entries)
