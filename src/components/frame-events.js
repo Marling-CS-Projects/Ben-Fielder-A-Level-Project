@@ -102,7 +102,7 @@ export function resetPlayerAtExit(game){
     })
 }
 
-export function checkPlayersAtExit(game){
+export function checkPlayersAtExit(game, sceneToLoad){
     let playersAtExit = 0
     game.players.children.entries.forEach((player)=>{
         if(player.atExit){
@@ -111,5 +111,6 @@ export function checkPlayersAtExit(game){
     })
     if(playersAtExit >= 2){
         console.log("Level Complete")
+        game.scene.start(sceneToLoad)
     }
 }

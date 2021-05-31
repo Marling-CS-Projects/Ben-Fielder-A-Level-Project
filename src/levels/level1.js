@@ -104,13 +104,10 @@ class Level1 extends Phaser.Scene{
         moveEnemies(this)
         checkEnemyDistanceToPlayer(this)
         moveExitDoor(this)
-        checkPlayersAtExit(this)
+        checkPlayersAtExit(this, "Level2")
         resetButtonValues(this)
         resetBoxVelocity(this)
         resetPlayerAtExit(this)
-        // if(this.exitDoor.levelComplete){
-        //     console.log("Level Complete")
-        // }
     }
 }
 
