@@ -10,7 +10,13 @@ import MainMenu from "./menus/main-menu"
 import Level1 from "./levels/level1"
 import Level2 from "./levels/level2"
 
-class Game extends React.Component{
+/***  This is the controlling game. Each scene sends
+****  information over to game2 when it is started
+****  and then restarts game2 which gives the impression
+*///  that game2 has changed scenes as well.
+
+//Class to initialise the Phaser game
+class Game1 extends React.Component{
     //Phaser configuration
     state = {
         initialize: true,
@@ -44,4 +50,4 @@ class Game extends React.Component{
     }
 }
 
-export default Game
+export default Game1

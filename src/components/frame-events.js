@@ -86,13 +86,14 @@ export function moveFinishPlatformBody(finishPlatform){
 }
 
 //if the trigger for the trap has been set, then the trap platforms are created. The trap can only be deployed once and can't be undone.
-export function checkTrap(game, trap, createPlatformsFunction){
+export function checkTrap(game, trap, createPlatformsFunction1, createPlatformsFunction2){
     if(trap.initialised){
         return
     }
     else if(trap.trigger.on){
         trap.initialised = true
-        createPlatformsFunction(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
+        createPlatformsFunction1(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
+        createPlatformsFunction2(trap.trapPlatforms)
     }
 }
 

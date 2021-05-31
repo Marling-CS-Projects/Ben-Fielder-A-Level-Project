@@ -1,9 +1,8 @@
 /node_modules
 /cycles
 
-#/src/game1.js
-#/src/game2.js
-#/src/levels/level2.js
+/src/game.js
+/src/levels-01
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
