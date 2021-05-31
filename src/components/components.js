@@ -15,6 +15,7 @@ export function createNewPlayer(game, physicsGroup, x, y){
     physicsGroup.add(player)
     player.origin = {x:x,y:y}
     player.safePos = {x:x,y:y}
+    player.atExit = false
     return player
 }
 
@@ -112,10 +113,11 @@ export function createNewExitDoor(game, physicsGroup, info, floor){
     exitDoor.body.allowGravity = false
     exitDoor.body.immovable = true
     exitDoor.floor = floor
-    exitDoor.playerCount = 0
+    exitDoor.levelComplete = false
     return exitDoor
 }
 
+//creating a trap
 export function createNewTrap(game, trapPhysicsGroup, trigger, platformData){
     let trap = game.add.rectangle(0,0,0,0,0x000000)
     trap.initialised = false

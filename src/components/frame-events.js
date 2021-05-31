@@ -1,6 +1,3 @@
-import { createNewPlatforms } from "./components"
-import { addTrapPlatforms } from "./game2"
-
 //called every frame to move the moving platforms
 export function moveMovingPlatforms(game){
     game.movingPlatforms.children.entries.forEach((movingPlatform)=>{
@@ -88,14 +85,31 @@ export function moveFinishPlatformBody(finishPlatform){
     finishPlatform.targetBody.setPosition(finishPlatform.x, finishPlatform.y)
 }
 
-export function checkTrap(game, trap){
+//if the trigger for the trap has been set, then the trap platforms are created. The trap can only be deployed once and can't be undone.
+export function checkTrap(game, trap, createPlatformsFunction){
     if(trap.initialised){
-        trap.initialised = false
         return
     }
     else if(trap.trigger.on){
         trap.initialised = true
-        createNewPlatforms(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
-        addTrapPlatforms(trap.trapPlatforms)
+        createPlatformsFunction(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
+    }
+}
+
+export function resetPlayerAtExit(game){
+    game.players.children.entries.forEach((player)=>{
+        player.atExit = false
+    })
+}
+
+export function checkPlayersAtExit(game){
+    let playersAtExit = 0
+    game.players.children.entries.forEach((player)=>{
+        if(player.atExit){
+            playersAtExit += 1
+        }
+    })
+    if(playersAtExit >= 2){
+        console.log("Level Complete")
     }
 }
