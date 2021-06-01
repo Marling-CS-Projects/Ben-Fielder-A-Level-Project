@@ -58,8 +58,8 @@ let ready
 
 //create function called at the start of the game
 function create (){
-    if(!ready){return}
     restart = false
+    if(!ready){return}
 
     //create the players based on data received from game 1
     this.players = this.add.group()
@@ -120,11 +120,11 @@ function create (){
 
 //update function is called every frame
 function update(){
-    if(!ready){return}
     if(restart){
         this.scene.restart()
         return
     }
+    if(!ready){return}
 
     //update the players' positions
     for(let i = 0; i < playerPositions.length; i++){

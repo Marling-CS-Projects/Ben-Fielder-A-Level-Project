@@ -5,6 +5,7 @@ import {IonPhaser} from "@ion-phaser/react"
 
 //importing the MainMenu scene
 import MainMenu from "./menus/main-menu"
+import LevelSelect from "./menus/level-select"
 
 //importing the level scenes
 import Level1 from "./levels/level1"
@@ -36,6 +37,7 @@ class Game1 extends React.Component{
             //MainMenu is the first scene called as it is the first listed
             scene: [
                 MainMenu,
+                LevelSelect,
                 Level1,
                 Level2
             ]

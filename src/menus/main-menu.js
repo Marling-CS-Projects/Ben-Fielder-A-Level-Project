@@ -28,7 +28,7 @@ class MainMenu extends Phaser.Scene{
 
 function onButtonClick(game){
     //load the scene Level1
-    game.scene.start("Level1")
+    game.scene.start("LevelSelect")
 }
 
 export default MainMenu

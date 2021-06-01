@@ -105,7 +105,7 @@ export function resetPlayerAtExit(game){
 }
 
 //if both players are at the exit in the same frame, then load the next scene
-export function checkPlayersAtExit(game, sceneToLoad){
+export function checkPlayersAtExit(game, sceneToLoad, levelComplete){
     let playersAtExit = 0
     game.players.children.entries.forEach((player)=>{
         if(player.atExit){
@@ -113,6 +113,8 @@ export function checkPlayersAtExit(game, sceneToLoad){
         }
     })
     if(playersAtExit >= 2){
-        game.scene.start(sceneToLoad)
+        //save("levels-complete", levelComplete)
+        //game.scene.start(sceneToLoad)
+        return true
     }
 }

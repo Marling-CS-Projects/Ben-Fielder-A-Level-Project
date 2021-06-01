@@ -9,6 +9,7 @@ import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handle
 
 //importing functions from game 2 in order to communicate with it
 import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene } from "../game2"
+import { levelComplete } from "../saving/saving-system"
 
 
 //The level 1 scene. the create function is called at the start of the scene and the update function is called every frame
@@ -142,10 +143,15 @@ class Level1 extends Phaser.Scene{
         moveEnemies(this)
         checkEnemyDistanceToPlayer(this)
         moveExitDoor(this)
-        checkPlayersAtExit(this, "Level2")
+        this.levelComplete = checkPlayersAtExit(this, "Level2", 1)
         resetButtonValues(this)
         resetBoxVelocity(this)
         resetPlayerAtExit(this)
+
+        if(this.levelComplete){
+            levelComplete(1)
+            this.scene.start("Level2")
+        }
 
         //functions to send data to puppet scene
         updatePlayerPositions(this.players.children.entries)

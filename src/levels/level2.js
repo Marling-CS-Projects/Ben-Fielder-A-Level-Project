@@ -9,6 +9,7 @@ import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handle
 
 //import functions from game 2 in order to communicate with it
 import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, addTrapPlatforms, restartScene } from "../game2"
+import { levelComplete } from "../saving/saving-system"
 
 
 class Level2 extends Phaser.Scene{
@@ -169,10 +170,15 @@ class Level2 extends Phaser.Scene{
         moveExitDoor(this)
         moveFinishPlatformBody(this.finishPlatform)
         checkTrap(this, this.trap, createNewPlatforms, addTrapPlatforms)
-        checkPlayersAtExit(this, "MainMenu")
+        this.levelCompleted = checkPlayersAtExit(this, "MainMenu", 2)
         resetButtonValues(this)
         resetBoxVelocity(this)
         resetPlayerAtExit(this)
+
+        if(this.levelComplete){
+            levelComplete(2)
+            this.scene.start("MainMenu")
+        }
 
         //functions to send data to puppet scene
         updatePlayerPositions(this.players.children.entries)
