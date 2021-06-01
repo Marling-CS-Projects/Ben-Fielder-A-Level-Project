@@ -7,14 +7,14 @@ import {handleUserInput, checkInteractionKeyPress} from "../components/controls"
 import {checkEnemyDistanceToPlayer, checkPlayersAtExit, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, resetPlayerAtExit} from "../components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "../components/collision-events"
 
-//import functions from game 2 in order to communicate with it
+//importing functions from game 2 in order to communicate with it
 import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene } from "../game2"
 
 
 //The level 1 scene. the create function is called at the start of the scene and the update function is called every frame
-class Level1_1 extends Phaser.Scene{
+class Level1 extends Phaser.Scene{
     constructor(){
-        super("Level1_1")
+        super("Level1")
     }
     create(){
         //creating the players physics group and a player
@@ -22,7 +22,7 @@ class Level1_1 extends Phaser.Scene{
         this.player1 = createNewPlayer(this, this.players, 400, 525)
         this.player2 = createNewPlayer(this, this.players, 400, 525)
 
-        //send player data to scene 2
+        //send player data to puppet scene
         setPlayerData([{x:400,y:525},{x:400,y:525}])
 
         //the platforms physics group
@@ -51,7 +51,8 @@ class Level1_1 extends Phaser.Scene{
         this.physics.add.collider(this.players, this.boxes)
         this.physics.add.collider(this.platforms, this.boxes)
         this.physics.add.collider(this.boxes, this.boxes)
-
+        
+        //send box data to other scene
         setBoxData([{x:550,y:525,w:33,h:33}, {x:600,y:160,w:33,h:33}])
 
         //setting the buttons physics group and creating a button
@@ -62,6 +63,7 @@ class Level1_1 extends Phaser.Scene{
         this.physics.add.collider(this.players, this.buttons, handleButtonPress)
         this.physics.add.overlap(this.boxes, this.buttons, handleButtonPress)
 
+        //send button data to other scene
         setButtonData([{x:650,y:175,w:25,h:10}])
 
         //creating levers physics group and a lever
@@ -71,6 +73,7 @@ class Level1_1 extends Phaser.Scene{
         //setting collsion event between players and levers
         this.physics.add.overlap(this.players, this.levers, handleLeverPress)
 
+        //send the lever data to second scene
         setLeverData([{x:250,y:550,w:50,h:10}])
 
         //moving platforms physics group and 2 moving platforms
@@ -82,6 +85,7 @@ class Level1_1 extends Phaser.Scene{
         this.physics.add.collider(this.players, this.movingPlatforms)
         this.physics.add.collider(this.movingPlatforms, this.boxes)
 
+        //send moving platform data
         setMovingPlatformData([{x:900,y:175,w:200,h:50}, {x:100,y:525,w:200,h:50}])
 
         //creating the spikes physics group and 2 spike sets
@@ -93,6 +97,7 @@ class Level1_1 extends Phaser.Scene{
         this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
         this.physics.add.collider(this.boxes, this.spikes)
 
+        //send spike data
         setSpikeData([{x:300,y:550,count:3}, {x:1000,y:550,count:25}])
 
         //create the eniemies physics group and 2 enemies
@@ -104,6 +109,7 @@ class Level1_1 extends Phaser.Scene{
         this.physics.add.collider(this.enemies, this.platforms)
         this.physics.add.overlap(this.players, this.enemies, handleEnemyCollision)
 
+        //send enemy data
         setEnemyData([{x:300,y:260}, {x:600,y:525}])
 
         //creating the exit doors physics group and an exit door
@@ -113,19 +119,23 @@ class Level1_1 extends Phaser.Scene{
         //creating an overlap event bewtween the players and the door
         this.physics.add.overlap(this.players, this.exitDoors, handleExitDoorCollision)
 
+        //send exit door data to other scene
         setExitDoorData([{x:1500,y:200}])
 
         //making a side-scrolling camera to follow the player
         createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1600,y2:600})
 
+        //send the camera bounds to second scene
         setCameraBounds({x1:0,y1:0,x2:1600,y2:600})
 
         //making the varibles to listen to key presses
         createNewKeys(this)
 
+        //restart the puppet scene and tell it to run
         restartScene(true)
     }
     update(){
+        //functions to be called every frame to run the game
         handleUserInput(this)
         moveMovingPlatforms(this)
         checkInteractionKeyPress(this)
@@ -137,7 +147,7 @@ class Level1_1 extends Phaser.Scene{
         resetBoxVelocity(this)
         resetPlayerAtExit(this)
 
-        //functions to send data to scene 2
+        //functions to send data to puppet scene
         updatePlayerPositions(this.players.children.entries)
         updateMovingPlatformPositions(this.movingPlatforms.children.entries)
         updateBoxPosition(this.boxes.children.entries)
@@ -147,4 +157,4 @@ class Level1_1 extends Phaser.Scene{
     }
 }
 
-export default Level1_1
+export default Level1

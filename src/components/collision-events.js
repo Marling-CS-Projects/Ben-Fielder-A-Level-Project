@@ -36,7 +36,7 @@ export function setSafePlayerPosition(player, platform){
     }
 }
 
-//check if both players are at the exit door at the same time
+//set the atExit element of the player at the door to true
 export function handleExitDoorCollision(player, exitDoor){
     player.atExit = true
 }

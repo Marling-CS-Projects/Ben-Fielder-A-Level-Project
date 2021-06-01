@@ -97,12 +97,14 @@ export function checkTrap(game, trap, createPlatformsFunction1, createPlatformsF
     }
 }
 
+//set the default value for players being at the exit as false
 export function resetPlayerAtExit(game){
     game.players.children.entries.forEach((player)=>{
         player.atExit = false
     })
 }
 
+//if both players are at the exit in the same frame, then load the next scene
 export function checkPlayersAtExit(game, sceneToLoad){
     let playersAtExit = 0
     game.players.children.entries.forEach((player)=>{
@@ -111,7 +113,6 @@ export function checkPlayersAtExit(game, sceneToLoad){
         }
     })
     if(playersAtExit >= 2){
-        console.log("Level Complete")
         game.scene.start(sceneToLoad)
     }
 }

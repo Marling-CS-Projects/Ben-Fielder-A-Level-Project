@@ -117,7 +117,7 @@ export function createNewExitDoor(game, physicsGroup, info, floor){
     return exitDoor
 }
 
-//creating a trap
+//creating a trap. It stores the values for some platforms to create if it is triggered
 export function createNewTrap(game, trapPhysicsGroup, trigger, platformData){
     let trap = game.add.rectangle(0,0,0,0,0x000000)
     trap.initialised = false

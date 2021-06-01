@@ -49,8 +49,10 @@ let playerData, platformData, boxData, buttonData, leverData, movingPlatformData
 //variable for getting data on how to update each element
 let playerPositions, movingPlatformPositions, boxPositions, leverRotations, enemyPositions, exitDoorPositions
 
+//variable to store data about traps
 let trapPlatforms
 
+//variables to tell the scene when to run
 let restart
 let ready
 
@@ -235,10 +237,12 @@ export function updateExitDoorPosition(data){
     exitDoorPositions = data
 }
 
+//receiveing data about the platforms to create after a trap is released
 export function addTrapPlatforms(data){
     trapPlatforms = data
 }
 
+//this function tells the scene to restart, isReady tells the scene whether it should run
 export function restartScene(isReady){
     ready = isReady
     restart = true

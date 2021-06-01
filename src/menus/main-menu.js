@@ -8,12 +8,14 @@ class MainMenu extends Phaser.Scene{
         super("MainMenu")
     }
     create(){
+        //Create the text for the title
         this.titleText = this.add.text(400, 150, "Menu", {font: "75px Arial", fill: "#552eff"}).setOrigin(0.5, 0.5)
 
         //creating a button by making a box and some text
         this.buttonBox = this.add.rectangle(400, 300, 150, 50, 0xff0000)
         this.buttonText = this.add.text(400, 300, "start", {font: "50px Arial", fill: "#00ff00"}).setOrigin(0.5, 0.5)
 
+        //restart the puppet scene and tell it not to run
         restartScene(false)
     }
     update(){
@@ -26,7 +28,7 @@ class MainMenu extends Phaser.Scene{
 
 function onButtonClick(game){
     //load the scene Level1
-    game.scene.start("Level1_1")
+    game.scene.start("Level1")
 }
 
 export default MainMenu
