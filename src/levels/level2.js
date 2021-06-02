@@ -182,7 +182,7 @@ class Level2 extends Phaser.Scene{
         //checks if the level has been completed
         if(this.levelComplete){
             levelComplete(2)
-            this.scene.start("MainMenu")
+            this.scene.start("LevelSelect")
         }
 
         //functions to send data to puppet scene
