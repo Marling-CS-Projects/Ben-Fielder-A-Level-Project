@@ -2,16 +2,18 @@
 import Phaser from "phaser"
 
 //importing functions from other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform, createNewTrap} from "../components/components"
-import {handleUserInput, checkInteractionKeyPress} from "../components/controls"
-import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, moveFinishPlatformBody, checkTrap, checkPlayersAtExit, resetPlayerAtExit} from "../components/frame-events"
-import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "../components/collision-events"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform, createNewTrap} from "./components/components"
+import {handleUserInput, checkInteractionKeyPress} from "./components/controls"
+import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, moveFinishPlatformBody, checkTrap, checkPlayersAtExit, resetPlayerAtExit} from "./components/frame-events"
+import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
-//import functions from game 2 in order to communicate with it
+//importing functions from game 2 in order to communicate with it
 import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, addTrapPlatforms, restartScene } from "../game2"
+
+//The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
 
-
+//The level 2 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level2 extends Phaser.Scene{
     constructor(){
         super("Level2")
@@ -170,11 +172,14 @@ class Level2 extends Phaser.Scene{
         moveExitDoor(this)
         moveFinishPlatformBody(this.finishPlatform)
         checkTrap(this, this.trap, createNewPlatforms, addTrapPlatforms)
-        this.levelCompleted = checkPlayersAtExit(this, "MainMenu", 2)
+        this.levelComplete = checkPlayersAtExit(this)
+        
+        //reset values on certain game objects
         resetButtonValues(this)
         resetBoxVelocity(this)
         resetPlayerAtExit(this)
 
+        //checks if the level has been completed
         if(this.levelComplete){
             levelComplete(2)
             this.scene.start("MainMenu")

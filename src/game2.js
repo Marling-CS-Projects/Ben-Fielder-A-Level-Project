@@ -4,7 +4,7 @@ import Phaser from "phaser"
 import {IonPhaser} from "@ion-phaser/react"
 
 //import functions from other scripts
-import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./components/components"
+import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./levels/components/components"
 
 /***  This is the puppet game which is controlled
 ****  by game1. It is restarted every time the scene
