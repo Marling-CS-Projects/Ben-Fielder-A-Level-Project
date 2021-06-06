@@ -22,7 +22,7 @@ class MainMenu extends Phaser.Scene{
         this.texts = this.add.group()
         this.titleText = createNewText(this, this.texts, {x:400,y:100}, {text: "Menu", font: "75px Arial", fill: "#552eff"})
 
-        //create the buttons for new game and load game
+        //create the buttons for new game, load game and to see the controls
         this.buttons = this.add.group()
         this.newGameButton = createNewButton(this, this.buttons, {x:400, y:250, w:300, h:50}, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this)
         this.startButton = createNewButton(this, this.buttons, {x:400, y:350, w:300, h:50}, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
@@ -50,6 +50,7 @@ function restartSave(game){
 }
 
 function seeControls(game){
+    //load the controls menu
     game.scene.start("ControlsMenu")
 }
 

@@ -1,5 +1,6 @@
 //importing Phaser library
 import Phaser from "phaser"
+
 //importing functions from other scripts
 import { createNewButton, createNewText } from "./components/components"
 import { checkButtonPress } from "./components/frame-events"
@@ -17,6 +18,7 @@ class ControlsMenu extends Phaser.Scene{
         this.texts = this.add.group()
         this.titleText = createNewText(this, this.texts, {x:400,y:100}, {text:"Controls", font: "50px Arial", fill: "#552eff"})
 
+        //creating text to display the controls for the game
         this.player1Text1 = createNewText(this, this.texts, {x:400,y:200}, {text:"Player 1 controls: move left - left arrow, move right - right arrow,", font: "25px Arial", fill: "#ffffff"})
         this.player1Text2 = createNewText(this, this.texts, {x:400,y:225}, {text:"jump - up arrow, interact - backslash", font: "25px Arial", fill: "#ffffff"})
         this.player2Text1 = createNewText(this, this.texts, {x:400,y:300}, {text:"Player 2 controls: move left - A, move right - D,", font: "25px Arial", fill: "#ffffff"})
