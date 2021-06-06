@@ -24,3 +24,12 @@ export function checkInteractionKeyPress(game){
     }
   })
 }
+
+//called every frame to check if the pause button has been pressed
+export function checkPause(game, currentLevel, callFunction){
+  if(game.pauseButton.isDown){
+    game.scene.pause("Level"+currentLevel.toString())
+    game.scene.launch("PauseMenu")
+    callFunction(currentLevel)
+  }
+}

@@ -3,7 +3,7 @@ import Phaser from "phaser"
 
 //importing functions from other scripts
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewFinishPlatform, createNewTrap} from "./components/components"
-import {handleUserInput, checkInteractionKeyPress} from "./components/controls"
+import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
 import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, moveFinishPlatformBody, checkTrap, checkPlayersAtExit, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
@@ -12,6 +12,9 @@ import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorDat
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
+
+//The function used to tell the pause menu which level is currently running
+import { setLevelNumber } from "../menus/pause-menu"
 
 //The level 2 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level2 extends Phaser.Scene{
@@ -173,6 +176,9 @@ class Level2 extends Phaser.Scene{
         moveFinishPlatformBody(this.finishPlatform)
         checkTrap(this, this.trap, createNewPlatforms, addTrapPlatforms)
         this.levelComplete = checkPlayersAtExit(this)
+
+        //checks whether to pause the game
+        checkPause(this, 2, setLevelNumber)
         
         //reset values on certain game objects
         resetButtonValues(this)

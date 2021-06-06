@@ -32,6 +32,8 @@ export function createNewKeys(game){
     game.player2.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     game.player2.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
     game.player2.interactionKey.pressed = false
+
+    game.pauseButton = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
 }
 
 //creating the side-scrolling camera

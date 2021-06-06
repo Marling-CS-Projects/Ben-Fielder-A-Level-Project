@@ -3,7 +3,7 @@ import Phaser from "phaser"
 
 //importing functions from other scripts
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./components/components"
-import {handleUserInput, checkInteractionKeyPress} from "./components/controls"
+import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
 import {checkEnemyDistanceToPlayer, checkPlayersAtExit, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
@@ -12,6 +12,9 @@ import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorDat
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
+
+//The function to tell the pause menu which level is currently running
+import { setLevelNumber } from "../menus/pause-menu"
 
 //The level 1 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level1 extends Phaser.Scene{
@@ -145,6 +148,9 @@ class Level1 extends Phaser.Scene{
         checkEnemyDistanceToPlayer(this)
         moveExitDoor(this)
         this.levelComplete = checkPlayersAtExit(this)
+
+        //checks whether to pause the game
+        checkPause(this, 1, setLevelNumber)
 
         //reset certain values on some game objects
         resetButtonValues(this)
