@@ -25,7 +25,8 @@ class MainMenu extends Phaser.Scene{
         //create the buttons for new game and load game
         this.buttons = this.add.group()
         this.newGameButton = createNewButton(this, this.buttons, {x:400, y:250, w:300, h:50}, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this)
-        this.startButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
+        this.startButton = createNewButton(this, this.buttons, {x:400, y:350, w:300, h:50}, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
+        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:450, w:300, h:50}, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this)
 
         //restart the puppet scene and tell it not to run
         restartScene(false)
@@ -46,6 +47,10 @@ function restartSave(game){
     restartGame()
     //load the scene Level Select
     game.scene.start("LevelSelect")
+}
+
+function seeControls(game){
+    game.scene.start("ControlsMenu")
 }
 
 export default MainMenu
