@@ -69,50 +69,66 @@ function create (){
     this.players.add(this.player2)
 
     //create the platforms based on data from game 1
+    if(platformData){
     this.platforms = this.add.group()
     createNewPlatforms(this, this.platforms, platformData)
+    }
 
     //create the boxes from the data received from game 1
+    if(boxData){
     this.boxes = this.add.group()
     boxData.forEach((box)=>{
         createNewBox(this, this.boxes, {x:box.x,y:box.y,w:33,h:33})
     })
+    }
 
     //create the buttons
+    if(buttonData){
     this.buttons = this.add.group()
     buttonData.forEach((button)=>{
         createNewButton(this, this.buttons, {x:button.x,y:button.y,w:button.w,h:button.h})
     })
+    }
 
     //create the levers
+    if(leverData){
     this.levers = this.add.group()
     leverData.forEach((lever)=>{
         createNewLever(this, this.levers, {x:lever.x,y:lever.y,w:lever.w,h:lever.h})
     })
+    }
 
     //create the spikes
+    if(spikeData){
     this.spikes = this.add.group()
     spikeData.forEach((spike)=>{
         createNewSpikeSet(this, this.spikes, {x:spike.x,y:spike.y}, spike.count)
     })
+    }
 
     //create the enemies
+    if(enemyData){
     this.enemies = this.add.group()
     enemyData.forEach((enemy)=>{
         createNewEnemy(this, this.enemies, {x:enemy.x,y:enemy.y})
     })
+    }
 
     //create the moving platforms
+    if(movingPlatformData){
     this.movingPlatforms = this.physics.add.staticGroup()
     movingPlatformData.forEach((movingPlatform)=>{
         createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h})
     })
+    }
 
     //create the exit doors
+    if(exitDoorData){
     this.exitDoors = this.physics.add.staticGroup()
     exitDoorData.forEach((exitDoor)=>{
         createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor)
     })
+    }
 
     //create the side-scrolling camera
     createFollowCamera(this, this.player1, cameraBounds)
@@ -127,30 +143,41 @@ function update(){
     if(!ready){return}
 
     //update the players' positions
+    if(playerPositions){
     for(let i = 0; i < playerPositions.length; i++){
         this.players.children.entries[i].setPosition(playerPositions[i].x, playerPositions[i].y)
     }
+    }
     //update moving platform positions
+    if(movingPlatformPositions){
     for(let i = 0; i < movingPlatformPositions.length; i++){
         this.movingPlatforms.children.entries[i].setPosition(movingPlatformPositions[i].x, movingPlatformPositions[i].y)
     }
+    }
     //update box positions
+    if(boxPositions){
     for(let i = 0; i < boxPositions.length; i++){
         this.boxes.children.entries[i].setPosition(boxPositions[i].x, boxPositions[i].y)
     }
+    }
     //update the rotation on the levers
+    if(leverRotations){
     for(let i = 0; i < leverRotations.length; i++){
         this.levers.children.entries[i].setRotation(leverRotations[i].rotation)
     }
+    }
     //update the position of the enemies
+    if(enemyPositions){
     for(let i = 0; i < enemyPositions.length; i++){
         this.enemies.children.entries[i].setPosition(enemyPositions[i].x, enemyPositions[i].y)
     }
+    }
     //update posititions for exit doors
+    if(exitDoorPositions){
     for(let i = 0; i < exitDoorPositions.length; i++){
         this.exitDoors.children.entries[i].setPosition(exitDoorPositions[i].x, exitDoorPositions[i].y)
     }
-
+    }
     if(trapPlatforms){
         createNewPlatforms(this, this.platforms, trapPlatforms)
         trapPlatforms = null

@@ -12,6 +12,9 @@ import PauseMenu from "./menus/pause-menu"
 //importing the level scenes
 import Level1 from "./levels/level1"
 import Level2 from "./levels/level2"
+import Level3 from "./levels/level3"
+import Level4 from "./levels/level4"
+import Level5 from "./levels/level5"
 
 /***  This is the controlling game. Each scene sends
 ****  information over to game2 when it is started
@@ -43,7 +46,10 @@ class Game1 extends React.Component{
                 ControlsMenu,
                 PauseMenu,
                 Level1,
-                Level2
+                Level2,
+                Level3,
+                Level4,
+                Level5
             ]
         }
     }
