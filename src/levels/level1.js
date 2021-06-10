@@ -2,13 +2,13 @@
 import Phaser from "phaser"
 
 //importing functions from other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewLever, createNewSpikeSet, createNewExitDoor} from "./components/components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewLever, createNewSpikeSet, createNewExitDoor, createNewGameText} from "./components/components"
 import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
 import {checkPlayersAtExit, moveExitDoor, moveMovingPlatforms, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
 //importing functions from game 2 in order to communicate with it
-import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene } from "../game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, setGameTextData } from "../game2"
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
@@ -69,7 +69,7 @@ class Level1 extends Phaser.Scene{
 
         //moving platforms physics group and 2 moving platforms
         this.movingPlatforms = this.physics.add.group()
-        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:500,w:150,h:50}, {x:400,y:350}, {x:0,y:-1}, this.button1)
+        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:575,w:150,h:50}, {x:400,y:350}, {x:0,y:-1}, this.button1)
         this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:600,y:350,w:150,h:50}, {x:600,y:500}, {x:0,y:1}, this.button2)
         this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:1000,y:350,w:150,h:50}, {x:1050,y:150}, {x:0.25,y:-1}, this.lever)
 
@@ -97,6 +97,17 @@ class Level1 extends Phaser.Scene{
 
         //send exit door data to other scene
         setExitDoorData([{x:1300,y:150}])
+
+        //creating the game text for the level
+        this.texts = this.add.group()
+        createNewGameText(this, this.texts, {x:250,y:400}, "Move onto the button", 2)
+        createNewGameText(this, this.texts, {x:800,y:100}, "Press the ineraction key when on the lever", 3)
+        createNewGameText(this, this.texts, {x:1250,y:300}, "Don't jump on the spikes", 1)
+        createNewGameText(this, this.texts, {x:1200,y:75}, "Get to the exit door", 2)
+
+        //sending the game text data to game 2
+        setGameTextData([{x:250,y:400,text:"Move onto a button",lines:2},{x:800,y:100,text:"Press the ineraction key when on the lever",lines:3},
+            {x:1250,y:300,text:"Don't jump on the spikes",lines:1},{x:1200,y:75,text:"Get to the exit door",lines:2}])
 
         //making a side-scrolling camera to follow the player
         createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1500,y2:600})

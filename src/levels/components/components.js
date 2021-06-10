@@ -128,3 +128,22 @@ export function createNewTrap(game, trapPhysicsGroup, trigger, platformData){
     trap.trapPlatformsPhysicsGroup = trapPhysicsGroup
     return trap
 }
+
+//create new text for in the level. Seperates it out over multiple lines
+export function createNewGameText(game, group, info, text, lines){
+    text = text.split(" ")
+    let wordsPerLine = Math.ceil(text.length / lines)
+    let currentText
+    let word = 0
+    for(let j = 0; j < lines; j++){
+        currentText = ""
+        for(let k = 0; k < wordsPerLine; k++){
+            if(text[word]){
+                currentText+=(text[word]+" ")
+                word++
+            }
+        }
+        group.add(game.add.text(info.x, info.y+j*20, currentText, {font: "20px Arial", fill: "#552eff"}).setOrigin(0.5, 0.5))
+    }
+    
+}

@@ -8,7 +8,7 @@ import {checkEnemyDistanceToPlayer, moveEnemies, moveExitDoor, moveMovingPlatfor
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
 //importing functions from game 2 in order to communicate with it
-import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, addTrapPlatforms, restartScene } from "../game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, addTrapPlatforms, restartScene, setGameTextData } from "../game2"
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
@@ -161,6 +161,9 @@ class Level5 extends Phaser.Scene{
 
         //making the varibles to listen to key presses
         createNewKeys(this)
+
+        //components not used in the scene need to be set to null in game2
+        setGameTextData(null)
 
         //telling the puppet scene to restart and run
         restartScene(true)

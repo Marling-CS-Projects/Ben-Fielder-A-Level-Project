@@ -4,7 +4,7 @@ import Phaser from "phaser"
 import {IonPhaser} from "@ion-phaser/react"
 
 //import functions from other scripts
-import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./levels/components/components"
+import {createNewPlatforms, createFollowCamera, createNewBox, createNewButton, createNewLever, createNewMovingPlatform, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewGameText} from "./levels/components/components"
 
 /***  This is the puppet game which is controlled
 ****  by game1. It is restarted every time the scene
@@ -44,7 +44,7 @@ class Game2 extends React.Component{
 }
 
 //variables for getting data on how to create each element
-let playerData, platformData, boxData, buttonData, leverData, movingPlatformData, spikeData, enemyData, exitDoorData, cameraBounds
+let playerData, platformData, boxData, buttonData, leverData, movingPlatformData, spikeData, enemyData, exitDoorData, cameraBounds, gameTextData
 
 //variable for getting data on how to update each element
 let playerPositions, movingPlatformPositions, boxPositions, leverRotations, enemyPositions, exitDoorPositions
@@ -70,64 +70,72 @@ function create (){
 
     //create the platforms based on data from game 1
     if(platformData){
-    this.platforms = this.add.group()
-    createNewPlatforms(this, this.platforms, platformData)
+        this.platforms = this.add.group()
+        createNewPlatforms(this, this.platforms, platformData)
     }
 
     //create the boxes from the data received from game 1
     if(boxData){
-    this.boxes = this.add.group()
-    boxData.forEach((box)=>{
-        createNewBox(this, this.boxes, {x:box.x,y:box.y,w:33,h:33})
-    })
+        this.boxes = this.add.group()
+        boxData.forEach((box)=>{
+            createNewBox(this, this.boxes, {x:box.x,y:box.y,w:33,h:33})
+        })
     }
 
     //create the buttons
     if(buttonData){
-    this.buttons = this.add.group()
-    buttonData.forEach((button)=>{
-        createNewButton(this, this.buttons, {x:button.x,y:button.y,w:button.w,h:button.h})
-    })
+        this.buttons = this.add.group()
+        buttonData.forEach((button)=>{
+            createNewButton(this, this.buttons, {x:button.x,y:button.y,w:button.w,h:button.h})
+        })
     }
 
     //create the levers
     if(leverData){
-    this.levers = this.add.group()
-    leverData.forEach((lever)=>{
-        createNewLever(this, this.levers, {x:lever.x,y:lever.y,w:lever.w,h:lever.h})
-    })
+        this.levers = this.add.group()
+        leverData.forEach((lever)=>{
+            createNewLever(this, this.levers, {x:lever.x,y:lever.y,w:lever.w,h:lever.h})
+        })
     }
 
     //create the spikes
     if(spikeData){
-    this.spikes = this.add.group()
-    spikeData.forEach((spike)=>{
-        createNewSpikeSet(this, this.spikes, {x:spike.x,y:spike.y}, spike.count)
-    })
+        this.spikes = this.add.group()
+        spikeData.forEach((spike)=>{
+            createNewSpikeSet(this, this.spikes, {x:spike.x,y:spike.y}, spike.count)
+        })
     }
 
     //create the enemies
     if(enemyData){
-    this.enemies = this.add.group()
-    enemyData.forEach((enemy)=>{
-        createNewEnemy(this, this.enemies, {x:enemy.x,y:enemy.y})
-    })
+        this.enemies = this.add.group()
+        enemyData.forEach((enemy)=>{
+            createNewEnemy(this, this.enemies, {x:enemy.x,y:enemy.y})
+        })
     }
 
     //create the moving platforms
     if(movingPlatformData){
-    this.movingPlatforms = this.physics.add.staticGroup()
-    movingPlatformData.forEach((movingPlatform)=>{
-        createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h})
-    })
+        this.movingPlatforms = this.physics.add.staticGroup()
+        movingPlatformData.forEach((movingPlatform)=>{
+            createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h})
+        })
     }
 
     //create the exit doors
     if(exitDoorData){
-    this.exitDoors = this.physics.add.staticGroup()
-    exitDoorData.forEach((exitDoor)=>{
-        createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor)
-    })
+        this.exitDoors = this.physics.add.staticGroup()
+        exitDoorData.forEach((exitDoor)=>{
+            createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor)
+        })
+    }
+
+    //creating the game text
+    if(gameTextData){
+        this.texts = this.add.group()
+        gameTextData.forEach((gameText)=>{
+            createNewGameText(this, this.texts, {x:gameText.x,y:gameText.y}, gameText.text, gameText.lines)
+        })
     }
 
     //create the side-scrolling camera
@@ -227,6 +235,11 @@ export function setEnemyData(enemyInfo){
 //receiving the exit door data
 export function setExitDoorData(exitDoorInfo){
     exitDoorData = exitDoorInfo
+}
+
+//receiving the game text data
+export function setGameTextData(gameTextInfo){
+    gameTextData = gameTextInfo
 }
 
 //receiving the camera data

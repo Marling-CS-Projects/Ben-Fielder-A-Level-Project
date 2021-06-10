@@ -2,13 +2,13 @@
 import Phaser from "phaser"
 
 //importing functions from other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewSpikeSet, createNewEnemy, createNewExitDoor} from "./components/components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewBox, createNewButton, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewGameText} from "./components/components"
 import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
 import {checkEnemyDistanceToPlayer, checkPlayersAtExit, moveEnemies, moveExitDoor, moveMovingPlatforms, resetBoxVelocity, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
 //importing functions from game 2 in order to communicate with it
-import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene } from "../game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, updateBoxPosition, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, setGameTextData } from "../game2"
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
@@ -115,6 +115,17 @@ class Level2 extends Phaser.Scene{
 
         //send exit door data to other scene
         setExitDoorData([{x:900,y:200}])
+
+        //creating the game text for the level
+        this.texts = this.add.group()
+        createNewGameText(this, this.texts, {x:150,y:350}, "Push the box onto the button", 2)
+        createNewGameText(this, this.texts, {x:1650,y:350}, "Push the box onto the button", 2)
+        createNewGameText(this, this.texts, {x:600,y:200}, "Mind the enemy", 2)
+        createNewGameText(this, this.texts, {x:1200,y:200}, "Mind the enemy", 2)
+
+        //sending the game text data to game 2
+        setGameTextData([{x:150,y:350,text:"Push the box onto the button",lines:2},{x:1650,y:350,text:"Push the box onto the button",lines:2},
+            {x:600,y:200,text:"Mind the enemy",lines:2},{x:1200,y:200,text:"Mind the enemy",lines:2}])
 
         //making a side-scrolling camera to follow the player
         createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1800,y2:600})

@@ -2,13 +2,13 @@
 import Phaser from "phaser"
 
 //importing functions from other scripts
-import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewTrap} from "./components/components"
+import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewTrap, createNewGameText} from "./components/components"
 import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
 import {checkEnemyDistanceToPlayer, checkPlayersAtExit, checkTrap, moveEnemies, moveExitDoor, moveMovingPlatforms, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
 //importing functions from game 2 in order to communicate with it
-import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, addTrapPlatforms } from "../game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, addTrapPlatforms, setGameTextData } from "../game2"
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
@@ -118,6 +118,21 @@ class Level3 extends Phaser.Scene{
         //creating a trap
         this.trap = createNewTrap(this, this.platforms, this.button1, [{x:140,y:550,w:50,h:200},{x:260,y:550,w:50,h:200}])
 
+        //creating the game text for the level
+        this.texts = this.add.group()
+        createNewGameText(this, this.texts, {x:200,y:450}, "Don't jump on this button", 2)
+        createNewGameText(this, this.texts, {x:625,y:300}, "Sometimes levers move something for the other player", 4)
+        createNewGameText(this, this.texts, {x:1650,y:350}, "Sometimes levers move something for the other player", 4)
+        createNewGameText(this, this.texts, {x:1250,y:250}, "Lure the enemy onto the button", 2)
+        createNewGameText(this, this.texts, {x:1200,y:75}, "Beware of traps", 2)
+        createNewGameText(this, this.texts, {x:200,y:75}, "Beware of traps", 2)
+        createNewGameText(this, this.texts, {x:700,y:50}, "You are on your own now", 2)
+
+        //sending the game text data to game 2
+        setGameTextData([{x:200,y:450,text:"Don't jump on this button",lines:2},{x:625,y:300,text:"Sometimes levers move something for the other player",lines:4},
+            {x:1650,y:350,text:"Sometimes levers move something for the othe player",lines:4},{x:1200,y:75,text:"Beware of traps",lines:2},
+            {x:200,y:75,text:"Beware of traps",lines:2},{x:700,y:50,text:"You are on your own now",lines:2}])
+
         //making a side-scrolling camera to follow the player
         createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1800,y2:700})
 
@@ -126,7 +141,7 @@ class Level3 extends Phaser.Scene{
 
         //making the varibles to listen to key presses
         createNewKeys(this)
-        
+
         //components not used in the scene need to be set to null in game2
         setBoxData(null)
 
