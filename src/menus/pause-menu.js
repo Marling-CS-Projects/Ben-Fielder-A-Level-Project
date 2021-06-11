@@ -24,7 +24,8 @@ class PauseMenu extends Phaser.Scene{
         //creating the buttons. One will resume the level when pressed, the other will return the player to the main menu
         this.buttons = this.add.group()
         this.resumeButton = createNewButton(this, this.buttons, {x:400,y:300,w:250,h:50}, {text: "Resume", font: "50px Arial", fill: "#000000"}, 0xffffff, resume, this)
-        this.menuButton = createNewButton(this, this.buttons, {x:400,y:450,w:250,h:50}, {text: "Go to Menu", font: "44px Arial", fill: "#000000"}, 0xffffff, goToMenu, this)
+        this.restartButton = createNewButton(this, this.buttons, {x:400,y:400,w:250,h:50}, {text: "Restart Level", font: "40px Arial", fill: "#000000"}, 0xffffff, restartLevel, this)
+        this.menuButton = createNewButton(this, this.buttons, {x:400,y:500,w:250,h:50}, {text: "Go to Menu", font: "44px Arial", fill: "#000000"}, 0xffffff, goToMenu, this)
     }
     update(){
         //checks for button presses in the buttons group
@@ -36,6 +37,11 @@ class PauseMenu extends Phaser.Scene{
 function resume(game){
     game.scene.stop("PauseMenu")
     game.scene.resume("Level"+currentLevelNumber.toString())
+}
+
+//function to restart the current level
+function restartLevel(game){
+    game.scene.start("Level"+currentLevelNumber.toString())
 }
 
 //function to go to the main menu. Stops the current level and starts the main menu scene
