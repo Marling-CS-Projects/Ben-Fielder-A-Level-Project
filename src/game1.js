@@ -16,6 +16,9 @@ import Level3 from "./levels/level3"
 import Level4 from "./levels/level4"
 import Level5 from "./levels/level5"
 
+//importing the minigame scene
+import Minigame from "./minigames/minigame"
+
 /***  This is the controlling game. Each scene sends
 ****  information over to game2 when it is started
 ****  and then restarts game2 which gives the impression
@@ -49,7 +52,8 @@ class Game1 extends React.Component{
                 Level2,
                 Level3,
                 Level4,
-                Level5
+                Level5,
+                Minigame
             ]
         }
     }

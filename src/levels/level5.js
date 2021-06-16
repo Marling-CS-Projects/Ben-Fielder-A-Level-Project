@@ -16,7 +16,7 @@ import { levelComplete } from "../saving/saving-system"
 //The function used to tell the pause menu which level is currently running
 import { setLevelNumber } from "../menus/pause-menu"
 
-//The level 2 scene. the create function is called at the start of the scene and the update function is called every frame
+//The level 5 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level5 extends Phaser.Scene{
     constructor(){
         super("Level5")

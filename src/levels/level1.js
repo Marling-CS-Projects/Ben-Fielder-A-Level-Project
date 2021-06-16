@@ -35,7 +35,7 @@ class Level1 extends Phaser.Scene{
 
         //setting the platform data
         let platformData = [{x:800,y:575,w:1600,h:50},{x:-5,y:400,w:10,h:1000},{x:1505,y:400,w:10,h:1000},
-            {x:800,y:350,w:200,h:50},{x:1300,y:150,w:200,h:50}];
+            {x:800,y:350,w:200,h:50},{x:1300,y:150,w:200,h:50}]
 
         //Creating the platforms and attaching them to the platforms physics group
         createNewPlatforms(this, this.platforms, platformData)

@@ -16,7 +16,7 @@ import { levelComplete } from "../saving/saving-system"
 //The function to tell the pause menu which level is currently running
 import { setLevelNumber } from "../menus/pause-menu"
 
-//The level 1 scene. the create function is called at the start of the scene and the update function is called every frame
+//The level 3 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level3 extends Phaser.Scene{
     constructor(){
         super("Level3")
@@ -35,7 +35,7 @@ class Level3 extends Phaser.Scene{
 
         //setting the platform data
         let platformData = [{x:900,y:675,w:1800,h:50},{x:-5,y:400,w:10,h:900},{x:1805,y:400,w:10,h:900},
-            {x:625,y:450,w:150,h:50},{x:750,y:450,w:50,h:500},{x:1150,y:450,w:300,h:50},{x:675,y:200,w:200,h:50}];
+            {x:625,y:450,w:150,h:50},{x:750,y:450,w:50,h:500},{x:1150,y:450,w:300,h:50},{x:675,y:200,w:200,h:50}]
 
         //Creating the platforms and attaching them to the platforms physics group
         createNewPlatforms(this, this.platforms, platformData)
