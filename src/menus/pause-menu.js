@@ -5,8 +5,8 @@ import Phaser from "phaser"
 import { createNewButton, createNewText } from "./components/components"
 import { checkButtonPress } from "./components/frame-events"
 
-//variable to store the value of the current level
-let currentLevelNumber
+//variable to store the value of the current scene
+let currentScene
 
 //Creating the PauseMenu scene. The create function is called at the start of the scene and the update function is called every frame
 class PauseMenu extends Phaser.Scene{
@@ -24,7 +24,9 @@ class PauseMenu extends Phaser.Scene{
         //creating the buttons. One will resume the level when pressed, the other will return the player to the main menu
         this.buttons = this.add.group()
         this.resumeButton = createNewButton(this, this.buttons, {x:400,y:300,w:250,h:50}, {text: "Resume", font: "50px Arial", fill: "#000000"}, 0xffffff, resume, this)
-        this.restartButton = createNewButton(this, this.buttons, {x:400,y:400,w:250,h:50}, {text: "Restart Level", font: "40px Arial", fill: "#000000"}, 0xffffff, restartLevel, this)
+        if(parseInt(currentScene[5])){
+            this.restartButton = createNewButton(this, this.buttons, {x:400,y:400,w:250,h:50}, {text: "Restart Level", font: "40px Arial", fill: "#000000"}, 0xffffff, restartLevel, this)
+        }
         this.menuButton = createNewButton(this, this.buttons, {x:400,y:500,w:250,h:50}, {text: "Go to Menu", font: "44px Arial", fill: "#000000"}, 0xffffff, goToMenu, this)
     }
     update(){
@@ -36,23 +38,25 @@ class PauseMenu extends Phaser.Scene{
 //funtion to resume the game. Stops the puase menu and resumes the current level
 function resume(game){
     game.scene.stop("PauseMenu")
-    game.scene.resume("Level"+currentLevelNumber.toString())
+    game.scene.resume(currentScene)
 }
 
 //function to restart the current level
 function restartLevel(game){
-    game.scene.start("Level"+currentLevelNumber.toString())
+    game.scene.start(currentScene)
 }
 
 //function to go to the main menu. Stops the current level and starts the main menu scene
 function goToMenu(game){
-    game.scene.stop("Level"+currentLevelNumber.toString())
+    game.scene.stop(currentScene)
     game.scene.start("MainMenu")
+    // eslint-disable-next-line no-restricted-globals
+    location.reload()
 }
 
-//called in a level scene to set the current level
-export function setLevelNumber(levelNumber){
-    currentLevelNumber = levelNumber
+//called in a scene to set the current scene
+export function setCurrentScene(scene){
+    currentScene = scene
 }
 
 export default PauseMenu

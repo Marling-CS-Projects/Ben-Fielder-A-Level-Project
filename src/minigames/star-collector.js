@@ -4,10 +4,13 @@ import Phaser from "phaser"
 
 //import functions for use in the scene
 import { createHighScoreText, createNewPlatforms, createNewPlayer } from "./components/components";
-import { checkTextText, moveText } from "./components/frame-events";
+import { checkPause, checkTextText, moveText } from "./components/frame-events";
 
 //importing function from game 2 in order to restart it
 import {restartScene} from "../game2"
+
+//function to help pause the scene
+import { setCurrentScene } from "../menus/pause-menu";
 
 
 //The StarCollector minigame scene. the create function is called at the start of the scene and the update function is called every frame
@@ -48,6 +51,7 @@ class StarCollector extends Phaser.Scene{
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+        this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
 
         //restart game 2 and tell it not to run
         restartScene(false)
@@ -122,6 +126,9 @@ class StarCollector extends Phaser.Scene{
 
         //trigger the "player input" event. Sends which keys are pressed so that the player can be moved correctly
         this.socket.emit('playerInput-sc', {left: this.left.isDown, right: this.right.isDown, up: this.up.isDown})
+
+        //check whether to pause the scene
+        checkPause(this, "StarCollector", setCurrentScene)
     }
 }
 

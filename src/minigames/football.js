@@ -8,6 +8,10 @@ import { createNewGoal, createNewPlatforms, createNewPlayer } from "./components
 //importing function from game 2 in order to restart it
 import {restartScene} from "../game2"
 
+//functions used to pause the scene
+import { checkPause } from "./components/frame-events";
+import { setCurrentScene } from "../menus/pause-menu";
+
 //The Football minigame scene. the create function is called at the start of the scene and the update function is called every frame
 class Football extends Phaser.Scene{
     constructor(){
@@ -49,6 +53,7 @@ class Football extends Phaser.Scene{
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.interaction = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACK_SLASH)
+        this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
 
         //restart game 2 and tell it not to run
         restartScene(false)
@@ -121,6 +126,9 @@ class Football extends Phaser.Scene{
 
         //trigger the "player input" event. Sends which keys are pressed so that the player can be moved correctly
         this.socket.emit('playerInput-fb', {left: this.left.isDown, right: this.right.isDown, up: this.up.isDown, interaction: this.interaction.isDown})
+
+        //check whether to pause the scene
+        checkPause(this, "Football", setCurrentScene)
     }
 }
 

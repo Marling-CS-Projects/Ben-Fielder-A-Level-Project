@@ -1,5 +1,3 @@
-//both these functions are only used in the Star Collector minigame
-
 //moves the text on the screen so that it is visible in the same place to the player at all times
 export function moveText(game, mainText, textGroup, playerXPos){
     if(playerXPos > 400){
@@ -34,5 +32,13 @@ export function checkTextText(game, mainText, textGroup, scoresList, name, score
     }
     for(i; i < textGroup.children.entries.length; i++){
         textGroup.children.entries[i].setText("")
+    }
+}
+
+//called every frame to check if the pause button has been pressed
+export function checkPause(game, currentMinigame, callFunction){
+    if(game.pauseButton.isDown){
+        callFunction(currentMinigame)
+      game.scene.launch("PauseMenu")
     }
 }

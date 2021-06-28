@@ -14,7 +14,7 @@ import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorDat
 import { levelComplete } from "../saving/saving-system"
 
 //The function used to tell the pause menu which level is currently running
-import { setLevelNumber } from "../menus/pause-menu"
+import { setCurrentScene } from "../menus/pause-menu"
 
 //The level 5 scene. the create function is called at the start of the scene and the update function is called every frame
 class Level5 extends Phaser.Scene{
@@ -181,7 +181,7 @@ class Level5 extends Phaser.Scene{
         this.levelComplete = checkPlayersAtExit(this)
 
         //checks whether to pause the game
-        checkPause(this, 5, setLevelNumber)
+        checkPause(this, 5, setCurrentScene)
         
         //reset values on certain game objects
         resetButtonValues(this)
