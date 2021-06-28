@@ -10,10 +10,10 @@ import { checkTextText, moveText } from "./components/frame-events";
 import {restartScene} from "../game2"
 
 
-//The Minigame scene. the create function is called at the start of the scene and the update function is called every frame
-class Minigame extends Phaser.Scene{
+//The StarCollector minigame scene. the create function is called at the start of the scene and the update function is called every frame
+class StarCollector extends Phaser.Scene{
     constructor(){
-        super("Minigame")
+        super("StarCollector")
     }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
@@ -52,8 +52,11 @@ class Minigame extends Phaser.Scene{
         //restart game 2 and tell it not to run
         restartScene(false)
 
+        //triggering the "minigame" event. It tells the minigames which minigame to connect to and display a player on.
+        this.socket.emit("minigame", "star-collector")
+
         //event called when "current players" is triggered
-        this.socket.on("currentPlayers", (players)=>{
+        this.socket.on("currentPlayers-sc", (players)=>{
             //create a sqaure for each player currently playing
             Object.keys(players).forEach((id)=>{
                 createNewPlayer(game, game.players, players[id])
@@ -61,13 +64,13 @@ class Minigame extends Phaser.Scene{
         })
   
         //event called when "new player" is triggered
-        this.socket.on("newPlayer", (playerInfo)=>{
+        this.socket.on("newPlayer-sc", (playerInfo)=>{
             //create a square for a new player joining
             createNewPlayer(game, game.players, playerInfo)
         })
   
         //event called when "player updates" is triggered
-        this.socket.on("playerUpdates", (players)=>{
+        this.socket.on("playerUpdates-sc", (players)=>{
             //set the current position of all players
             Object.keys(players).forEach((id)=>{
                 game.players.getChildren().forEach((player)=>{
@@ -79,7 +82,7 @@ class Minigame extends Phaser.Scene{
         })
   
         //event called when "star location" is triggered
-        this.socket.on('starLocation', (starLocation)=>{
+        this.socket.on('starLocation-sc', (starLocation)=>{
             //create a new star if one doesn't exist otherwise update its position
             if(!game.star){
                 game.star = game.add.star(starLocation.x, starLocation.y, 5, 10, 20, 0xffff00)
@@ -90,7 +93,7 @@ class Minigame extends Phaser.Scene{
         })
   
         //event called when "update score" is triggered
-        this.socket.on("updateScore", (info)=>{
+        this.socket.on("updateScore-sc", (info)=>{
             if(info.id === game.socket.id){
                 game.player.score += 10
             }
@@ -118,8 +121,8 @@ class Minigame extends Phaser.Scene{
         checkTextText(this, this.nameText, this.highscoreTexts, this.currentScores, this.player.name, this.player.score)
 
         //trigger the "player input" event. Sends which keys are pressed so that the player can be moved correctly
-        this.socket.emit('playerInput', {left: this.left.isDown, right: this.right.isDown, up: this.up.isDown})
+        this.socket.emit('playerInput-sc', {left: this.left.isDown, right: this.right.isDown, up: this.up.isDown})
     }
 }
 
-export default Minigame
+export default StarCollector

@@ -26,6 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "host-game": "node index",
     "start-game": "npm run build && node index"
   },
   "eslintConfig": {

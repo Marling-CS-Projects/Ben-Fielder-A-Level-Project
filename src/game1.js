@@ -6,6 +6,7 @@ import {IonPhaser} from "@ion-phaser/react"
 //importing the Menu scenes
 import MainMenu from "./menus/main-menu"
 import LevelSelect from "./menus/level-select"
+import MinigameMenu from "./menus/minigame-menu"
 import ControlsMenu from "./menus/controls-menu"
 import PauseMenu from "./menus/pause-menu"
 
@@ -16,8 +17,9 @@ import Level3 from "./levels/level3"
 import Level4 from "./levels/level4"
 import Level5 from "./levels/level5"
 
-//importing the minigame scene
-import Minigame from "./minigames/minigame"
+//importing the minigames
+import StarCollector from "./minigames/star-collector"
+import Football from "./minigames/football"
 
 /***  This is the controlling game. Each scene sends
 ****  information over to game2 when it is started
@@ -46,6 +48,7 @@ class Game1 extends React.Component{
             scene: [
                 MainMenu,
                 LevelSelect,
+                MinigameMenu,
                 ControlsMenu,
                 PauseMenu,
                 Level1,
@@ -53,7 +56,8 @@ class Game1 extends React.Component{
                 Level3,
                 Level4,
                 Level5,
-                Minigame
+                StarCollector,
+                Football
             ]
         }
     }

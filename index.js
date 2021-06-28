@@ -24,26 +24,37 @@ app.get("/", (req,res)=>{
     res.sendFile(__dirname + '/build/index.html')
 })
 
-//function to start the server
-function startServer(){
-    server.listen(port, function () {
-        console.log(`Listening on ${server.address().port}`)
-    })
-}
-
 //setting up the script to run on the server and to feed information to each player who joins
-JSDOM.fromFile(__dirname + "/server/index.html",{
+JSDOM.fromFile(__dirname + "/server/star-collector/index.html",{
     //setup so all scripts can be run
     runScripts:"dangerously",
     resources:"usable",
     pretendToBeVisual:true
 }).then((dom)=>{
-    //starting the server after the game has loaded
-    dom.window.gameLoaded = startServer
     //allows the window to use socket.io
     dom.window.io = io
     //allows the window to use the name generator
     dom.window.nameGenerator = generator
 }).catch((error)=>{
     console.log(error.message)
+})
+
+//setting up the script to run on the server and to feed information to each player who joins
+JSDOM.fromFile(__dirname + "/server/football/index.html",{
+    //setup so all scripts can be run
+    runScripts:"dangerously",
+    resources:"usable",
+    pretendToBeVisual:true
+}).then((dom)=>{
+    //allows the window to use socket.io
+    dom.window.io = io
+    //allows the window to use the name generator
+    dom.window.nameGenerator = generator
+}).catch((error)=>{
+    console.log(error.message)
+})
+
+//starts the server
+server.listen(port, function () {
+    console.log(`Listening on ${server.address().port}`)
 })

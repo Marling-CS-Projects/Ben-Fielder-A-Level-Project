@@ -3,9 +3,10 @@
 //sets the player's input values. (called after the player input event is triggered)
 function handlePlayerInput(game, players, playerId, input) {
     game.players.getChildren().forEach((player) => {
-      if (playerId === player.playerId) {
-        players[player.playerId].input = input;
-      }
+        if (playerId === player.playerId) {
+            players[player.playerId].input = input
+            player.input = input
+        }
     });
 }
 
