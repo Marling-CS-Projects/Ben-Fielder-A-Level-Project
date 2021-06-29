@@ -7,7 +7,7 @@ const server = require("http").Server(app)
 const io = require("socket.io").listen(server)
 
 //settting the port to the predefined one or to default to 4000
-const port = process.env.port || 4000
+const port = process.env.PORT || 4000
 
 //importing the jsdom library
 const jsdom = require("jsdom")

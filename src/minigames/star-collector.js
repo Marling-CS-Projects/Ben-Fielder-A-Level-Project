@@ -20,16 +20,16 @@ class StarCollector extends Phaser.Scene{
     }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
-        let game = this;
+        let game = this
         
         //this is the socket.io reference
-        this.socket = io();
+        this.socket = io()
 
         //creating the players group
-        this.players = this.add.group();
+        this.players = this.add.group()
 
         //creating the platforms group and platforms
-        this.platforms = this.add.group();
+        this.platforms = this.add.group()
         let platformData = [{x:800,y:575,w:1600,h:50},{x:-5,y:400,w:10,h:1000},{x:1605,y:400,w:10,h:1000},
             {x:100,y:450,w:200,h:50},{x:675,y:450,w:150,h:50},{x:1150,y:450,w:200,h:50},{x:1375,y:400,w:150,h:50},
             {x:350,y:325,w:200,h:50},{x:175,y:175,w:100,h:50},{x:650,y:175,w:300,h:50},{x:950,y:100,w:50,h:50},

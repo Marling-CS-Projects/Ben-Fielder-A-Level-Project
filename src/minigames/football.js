@@ -19,16 +19,16 @@ class Football extends Phaser.Scene{
     }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
-        let game = this;
+        let game = this
         
         //this is the socket.io reference
-        this.socket = io();
+        this.socket = io()
 
         //creating the players group
-        this.players = this.add.group();
+        this.players = this.add.group()
 
         //creating the platforms group and platforms
-        this.platforms = this.add.group();
+        this.platforms = this.add.group()
         let platformData = [{x:400,y:575,w:800,h:50},{x:-5,y:400,w:10,h:1000},{x:805,y:400,w:10,h:1000},{x:400,y:-5,w:800,h:10}]
         createNewPlatforms(this, this.platforms, platformData)
 
