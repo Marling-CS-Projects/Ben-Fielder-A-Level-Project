@@ -1,17 +1,17 @@
 //called every frame to move the player in response to key presses
-export function handleUserInput(game){
+export function handleUserInput(game, scale){
   game.players.children.entries.forEach((player)=>{
     if(player.left.isDown){
-      player.body.setVelocityX(-100)
+      player.body.setVelocityX(-100*scale)
     }
     else if(player.right.isDown){
-      player.body.setVelocityX(100)
+      player.body.setVelocityX(100*scale)
     }
     else{
       player.body.setVelocityX(0)
     }
     if(player.up.isDown && player.body.touching.down){
-      player.body.setVelocityY(-300)
+      player.body.setVelocityY(-300*scale)
     }
   })
 }

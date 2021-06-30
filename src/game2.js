@@ -19,8 +19,8 @@ class Game2 extends React.Component{
         game: {
             type: Phaser.AUTO,
             parent: 'phaser-example',
-            width: 800,
-            height: 600,
+            width: (window.innerWidth/2-50),
+            height: ((window.innerWidth/2-50)*(600/800)),
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -61,24 +61,26 @@ function create (){
     restart = false
     if(!ready){return}
 
+    this.gameScale = this.scale.canvas.width/800
+
     //create the players based on data received from game 1
     this.players = this.add.group()
-    this.player1 = this.add.rectangle(playerData[0].x, playerData[0].y, 50, 50, 0xff0000)
-    this.player2 = this.add.rectangle(playerData[1].x, playerData[1].y, 50, 50, 0xff0000)
+    this.player1 = this.add.rectangle(playerData[0].x*this.gameScale, playerData[0].y*this.gameScale, 50*this.gameScale, 50*this.gameScale, 0xff0000)
+    this.player2 = this.add.rectangle(playerData[1].x*this.gameScale, playerData[1].y*this.gameScale, 50*this.gameScale, 50*this.gameScale, 0xff0000)
     this.players.add(this.player1)
     this.players.add(this.player2)
 
     //create the platforms based on data from game 1
     if(platformData){
         this.platforms = this.add.group()
-        createNewPlatforms(this, this.platforms, platformData)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
     }
 
     //create the boxes from the data received from game 1
     if(boxData){
         this.boxes = this.add.group()
         boxData.forEach((box)=>{
-            createNewBox(this, this.boxes, {x:box.x,y:box.y,w:33,h:33})
+            createNewBox(this, this.boxes, {x:box.x,y:box.y,w:33,h:33}, this.gameScale)
         })
     }
 
@@ -86,7 +88,7 @@ function create (){
     if(buttonData){
         this.buttons = this.add.group()
         buttonData.forEach((button)=>{
-            createNewButton(this, this.buttons, {x:button.x,y:button.y,w:button.w,h:button.h})
+            createNewButton(this, this.buttons, {x:button.x,y:button.y,w:button.w,h:button.h}, this.gameScale)
         })
     }
 
@@ -94,7 +96,7 @@ function create (){
     if(leverData){
         this.levers = this.add.group()
         leverData.forEach((lever)=>{
-            createNewLever(this, this.levers, {x:lever.x,y:lever.y,w:lever.w,h:lever.h})
+            createNewLever(this, this.levers, {x:lever.x,y:lever.y,w:lever.w,h:lever.h}, this.gameScale)
         })
     }
 
@@ -102,7 +104,7 @@ function create (){
     if(spikeData){
         this.spikes = this.add.group()
         spikeData.forEach((spike)=>{
-            createNewSpikeSet(this, this.spikes, {x:spike.x,y:spike.y}, spike.count)
+            createNewSpikeSet(this, this.spikes, {x:spike.x,y:spike.y}, spike.count, this.gameScale)
         })
     }
 
@@ -110,7 +112,7 @@ function create (){
     if(enemyData){
         this.enemies = this.add.group()
         enemyData.forEach((enemy)=>{
-            createNewEnemy(this, this.enemies, {x:enemy.x,y:enemy.y})
+            createNewEnemy(this, this.enemies, {x:enemy.x,y:enemy.y}, null, null, this.gameScale)
         })
     }
 
@@ -118,7 +120,7 @@ function create (){
     if(movingPlatformData){
         this.movingPlatforms = this.physics.add.staticGroup()
         movingPlatformData.forEach((movingPlatform)=>{
-            createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h})
+            createNewMovingPlatform(this, this.movingPlatforms, {x:movingPlatform.x,y:movingPlatform.y,w:movingPlatform.w,h:movingPlatform.h}, null, null, null, this.gameScale)
         })
     }
 
@@ -126,7 +128,7 @@ function create (){
     if(exitDoorData){
         this.exitDoors = this.physics.add.staticGroup()
         exitDoorData.forEach((exitDoor)=>{
-            createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor)
+            createNewExitDoor(this, this.exitDoors, {x:exitDoor.x,y:exitDoor.y}, exitDoor.floor, this.gameScale)
         })
     }
 
@@ -134,12 +136,12 @@ function create (){
     if(gameTextData){
         this.texts = this.add.group()
         gameTextData.forEach((gameText)=>{
-            createNewGameText(this, this.texts, {x:gameText.x,y:gameText.y}, gameText.text, gameText.lines)
+            createNewGameText(this, this.texts, {x:gameText.x,y:gameText.y}, gameText.text, gameText.lines, this.gameScale)
         })
     }
 
     //create the side-scrolling camera
-    createFollowCamera(this, this.player1, cameraBounds)
+    createFollowCamera(this, this.player1, cameraBounds, this.gameScale)
 }
 
 //update function is called every frame
@@ -187,7 +189,7 @@ function update(){
     }
     }
     if(trapPlatforms){
-        createNewPlatforms(this, this.platforms, trapPlatforms)
+        createNewPlatforms(this, this.platforms, trapPlatforms, this.gameScale)
         trapPlatforms = null
     }
 }

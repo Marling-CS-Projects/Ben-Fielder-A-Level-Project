@@ -21,6 +21,8 @@ class StarCollector extends Phaser.Scene{
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
         let game = this
+
+        this.gameScale = this.scale.canvas.width/800
         
         //this is the socket.io reference
         this.socket = io()
@@ -34,18 +36,18 @@ class StarCollector extends Phaser.Scene{
             {x:100,y:450,w:200,h:50},{x:675,y:450,w:150,h:50},{x:1150,y:450,w:200,h:50},{x:1375,y:400,w:150,h:50},
             {x:350,y:325,w:200,h:50},{x:175,y:175,w:100,h:50},{x:650,y:175,w:300,h:50},{x:950,y:100,w:50,h:50},
             {x:900,y:375,w:200,h:50},{x:1150,y:225,w:200,h:50},{x:1450,y:175,w:300,h:50}]
-        createNewPlatforms(this, this.platforms, platformData)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
 
         //the list of current scores
         this.currentScores = []
   
         //setting the camera bounds
-        this.cameras.main.setBounds(0, 0, 1600, 600)
+        this.cameras.main.setBounds(0, 0, 1600*this.gameScale, 600*this.gameScale)
 
         //creating the ui text
-        this.nameText = this.add.text(16, 16, "", { fontSize: "32px Arial", fill: '#0000ff' })
+        this.nameText = this.add.text(16*this.gameScale, 16*this.gameScale, "", { fontSize: "32px Arial", fill: '#0000ff' })
         this.highscoreTexts = this.add.group()
-        createHighScoreText(this, this.highscoreTexts, {x:500,y:16}, 5)
+        createHighScoreText(this, this.highscoreTexts, {x:500,y:16}, 5, this.gameScale)
 
         //creating the key listeners
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -63,14 +65,14 @@ class StarCollector extends Phaser.Scene{
         this.socket.on("currentPlayers-sc", (players)=>{
             //create a sqaure for each player currently playing
             Object.keys(players).forEach((id)=>{
-                createNewPlayer(game, game.players, players[id])
+                createNewPlayer(game, game.players, players[id], this.gameScale)
             })
         })
   
         //event called when "new player" is triggered
         this.socket.on("newPlayer-sc", (playerInfo)=>{
             //create a square for a new player joining
-            createNewPlayer(game, game.players, playerInfo)
+            createNewPlayer(game, game.players, playerInfo, this.gameScale)
         })
   
         //event called when "player updates" is triggered
@@ -79,7 +81,7 @@ class StarCollector extends Phaser.Scene{
             Object.keys(players).forEach((id)=>{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
-                        player.setPosition(players[id].x, players[id].y)
+                        player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
                     }
                 })
             })
@@ -89,10 +91,10 @@ class StarCollector extends Phaser.Scene{
         this.socket.on('starLocation-sc', (starLocation)=>{
             //create a new star if one doesn't exist otherwise update its position
             if(!game.star){
-                game.star = game.add.star(starLocation.x, starLocation.y, 5, 10, 20, 0xffff00)
+                game.star = game.add.star(starLocation.x*this.gameScale, starLocation.y*this.gameScale, 5, 10*this.gameScale, 20*this.gameScale, 0xffff00)
             }
             else{
-                game.star.setPosition(starLocation.x, starLocation.y)
+                game.star.setPosition(starLocation.x*this.gameScale, starLocation.y*this.gameScale)
             }
         })
   
@@ -119,7 +121,7 @@ class StarCollector extends Phaser.Scene{
         if(!this.player){return}
   
         //moves the ui text
-        moveText(this, this.nameText, this.highscoreTexts, this.player.x)
+        moveText(this, this.nameText, this.highscoreTexts, this.player.x, this.gameScale)
 
         //updates the text displayed on the ui text
         checkTextText(this, this.nameText, this.highscoreTexts, this.currentScores, this.player.name, this.player.score)

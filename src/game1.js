@@ -34,8 +34,8 @@ class Game1 extends React.Component{
         game: {
             type: Phaser.AUTO,
             parent: 'phaser-example',
-            width: 800,
-            height: 600,
+            width: (window.innerWidth/2-50),
+            height: ((window.innerWidth/2-50)*(600/800)),
             physics: {
                 default: 'arcade',
                 arcade: {

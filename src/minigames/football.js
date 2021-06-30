@@ -20,6 +20,8 @@ class Football extends Phaser.Scene{
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
         let game = this
+
+        this.gameScale = this.scale.canvas.width/800
         
         //this is the socket.io reference
         this.socket = io()
@@ -30,23 +32,23 @@ class Football extends Phaser.Scene{
         //creating the platforms group and platforms
         this.platforms = this.add.group()
         let platformData = [{x:400,y:575,w:800,h:50},{x:-5,y:400,w:10,h:1000},{x:805,y:400,w:10,h:1000},{x:400,y:-5,w:800,h:10}]
-        createNewPlatforms(this, this.platforms, platformData)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
 
         //creating the goals
         this.goals = this.add.group()
-        this.redGoal = createNewGoal(this, this.goals, {x:790, y:500})
-        this.blueGoal = createNewGoal(this, this.goals, {x:10, y:500})
+        this.redGoal = createNewGoal(this, this.goals, {x:790, y:500}, this.gameScale)
+        this.blueGoal = createNewGoal(this, this.goals, {x:10, y:500}, this.gameScale)
 
         //setting the team scores
         this.redScore = 0
         this.blueScore = 0
 
         //creating the display text for the team scores
-        this.redScoreText = this.add.text(125, 50, "Red: " + this.redScore, {font: "60px Arial", fill: "#ff0000"}).setOrigin(0.5, 0.5)
-        this.blueScoreText = this.add.text(675, 50, "Blue: " + this.blueScore, {font: "60px Arial", fill: "#0000ff"}).setOrigin(0.5, 0.5)
+        this.redScoreText = this.add.text(125*this.gameScale, 50*this.gameScale, "Red: " + this.redScore, {font: "60px Arial", fill: "#ff0000"}).setOrigin(0.5, 0.5)
+        this.blueScoreText = this.add.text(675*this.gameScale, 50*this.gameScale, "Blue: " + this.blueScore, {font: "60px Arial", fill: "#0000ff"}).setOrigin(0.5, 0.5)
 
         //setting the camera bounds
-        this.cameras.main.setBounds(0, 0, 800, 600)
+        this.cameras.main.setBounds(0, 0, 800*this.gameScale, 600*this.gameScale)
 
         //creating the key listeners
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -65,14 +67,14 @@ class Football extends Phaser.Scene{
         this.socket.on("currentPlayers-fb", (players)=>{
             //create a sqaure for each player currently playing
             Object.keys(players).forEach((id)=>{
-                createNewPlayer(game, game.players, players[id])
+                createNewPlayer(game, game.players, players[id], this.gameScale)
             })
         })
   
         //event called when "new player" is triggered
         this.socket.on("newPlayer-fb", (playerInfo)=>{
             //create a square for a new player joining
-            createNewPlayer(game, game.players, playerInfo)
+            createNewPlayer(game, game.players, playerInfo, this.gameScale)
         })
 
         //event called when "player updates" is triggered
@@ -81,7 +83,7 @@ class Football extends Phaser.Scene{
             Object.keys(players).forEach((id)=>{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
-                        player.setPosition(players[id].x, players[id].y)
+                        player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
                     }
                 })
             })
@@ -93,10 +95,10 @@ class Football extends Phaser.Scene{
             if(!game.player){return}
             //create a new star if one doesn't exist otherwise update its position
             if(!game.ball){
-                game.ball = game.add.circle(ballLocation.x, ballLocation.y, 18, 0xffff00)
+                game.ball = game.add.circle(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale, 18*this.gameScale, 0xffff00)
             }
             else{
-                game.ball.setPosition(ballLocation.x, ballLocation.y)
+                game.ball.setPosition(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale)
             }
         })
   

@@ -22,10 +22,13 @@ class Level1 extends Phaser.Scene{
         super("Level1")
     }
     create(){
+
+        this.gameScale = this.scale.canvas.width/800
+
         //creating the players physics group and a player
         this.players = this.physics.add.group()
-        this.player1 = createNewPlayer(this, this.players, 50, 525)
-        this.player2 = createNewPlayer(this, this.players, 150, 525)
+        this.player1 = createNewPlayer(this, this.players, 50, 525, this.gameScale)
+        this.player2 = createNewPlayer(this, this.players, 150, 525, this.gameScale)
 
         //send player data to puppet scene
         setPlayerData([{x:50,y:525},{x:150,y:525}])
@@ -38,7 +41,7 @@ class Level1 extends Phaser.Scene{
             {x:800,y:350,w:200,h:50},{x:1300,y:150,w:200,h:50}]
 
         //Creating the platforms and attaching them to the platforms physics group
-        createNewPlatforms(this, this.platforms, platformData)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
 
         //send the platform data to scene 2
         setPlatformData(platformData)
@@ -48,8 +51,8 @@ class Level1 extends Phaser.Scene{
 
         //setting the buttons physics group and creating a button
         this.buttons = this.physics.add.staticGroup()
-        this.button1 = createNewButton(this, this.buttons, {x:250,y:550,w:25,h:10})
-        this.button2 = createNewButton(this, this.buttons, {x:825,y:325,w:25,h:10})
+        this.button1 = createNewButton(this, this.buttons, {x:250,y:550,w:25,h:10}, this.gameScale)
+        this.button2 = createNewButton(this, this.buttons, {x:825,y:325,w:25,h:10}, this.gameScale)
 
         //setting the colliders that trigger an event when a button is pressed
         this.physics.add.overlap(this.players, this.buttons, handleButtonPress)
@@ -59,7 +62,7 @@ class Level1 extends Phaser.Scene{
 
         //creating levers physics group and a lever
         this.levers = this.physics.add.staticGroup()
-        this.lever = createNewLever(this, this.levers, {x:750,y:325,w:50,h:10})
+        this.lever = createNewLever(this, this.levers, {x:750,y:325,w:50,h:10}, this.gameScale)
 
         //setting collsion event between players and levers
         this.physics.add.overlap(this.players, this.levers, handleLeverPress)
@@ -69,9 +72,9 @@ class Level1 extends Phaser.Scene{
 
         //moving platforms physics group and 2 moving platforms
         this.movingPlatforms = this.physics.add.group()
-        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:575,w:150,h:50}, {x:400,y:350}, {x:0,y:-1}, this.button1)
-        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:600,y:350,w:150,h:50}, {x:600,y:500}, {x:0,y:1}, this.button2)
-        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:1000,y:350,w:150,h:50}, {x:1050,y:150}, {x:0.25,y:-1}, this.lever)
+        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:575,w:150,h:50}, {x:400,y:350}, {x:0,y:-1}, this.button1, this.gameScale)
+        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:600,y:350,w:150,h:50}, {x:600,y:500}, {x:0,y:1}, this.button2, this.gameScale)
+        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:1000,y:350,w:150,h:50}, {x:1050,y:150}, {x:0.25,y:-1}, this.lever, this.gameScale)
 
         //setting colliders
         this.physics.add.collider(this.players, this.movingPlatforms)
@@ -81,7 +84,7 @@ class Level1 extends Phaser.Scene{
 
         //creating the spikes physics group and 2 spike sets
         this.spikes = this.physics.add.staticGroup()
-        createNewSpikeSet(this, this.spikes, {x:750,y:550}, 35)
+        createNewSpikeSet(this, this.spikes, {x:750,y:550}, 35, this.gameScale)
 
         //setting the colliders for colliders for spikes
         this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
@@ -90,7 +93,7 @@ class Level1 extends Phaser.Scene{
 
         //creating the exit doors physics group and an exit door
         this.exitDoors = this.physics.add.group()
-        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:1300,y:150}, this.platforms.children.entries[this.platforms.children.entries.length-1])
+        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:1300,y:150}, this.platforms.children.entries[this.platforms.children.entries.length-1], this.gameScale)
 
         //creating an overlap event bewtween the players and the door
         this.physics.add.overlap(this.players, this.exitDoors, handleExitDoorCollision)
@@ -100,17 +103,17 @@ class Level1 extends Phaser.Scene{
 
         //creating the game text for the level
         this.texts = this.add.group()
-        createNewGameText(this, this.texts, {x:250,y:400}, "Move onto the button", 2)
-        createNewGameText(this, this.texts, {x:800,y:100}, "Press the ineraction key when on the lever", 3)
-        createNewGameText(this, this.texts, {x:1250,y:300}, "Don't jump on the spikes", 1)
-        createNewGameText(this, this.texts, {x:1200,y:75}, "Get to the exit door", 2)
+        createNewGameText(this, this.texts, {x:250,y:400}, "Move onto the button", 2, this.gameScale)
+        createNewGameText(this, this.texts, {x:800,y:100}, "Press the ineraction key when on the lever", 3, this.gameScale)
+        createNewGameText(this, this.texts, {x:1250,y:300}, "Don't jump on the spikes", 1, this.gameScale)
+        createNewGameText(this, this.texts, {x:1200,y:75}, "Get to the exit door", 2, this.gameScale)
 
         //sending the game text data to game 2
         setGameTextData([{x:250,y:400,text:"Move onto a button",lines:2},{x:800,y:100,text:"Press the ineraction key when on the lever",lines:3},
             {x:1250,y:300,text:"Don't jump on the spikes",lines:1},{x:1200,y:75,text:"Get to the exit door",lines:2}])
 
         //making a side-scrolling camera to follow the player
-        createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1500,y2:600})
+        createFollowCamera(this, this.player2, {x1:0,y1:0,x2:1500,y2:600}, this.gameScale)
 
         //send the camera bounds to second scene
         setCameraBounds({x1:0,y1:0,x2:1500,y2:600})
@@ -127,7 +130,7 @@ class Level1 extends Phaser.Scene{
     }
     update(){
         //functions to be called every frame to run the game
-        handleUserInput(this)
+        handleUserInput(this, this.gameScale)
         moveMovingPlatforms(this)
         checkInteractionKeyPress(this)
         moveExitDoor(this)

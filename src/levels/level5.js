@@ -22,10 +22,13 @@ class Level5 extends Phaser.Scene{
         super("Level5")
     }
     create(){
+
+        this.gameScale = this.scale.canvas.width/800
+
         //create the players for the level
         this.players = this.physics.add.group()
-        this.player1 = createNewPlayer(this, this.players, 800, 725)
-        this.player2 = createNewPlayer(this, this.players, 3100, 125)
+        this.player1 = createNewPlayer(this, this.players, 800, 725, this.gameScale)
+        this.player2 = createNewPlayer(this, this.players, 3100, 125, this.gameScale)
 
         //send player data to puppet scene
         setPlayerData([{x:1000,y:500},{x:3100,y:125}])
@@ -38,7 +41,7 @@ class Level5 extends Phaser.Scene{
             {x:3100,y:175,w:200,h:50},{x:2700,y:300,w:200,h:50},{x:2900,y:425,w:600,h:50},{x:2000,y:425,w:800,h:50}]
 
         //Creating the platforms and attaching them to the platforms physics group
-        createNewPlatforms(this, this.platforms, platformData)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
 
         //send the platform data to scene 2
         setPlatformData(platformData)
@@ -48,8 +51,8 @@ class Level5 extends Phaser.Scene{
 
         //create the boxes for the level
         this.boxes = this.physics.add.group()
-        this.box1 = createNewBox(this, this.boxes, {x:180,y:500,w:33,h:33})
-        this.box2 = createNewBox(this, this.boxes, {x:2700,y:250,w:33,h:33})
+        this.box1 = createNewBox(this, this.boxes, {x:180,y:500,w:33,h:33}, this.gameScale)
+        this.box2 = createNewBox(this, this.boxes, {x:2700,y:250,w:33,h:33}, this.gameScale)
 
         //send the box data to second scene
         setBoxData([{x:180,y:500,w:33,h:33},{x:2700,y:250,w:33,h:33}])
@@ -61,10 +64,10 @@ class Level5 extends Phaser.Scene{
 
         //create the buttons for use in the scene
         this.buttons = this.physics.add.staticGroup()
-        this.button1 = createNewButton(this, this.buttons, {x:950,y:750,w:25,h:10})
-        this.button2 = createNewButton(this, this.buttons, {x:100,y:525,w:25,h:10})
-        this.button3 = createNewButton(this, this.buttons, {x:125,y:225,w:25,h:10})
-        this.button4 = createNewButton(this, this.buttons, {x:1800,y:400,w:25,h:10})
+        this.button1 = createNewButton(this, this.buttons, {x:950,y:750,w:25,h:10}, this.gameScale)
+        this.button2 = createNewButton(this, this.buttons, {x:100,y:525,w:25,h:10}, this.gameScale)
+        this.button3 = createNewButton(this, this.buttons, {x:125,y:225,w:25,h:10}, this.gameScale)
+        this.button4 = createNewButton(this, this.buttons, {x:1800,y:400,w:25,h:10}, this.gameScale)
 
         //send the button data to game 2
         setButtonData([{x:950,y:750,w:25,h:10},{x:100,y:525,w:25,h:10},{x:125,y:225,w:25,h:10},{x:1800,y:400,w:25,h:10}])
@@ -75,9 +78,9 @@ class Level5 extends Phaser.Scene{
 
         //create the levers for use in the level
         this.levers = this.physics.add.staticGroup()
-        this.lever1 = createNewLever(this, this.levers, {x:700,y:750,w:50,h:10})
-        this.lever2 = createNewLever(this, this.levers, {x:3150,y:150,w:50,h:10})
-        this.lever3 = createNewLever(this, this.levers, {x:1800,y:750,w:50,h:10})
+        this.lever1 = createNewLever(this, this.levers, {x:700,y:750,w:50,h:10}, this.gameScale)
+        this.lever2 = createNewLever(this, this.levers, {x:3150,y:150,w:50,h:10}, this.gameScale)
+        this.lever3 = createNewLever(this, this.levers, {x:1800,y:750,w:50,h:10}, this.gameScale)
 
         //send the lever data
         setLeverData([{x:700,y:750,w:50,h:10},{x:3150,y:150,w:50,h:10},{x:1800,y:750,w:50,h:10}])
@@ -87,8 +90,8 @@ class Level5 extends Phaser.Scene{
 
         //create the spikes for use in the level
         this.spikes = this.physics.add.staticGroup()
-        createNewSpikeSet(this, this.spikes, {x:0,y:750}, 14)
-        createNewSpikeSet(this, this.spikes, {x:2100,y:750}, 40)
+        createNewSpikeSet(this, this.spikes, {x:0,y:750}, 14, this.gameScale)
+        createNewSpikeSet(this, this.spikes, {x:2100,y:750}, 40, this.gameScale)
 
         //send the spike data
         setSpikeData([{x:0,y:750,count:14},{x:2100,y:750,count:40}])
@@ -99,8 +102,8 @@ class Level5 extends Phaser.Scene{
 
         //create the enemies for the level
         this.enemies = this.physics.add.group()
-        this.enemy1 = createNewEnemy(this, this.enemies, {x:1200,y:725}, 1500, 50)
-        this.enemy2 = createNewEnemy(this, this.enemies, {x:2000,y:375}, 2400, 50)
+        this.enemy1 = createNewEnemy(this, this.enemies, {x:1200,y:725}, 1500, 50, this.gameScale)
+        this.enemy2 = createNewEnemy(this, this.enemies, {x:2000,y:375}, 2400, 50, this.gameScale)
 
         //send the enemy data
         setEnemyData([{x:1200,y:725},{x:2000,y:375}])
@@ -115,22 +118,22 @@ class Level5 extends Phaser.Scene{
         this.finishPlatforms = this.physics.add.group()
 
         //create the finish platform body and finish platform
-        this.finishPlatformBody = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:100,w:200,h:50}, {x:950,y:100}, {x:0,y:0}, null)
-        this.finishPlatform = createNewFinishPlatform(this, this.finishPlatforms, {x:950,y:100,w:200,h:50}, this.finishPlatformBody)
+        this.finishPlatformBody = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:100,w:200,h:50}, {x:950,y:100}, {x:0,y:0}, null, this.gameScale)
+        this.finishPlatform = createNewFinishPlatform(this, this.finishPlatforms, {x:950,y:100,w:200,h:50}, this.finishPlatformBody, this.gameScale)
 
         //set the collider for finish platforms
         this.physics.add.collider(this.finishPlatforms, this.movingPlatforms)
 
         //create the moving platforms for use in the level
-        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:1600,y:625,w:50,h:250}, {x:1600,y:500}, {x:0,y:-1}, this.button1)
-        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:725,w:200,h:50}, {x:500,y:550}, {x:0,y:-1}, this.lever2)
-        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:450,w:200,h:50}, {x:500,y:250}, {x:0,y:-1}, this.button2)
-        this.movingPlatform4 = createNewMovingPlatform(this, this.movingPlatforms, {x:760,y:200,w:150,h:50}, {x:800,y:500}, {x:0,y:1}, this.button1)
-        this.movingPlatform5 = createNewMovingPlatform(this, this.movingPlatforms, {x:890,y:650,w:50,h:200}, {x:890,y:450}, {x:0,y:-1}, this.lever3)
-        this.movingPlatform6 = createNewMovingPlatform(this, this.movingPlatforms, {x:1010,y:650,w:50,h:200}, {x:1010,y:450}, {x:0,y:-1}, this.lever1)
-        this.movingPlatform7 = createNewMovingPlatform(this, this.movingPlatforms, {x:2500,y:425,w:200,h:50}, {x:2700,y:700}, {x:1,y:0}, this.button4)
-        this.movingPlatform8 = createNewMovingPlatform(this, this.movingPlatforms, {x:2600,y:500,w:200,h:50}, {x:2100,y:750}, {x:-1,y:0.5}, this.button3)
-        this.movingPlatform9 = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:150,w:200,h:50}, {x:1250,y:150}, {x:1,y:0}, this.button1)
+        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:1600,y:625,w:50,h:250}, {x:1600,y:500}, {x:0,y:-1}, this.button1, this.gameScale)
+        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:725,w:200,h:50}, {x:500,y:550}, {x:0,y:-1}, this.lever2, this.gameScale)
+        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:500,y:450,w:200,h:50}, {x:500,y:250}, {x:0,y:-1}, this.button2, this.gameScale)
+        this.movingPlatform4 = createNewMovingPlatform(this, this.movingPlatforms, {x:760,y:200,w:150,h:50}, {x:800,y:500}, {x:0,y:1}, this.button1, this.gameScale)
+        this.movingPlatform5 = createNewMovingPlatform(this, this.movingPlatforms, {x:890,y:650,w:50,h:200}, {x:890,y:450}, {x:0,y:-1}, this.lever3, this.gameScale)
+        this.movingPlatform6 = createNewMovingPlatform(this, this.movingPlatforms, {x:1010,y:650,w:50,h:200}, {x:1010,y:450}, {x:0,y:-1}, this.lever1, this.gameScale)
+        this.movingPlatform7 = createNewMovingPlatform(this, this.movingPlatforms, {x:2500,y:425,w:200,h:50}, {x:2700,y:700}, {x:1,y:0}, this.button4, this.gameScale)
+        this.movingPlatform8 = createNewMovingPlatform(this, this.movingPlatforms, {x:2600,y:500,w:200,h:50}, {x:2100,y:750}, {x:-1,y:0.5}, this.button3, this.gameScale)
+        this.movingPlatform9 = createNewMovingPlatform(this, this.movingPlatforms, {x:950,y:150,w:200,h:50}, {x:1250,y:150}, {x:1,y:0}, this.button1, this.gameScale)
 
         //send the moving platformm data topuppet scene
         setMovingPlatformData([{x:950,y:100,w:200,h:50},{x:1600,y:625,w:50,h:250},{x:500,y:725,w:200,h:50},{x:500,y:450,w:200,h:50},{x:760,y:200,w:150,h:50},{x:890,y:650,w:50,h:200},{x:1010,y:650,w:50,h:200},{x:2500,y:425,w:200,h:50},{x:2600,y:500,w:200,h:50},{x:950,y:150,w:200,h:50}])
@@ -142,7 +145,7 @@ class Level5 extends Phaser.Scene{
 
         //create the exit door
         this.exitDoors = this.physics.add.group()
-        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:950,y:100}, this.finishPlatform)
+        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:950,y:100}, this.finishPlatform, this.gameScale)
 
         //send the exit door data to second scene
         setExitDoorData([{x:950,y:100,floor:this.finishPlatform}])
@@ -154,7 +157,7 @@ class Level5 extends Phaser.Scene{
         this.trap = createNewTrap(this, this.platforms, this.button1, [{x:890,y:650,w:50,h:200},{x:1010,y:650,w:50,h:200}])
 
         //making a side-scrolling camera to follow the player
-        createFollowCamera(this, this.player2, {x1:0,y1:0,x2:3200,y2:800})
+        createFollowCamera(this, this.player2, {x1:0,y1:0,x2:3200,y2:800}, this.gameScale)
 
         //sending the camera bounds to other scene
         setCameraBounds({x1:0,y1:0,x2:3200,y2:800})
@@ -170,10 +173,10 @@ class Level5 extends Phaser.Scene{
     }
     update(){
         //functions to be called every frame to run the game
-        handleUserInput(this)
+        handleUserInput(this, this.gameScale)
         moveMovingPlatforms(this)
         checkInteractionKeyPress(this)
-        checkEnemyDistanceToPlayer(this)
+        checkEnemyDistanceToPlayer(this, this.gameScale)
         moveEnemies(this)
         moveExitDoor(this)
         moveFinishPlatformBody(this.finishPlatform)

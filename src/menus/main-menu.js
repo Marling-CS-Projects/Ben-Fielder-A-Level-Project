@@ -18,16 +18,19 @@ class MainMenu extends Phaser.Scene{
         super("MainMenu")
     }
     create(){
+
+        this.gameScale = this.scale.canvas.width/800
+
         //Create the text for the title
         this.texts = this.add.group()
-        this.titleText = createNewText(this, this.texts, {x:400,y:100}, {text: "Menu", font: "75px Arial", fill: "#552eff"})
+        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Menu", font: "75px Arial", fill: "#552eff"})
 
         //create the buttons for new game, load game, minigame and to see the controls
         this.buttons = this.add.group()
-        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this)
-        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
-        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, {text:"Minigames", font: "50px Arial", fill: "#00ff00"}, 0xff0000, openMinigames, this)
-        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this)
+        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, this.gameScale, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this)
+        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, this.gameScale, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
+        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, this.gameScale, {text:"Minigames", font: "50px Arial", fill: "#00ff00"}, 0xff0000, openMinigames, this)
+        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, this.gameScale, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this)
 
         //restart the puppet scene and tell it not to run
         restartScene(false)

@@ -1,23 +1,23 @@
 //moves the text on the screen so that it is visible in the same place to the player at all times
-export function moveText(game, mainText, textGroup, playerXPos){
-    if(playerXPos > 400){
-        if(playerXPos > 1200){
-            mainText.setPosition(816, mainText.y)
+export function moveText(game, mainText, textGroup, playerXPos, scale){
+    if(playerXPos > 400*scale){
+        if(playerXPos > 1200*scale){
+            mainText.setPosition(816*scale, mainText.y)
             for(let i = 0; i < textGroup.children.entries.length; i++){
-                textGroup.children.entries[i].setPosition(1300, textGroup.children.entries[i].y)
+                textGroup.children.entries[i].setPosition(1300*scale, textGroup.children.entries[i].y)
             }
         }
         else{
-            mainText.setPosition(playerXPos-384, mainText.y)
+            mainText.setPosition(playerXPos-384*scale, mainText.y)
             for(let i = 0; i < textGroup.children.entries.length; i++){
-                textGroup.children.entries[i].setPosition(playerXPos+100, textGroup.children.entries[i].y)
+                textGroup.children.entries[i].setPosition(playerXPos+100*scale, textGroup.children.entries[i].y)
             }
         }
     }
     else{
-        mainText.setPosition(16, mainText.y)
+        mainText.setPosition(16*scale, mainText.y)
         for(let i = 0; i < textGroup.children.entries.length; i++){
-            textGroup.children.entries[i].setPosition(500, textGroup.children.entries[i].y)
+            textGroup.children.entries[i].setPosition(500*scale, textGroup.children.entries[i].y)
         }
     }
 }
