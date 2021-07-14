@@ -13,6 +13,10 @@ class PauseMenu extends Phaser.Scene{
     constructor(){
         super("PauseMenu")
     }
+    preload(){
+        //loading all the sprites for use in the scene
+        this.load.spritesheet("ui-button-white", "ui-button/ui-button-white.png", {frameWidth:190,frameHeight:49})
+    }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
@@ -26,11 +30,11 @@ class PauseMenu extends Phaser.Scene{
 
         //creating the buttons. One will resume the level when pressed, the other will return the player to the main menu
         this.buttons = this.add.group()
-        this.resumeButton = createNewButton(this, this.buttons, {x:400,y:300,w:250,h:50}, this.gameScale, {text: "Resume", font: "50px Arial", fill: "#000000"}, 0xffffff, resume, this)
+        this.resumeButton = createNewButton(this, this.buttons, {x:400,y:300,w:250,h:50}, this.gameScale, {text: "Resume", font: "50px Arial", fill: "#000000"}, 0xffffff, resume, this, "ui-button-white")
         if(parseInt(currentScene[5])){
-            this.restartButton = createNewButton(this, this.buttons, {x:400,y:400,w:250,h:50}, this.gameScale, {text: "Restart Level", font: "40px Arial", fill: "#000000"}, 0xffffff, restartLevel, this)
+            this.restartButton = createNewButton(this, this.buttons, {x:400,y:400,w:250,h:50}, this.gameScale, {text: "Restart Level", font: "40px Arial", fill: "#000000"}, 0xffffff, restartLevel, this, "ui-button-white")
         }
-        this.menuButton = createNewButton(this, this.buttons, {x:400,y:500,w:250,h:50}, this.gameScale, {text: "Go to Menu", font: "44px Arial", fill: "#000000"}, 0xffffff, goToMenu, this)
+        this.menuButton = createNewButton(this, this.buttons, {x:400,y:500,w:250,h:50}, this.gameScale, {text: "Go to Menu", font: "44px Arial", fill: "#000000"}, 0xffffff, goToMenu, this, "ui-button-white")
     }
     update(){
         //checks for button presses in the buttons group

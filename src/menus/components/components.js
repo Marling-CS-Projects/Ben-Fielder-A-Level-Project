@@ -1,8 +1,31 @@
 //create a new button. It has a function and value to call if the button is pressed
-export function createNewButton(game, group, info, scale, text, colour, callFunction, callValue){
-    let button = game.add.rectangle(info.x, info.y, info.w, info.h, colour)
-    button.setPosition(button.x*scale, button.y*scale)
-    button.setDisplaySize(button.width*scale, button.height*scale)
+export function createNewButton(game, group, info, scale, text, colour, callFunction, callValue, sprite){
+    let button
+    if(sprite){
+        button = game.add.sprite(info.x*scale, info.y*scale, sprite)
+        button.setDisplaySize(info.w*scale, info.h*scale)
+        game.anims.create({
+            key: "off"+sprite,
+            frames: [{key: sprite, frame:0}],
+            frameRate: 5,
+        })
+        game.anims.create({
+            key: "over"+sprite,
+            frames: [{key: sprite, frame:1}],
+            frameRate: 5,
+        })
+        game.anims.create({
+            key: "down"+sprite,
+            frames: [{key: sprite, frame:2}],
+            frameRate: 5,
+        })
+        button.sprite = sprite
+    }
+    else{
+        button = game.add.rectangle(info.x*scale, info.y*scale, info.w*scale, info.h*scale, colour)
+    }
+    button.w = info.w*scale
+    button.h = info.h*scale
     button.text = game.add.text(info.x, info.y, text.text, {font: text.font, fill: text.fill}).setOrigin(0.5, 0.5)
     button.text.setPosition(button.text.x*scale, button.text.y*scale)
     button.text.setDisplaySize(button.text.width*scale, button.text.height*scale)

@@ -17,6 +17,10 @@ class MainMenu extends Phaser.Scene{
     constructor(){
         super("MainMenu")
     }
+    preload(){
+        //loading all the sprites for use in the scene
+        this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+    }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
@@ -27,10 +31,10 @@ class MainMenu extends Phaser.Scene{
 
         //create the buttons for new game, load game, minigame and to see the controls
         this.buttons = this.add.group()
-        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, this.gameScale, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this)
-        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, this.gameScale, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this)
-        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, this.gameScale, {text:"Minigames", font: "50px Arial", fill: "#00ff00"}, 0xff0000, openMinigames, this)
-        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, this.gameScale, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this)
+        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, this.gameScale, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this, "ui-button")
+        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, this.gameScale, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this, "ui-button")
+        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, this.gameScale, {text:"Minigames", font: "50px Arial", fill: "#00ff00"}, 0xff0000, openMinigames, this, "ui-button")
+        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, this.gameScale, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)
@@ -38,6 +42,9 @@ class MainMenu extends Phaser.Scene{
     update(){
         //checks for button presses in the buttons group
         checkButtonPress(this, this.buttons)
+    }
+    continueGame(){
+        this.scene.start("LevelSelect")
     }
 }
 

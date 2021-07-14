@@ -27,6 +27,11 @@ class LevelSelect extends Phaser.Scene{
             this.levelsComplete = 0
         }
     }
+    preload(){
+        //loading all the sprites for use in the scene
+        this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+        this.load.spritesheet("ui-button-green", "ui-button/ui-button-green.png", {frameWidth: 49, frameHeight: 49})
+    }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
@@ -42,7 +47,7 @@ class LevelSelect extends Phaser.Scene{
         //creating the buttons to select the levels
         let i = 0
         for(i; i < this.levelsComplete+1; i++){
-            let button = createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:(i+1).toString(), font: "50px Arial", fill: "#0000ff"}, 0x00ff00, loadLevel, {game:this, levelToStart:i+1})
+            let button = createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:(i+1).toString(), font: "50px Arial", fill: "#0000ff"}, 0x00ff00, loadLevel, {game:this, levelToStart:i+1}, "ui-button-green")
             button.level = i + 1
         }
 
@@ -53,7 +58,7 @@ class LevelSelect extends Phaser.Scene{
 
         //creating a back button to return to the main menu
         this.uiButtons = this.add.group()
-        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this)
+        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)

@@ -13,6 +13,9 @@ class ControlsMenu extends Phaser.Scene{
     constructor(){
         super("ControlsMenu")
     }
+    preload(){
+        this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+    }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
@@ -30,7 +33,7 @@ class ControlsMenu extends Phaser.Scene{
 
         //creating a back button to return to the main menu
         this.uiButtons = this.add.group()
-        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this)
+        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)
