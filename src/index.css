@@ -2,3 +2,15 @@ canvas{
     margin-left: 10px;
     margin-right: 10px;
 }
+
+#game{
+    text-align: center;
+}
+
+#game1{
+    display: inline;
+}
+
+#game2{
+    display: inline;
+}

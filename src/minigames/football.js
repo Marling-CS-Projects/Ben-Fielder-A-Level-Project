@@ -17,11 +17,30 @@ class Football extends Phaser.Scene{
     constructor(){
         super("Football")
     }
+    preload(){
+        //loading all the sprites for use in the level
+        this.load.image("player", "player/stand.png")
+        this.load.image("player1l", "player/walk1l.png")
+        this.load.image("player1r", "player/walk1r.png")
+        this.load.image("player2l", "player/walk2l.png")
+        this.load.image("player2r", "player/walk2r.png")
+
+        this.load.image("grass", "ground/grass.png")
+        this.load.image("grass-wall", "ground/grass-wall.png")
+
+        this.load.image("football", "football/football.png")
+        
+        this.load.image("goal", "football/goal.png")
+
+        this.load.image("background", "background/grass.png")
+    }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
         let game = this
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.add.sprite(400*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale)
         
         //this is the socket.io reference
         this.socket = io()
@@ -32,12 +51,12 @@ class Football extends Phaser.Scene{
         //creating the platforms group and platforms
         this.platforms = this.add.group()
         let platformData = [{x:400,y:575,w:800,h:50},{x:-5,y:400,w:10,h:1000},{x:805,y:400,w:10,h:1000},{x:400,y:-5,w:800,h:10}]
-        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale, "grass")
 
         //creating the goals
         this.goals = this.add.group()
-        this.redGoal = createNewGoal(this, this.goals, {x:790, y:500}, this.gameScale)
-        this.blueGoal = createNewGoal(this, this.goals, {x:10, y:500}, this.gameScale)
+        this.redGoal = createNewGoal(this, this.goals, {x:790, y:500}, this.gameScale, "goal", true)
+        this.blueGoal = createNewGoal(this, this.goals, {x:10, y:500}, this.gameScale, "goal", false)
 
         //setting the team scores
         this.redScore = 0
@@ -67,14 +86,14 @@ class Football extends Phaser.Scene{
         this.socket.on("currentPlayers-fb", (players)=>{
             //create a sqaure for each player currently playing
             Object.keys(players).forEach((id)=>{
-                createNewPlayer(game, game.players, players[id], this.gameScale)
+                createNewPlayer(game, game.players, players[id], this.gameScale, "player")
             })
         })
   
         //event called when "new player" is triggered
         this.socket.on("newPlayer-fb", (playerInfo)=>{
             //create a square for a new player joining
-            createNewPlayer(game, game.players, playerInfo, this.gameScale)
+            createNewPlayer(game, game.players, playerInfo, this.gameScale, "player")
         })
 
         //event called when "player updates" is triggered
@@ -84,6 +103,8 @@ class Football extends Phaser.Scene{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
                         player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
+                        player.anims.play(players[id].animation, true)
+                        player.flipX = players[id].flip
                     }
                 })
             })
@@ -95,7 +116,9 @@ class Football extends Phaser.Scene{
             if(!game.player){return}
             //create a new star if one doesn't exist otherwise update its position
             if(!game.ball){
-                game.ball = game.add.circle(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale, 18*this.gameScale, 0xffff00)
+                //game.ball = game.add.circle(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale, 18*this.gameScale, 0xffff00)
+                game.ball = game.add.sprite(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale, "football")
+                game.ball.setDisplaySize(36*this.gameScale, 36*this.gameScale)
             }
             else{
                 game.ball.setPosition(ballLocation.x*this.gameScale, ballLocation.y*this.gameScale)

@@ -19,6 +19,9 @@ const generator = require("project-name-generator")
 //serving all files in the build folder
 app.use(express.static(__dirname + "/build"))
 
+//serving the assets folder so I can use the sprites in the game
+app.use(express.static(__dirname + "/assets"))
+
 //setting the default html page of the website as the index.html from the react app build
 app.get("/", (req,res)=>{
     res.sendFile(__dirname + '/build/index.html')

@@ -59,9 +59,11 @@ export function moveEnemies(game){
         if(!enemy.seekPlayer){
             if(enemy.x <= enemy.patrolPath.x1){
                 enemy.body.setVelocityX(enemy.moveSpeed)
+                enemy.flipX = true
             }
             else if(enemy.x >= enemy.patrolPath.x2){
                 enemy.body.setVelocityX(-enemy.moveSpeed)
+                enemy.flipX = false
             }
         }
     })
@@ -74,14 +76,26 @@ export function checkEnemyDistanceToPlayer(game, scale){
         game.players.children.entries.forEach((player)=>{
             let distanceToPlayer = player.x-enemy.x
             let distanceToPlayerSpawn = player.origin.x-enemy.x
-            if(Math.abs(distanceToPlayer) < 150*scale && enemy.y === player.safePos.y && (Math.abs(distanceToPlayerSpawn) > 75*scale || enemy.y !== player.origin.y)){
+            let sameLevel
+            let nearPlayerSpawn
+            if(enemy.y > 1000){
+                sameLevel = Number.parseFloat(enemy.y).toPrecision(2) === Number.parseFloat(player.safePos.y).toPrecision(2)
+                nearPlayerSpawn = Number.parseFloat(enemy.y).toPrecision(2) === Number.parseFloat(player.origin.y).toPrecision(2)
+            }
+            else{
+                sameLevel = Number.parseFloat(enemy.y).toPrecision(1) === Number.parseFloat(player.safePos.y).toPrecision(1)
+                nearPlayerSpawn = Number.parseFloat(enemy.y).toPrecision(1) === Number.parseFloat(player.origin.y).toPrecision(1)
+            }
+            if(Math.abs(distanceToPlayer) < 150*scale && sameLevel && (Math.abs(distanceToPlayerSpawn) > 75*scale || !nearPlayerSpawn)){
                 enemy.seekPlayer = true
                 targetingPlayer = true
                 if(distanceToPlayer > 0){
                     enemy.body.setVelocityX(enemy.moveSpeed)
+                    enemy.flipX = true
                 }
                 else{
                     enemy.body.setVelocityX(-enemy.moveSpeed)
+                    enemy.flipX = false
                 }
                 return
             }
@@ -93,9 +107,9 @@ export function checkEnemyDistanceToPlayer(game, scale){
 }
 
 //move the exit door to stay on the platform
-export function moveExitDoor(game){
+export function moveExitDoor(game, scale){
     game.exitDoors.children.entries.forEach((exitDoor)=>{
-        exitDoor.setPosition(exitDoor.floor.x, exitDoor.floor.y-50)
+        exitDoor.setPosition(exitDoor.floor.x, exitDoor.floor.y-62*scale)
         exitDoor.playerCount = 0
     })
 }
@@ -112,8 +126,8 @@ export function checkTrap(game, trap, createPlatformsFunction1, createPlatformsF
     }
     else if(trap.trigger.on){
         trap.initialised = true
-        createPlatformsFunction1(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms)
-        createPlatformsFunction2(trap.trapPlatforms)
+        createPlatformsFunction1(game, trap.trapPlatformsPhysicsGroup, trap.trapPlatforms, game.gameScale, trap.sprite, trap.sprite+"-wall")
+        createPlatformsFunction2({platforms:trap.trapPlatforms,sprite:trap.sprite})
     }
 }
 
@@ -135,4 +149,19 @@ export function checkPlayersAtExit(game){
     if(playersAtExit >= 2){
         return true
     }
+}
+
+export function checkButtonAnim(game){
+    game.buttons.children.entries.forEach((button)=>{
+        if(button.anims){
+            if(button.on){
+                button.anims.play("on", true)
+                button.animation = "on"
+            }
+            else{
+                button.anims.play("off", true)
+                button.animation = "off"
+            }
+        }
+    })
 }

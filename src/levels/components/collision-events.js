@@ -7,13 +7,27 @@ export function handleButtonPress(obj1, button){
 export function handleLeverPress(player, lever){
     if(player.interactionKey.isDown && !player.interactionKey.pressed){
         player.interactionKey.pressed = true
-        if(Math.round(lever.rotation,5) === Math.round(45*Math.PI/180,5)){
-            lever.setRotation(-45*Math.PI/180)
-            lever.on = false
+        if(lever.anims){
+            if(lever.on){
+                lever.on = false
+                lever.animation = "lever-off"
+                lever.anims.play("lever-off", true)
+            }
+            else{
+                lever.on = true
+                lever.animation = "lever-on"
+                lever.anims.play("lever-on", true)
+            }
         }
         else{
-            lever.setRotation(45*Math.PI/180)
-            lever.on = true
+            if(Math.round(lever.rotation,5) === Math.round(45*Math.PI/180,5)){
+                lever.setRotation(-45*Math.PI/180)
+                lever.on = false
+            }
+            else{
+                lever.setRotation(45*Math.PI/180)
+                lever.on = true
+            }
         }
     }
 }

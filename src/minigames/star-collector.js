@@ -18,11 +18,30 @@ class StarCollector extends Phaser.Scene{
     constructor(){
         super("StarCollector")
     }
+    preload(){
+        //loading all the sprites for use in the level
+        this.load.image("player", "player/stand.png")
+        this.load.image("player1l", "player/walk1l.png")
+        this.load.image("player1r", "player/walk1r.png")
+        this.load.image("player2l", "player/walk2l.png")
+        this.load.image("player2r", "player/walk2r.png")
+
+        this.load.image("grass", "ground/grass.png")
+        this.load.image("grass-wall", "ground/grass-wall.png")
+
+        this.load.image("star", "star-collector/star.png")
+
+        this.load.image("background", "background/grass.png")
+    }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
         let game = this
 
         this.gameScale = this.scale.canvas.width/800
+
+        for(let i = 0; i < Math.ceil(1600/1024); i++){
+            this.add.sprite((512+i*1024)*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale)
+        }
         
         //this is the socket.io reference
         this.socket = io()
@@ -36,7 +55,7 @@ class StarCollector extends Phaser.Scene{
             {x:100,y:450,w:200,h:50},{x:675,y:450,w:150,h:50},{x:1150,y:450,w:200,h:50},{x:1375,y:400,w:150,h:50},
             {x:350,y:325,w:200,h:50},{x:175,y:175,w:100,h:50},{x:650,y:175,w:300,h:50},{x:950,y:100,w:50,h:50},
             {x:900,y:375,w:200,h:50},{x:1150,y:225,w:200,h:50},{x:1450,y:175,w:300,h:50}]
-        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale, "grass")
 
         //the list of current scores
         this.currentScores = []
@@ -65,16 +84,16 @@ class StarCollector extends Phaser.Scene{
         this.socket.on("currentPlayers-sc", (players)=>{
             //create a sqaure for each player currently playing
             Object.keys(players).forEach((id)=>{
-                createNewPlayer(game, game.players, players[id], this.gameScale)
+                createNewPlayer(game, game.players, players[id], this.gameScale, "player")
             })
         })
-  
+
         //event called when "new player" is triggered
         this.socket.on("newPlayer-sc", (playerInfo)=>{
             //create a square for a new player joining
-            createNewPlayer(game, game.players, playerInfo, this.gameScale)
+            createNewPlayer(game, game.players, playerInfo, this.gameScale, "player")
         })
-  
+
         //event called when "player updates" is triggered
         this.socket.on("playerUpdates-sc", (players)=>{
             //set the current position of all players
@@ -82,6 +101,8 @@ class StarCollector extends Phaser.Scene{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
                         player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
+                        player.anims.play(players[id].animation, true)
+                        player.flipX = players[id].flip
                     }
                 })
             })
@@ -91,7 +112,9 @@ class StarCollector extends Phaser.Scene{
         this.socket.on('starLocation-sc', (starLocation)=>{
             //create a new star if one doesn't exist otherwise update its position
             if(!game.star){
-                game.star = game.add.star(starLocation.x*this.gameScale, starLocation.y*this.gameScale, 5, 10*this.gameScale, 20*this.gameScale, 0xffff00)
+                //game.star = game.add.star(starLocation.x*this.gameScale, starLocation.y*this.gameScale, 5, 10*this.gameScale, 20*this.gameScale, 0xffff00)
+                game.star = game.add.sprite(starLocation.x*this.gameScale, starLocation.y*this.gameScale, "star")
+                game.star.setDisplaySize(33*this.gameScale, 33*this.gameScale)
             }
             else{
                 game.star.setPosition(starLocation.x*this.gameScale, starLocation.y*this.gameScale)

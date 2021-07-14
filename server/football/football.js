@@ -76,7 +76,9 @@ function create(){
             up: false,
             interaction: false
           },
-          team: (Math.floor(Math.random() * 2) === 0) ? "red" : "blue"
+          team: (Math.floor(Math.random() * 2) === 0) ? "red" : "blue",
+          animation: "rest",
+          flip: false
         }
         //add the player to the game
         addPlayer(game, players[socket.id])

@@ -33,13 +33,13 @@ class Game1 extends React.Component{
         initialize: true,
         game: {
             type: Phaser.AUTO,
-            parent: 'phaser-example',
+            parent: 'game1',
             width: (window.innerWidth/2-50),
             height: ((window.innerWidth/2-50)*(600/800)),
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 300 },
+                    gravity: { y: 300 * ((window.innerWidth/2-50)/800) },
                     debug: false
                 }
             },

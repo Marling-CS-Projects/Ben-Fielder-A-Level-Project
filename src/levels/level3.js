@@ -4,11 +4,11 @@ import Phaser from "phaser"
 //importing functions from other scripts
 import {createNewPlatforms, createNewPlayer, createNewKeys, createFollowCamera, createNewMovingPlatform, createNewButton, createNewLever, createNewSpikeSet, createNewEnemy, createNewExitDoor, createNewTrap, createNewGameText} from "./components/components"
 import {handleUserInput, checkInteractionKeyPress, checkPause} from "./components/controls"
-import {checkEnemyDistanceToPlayer, checkPlayersAtExit, checkTrap, moveEnemies, moveExitDoor, moveMovingPlatforms, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
+import {checkButtonAnim, checkEnemyDistanceToPlayer, checkPlayersAtExit, checkTrap, moveEnemies, moveExitDoor, moveMovingPlatforms, resetButtonValues, resetPlayerAtExit} from "./components/frame-events"
 import {handleButtonPress, handleEnemyCollision, handleExitDoorCollision, handleLeverPress, handleSpikeCollision, setSafePlayerPosition} from "./components/collision-events"
 
 //importing functions from game 2 in order to communicate with it
-import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, upadateLeverRotation, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, addTrapPlatforms, setGameTextData } from "../game2"
+import {setBoxData, setButtonData, setCameraBounds, setEnemyData, setExitDoorData, setLeverData, setMovingPlatformData, setPlatformData, setPlayerData, setSpikeData, updateLeverRotation, updateEnemyPosition, updateExitDoorPosition, updateMovingPlatformPositions, updatePlayerPositions, restartScene, addTrapPlatforms, setGameTextData, updateButtonAnimation, setBackgroundData } from "../game2"
 
 //The function to call when the level is completed
 import { levelComplete } from "../saving/saving-system"
@@ -21,14 +21,45 @@ class Level3 extends Phaser.Scene{
     constructor(){
         super("Level3")
     }
+    preload(){
+        //loading all the sprites for use in the level
+        this.load.image("player", "player/stand.png")
+        this.load.image("player1r", "player/walk1r.png")
+        this.load.image("player2r", "player/walk2r.png")
+
+        this.load.image("buttonup", "button/buttonup.png")
+        this.load.image("buttondown", "button/buttondown.png")
+
+        this.load.spritesheet("lever", "lever/lever.png", {frameWidth:128, frameHeight:100})
+
+        this.load.image("spike", "spike/spike.png")
+
+        this.load.image("door", "door/door.png")
+
+        this.load.image("enemy1", "enemy/enemy1.png")
+        this.load.image("enemy2", "enemy/enemy2.png")
+
+        this.load.image("snow", "ground/snow.png")
+        this.load.image("snow-wall", "ground/snow-wall.png")
+
+        this.load.image("movingPlatform", "moving-platform/moving-platform.png")
+
+        this.load.image("background-ice", "background/ice.png")
+    }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
 
+        for(let i = 0; i < Math.ceil(1800/1024); i++){
+            this.add.sprite((512+i*1024)*this.gameScale, 350*this.gameScale, "background-ice").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
+        }
+        setBackgroundData("background-ice")
+
         //creating the players physics group and a player
         this.players = this.physics.add.group()
-        this.player1 = createNewPlayer(this, this.players, 50, 625, this.gameScale)
-        this.player2 = createNewPlayer(this, this.players, 1750, 625, this.gameScale)
+        this.player1 = createNewPlayer(this, this.players, 50, 625, this.gameScale, "player")
+        this.player2 = createNewPlayer(this, this.players, 1750, 625, this.gameScale, "player")
+        this.players.setDepth(1)
 
         //send player data to puppet scene
         setPlayerData([{x:50,y:625},{x:1750,y:625}])
@@ -36,24 +67,26 @@ class Level3 extends Phaser.Scene{
         //the platforms physics group
         this.platforms = this.physics.add.staticGroup()
 
+        this.walls = this.physics.add.staticGroup()
+
         //setting the platform data
         let platformData = [{x:900,y:675,w:1800,h:50},{x:-5,y:400,w:10,h:900},{x:1805,y:400,w:10,h:900},
             {x:625,y:450,w:150,h:50},{x:750,y:450,w:50,h:500},{x:1150,y:450,w:300,h:50},{x:675,y:200,w:200,h:50}]
 
         //Creating the platforms and attaching them to the platforms physics group
-        createNewPlatforms(this, this.platforms, platformData, this.gameScale)
+        createNewPlatforms(this, this.platforms, platformData, this.gameScale, "snow", "snow-wall", this.walls)
 
         //send the platform data to scene 2
-        setPlatformData(platformData)
+        setPlatformData({platforms:platformData, sprite:"snow"})
 
         //setting collider between the platforms and players which also sets a safe player position
         this.physics.add.collider(this.players, this.platforms, setSafePlayerPosition)
 
         //setting the buttons physics group and creating a button
         this.buttons = this.physics.add.staticGroup()
-        this.button1 = createNewButton(this, this.buttons, {x:200,y:650,w:25,h:10}, this.gameScale)
-        this.button2 = createNewButton(this, this.buttons, {x:1012,y:425,w:25,h:10}, this.gameScale)
-        this.button3 = createNewButton(this, this.buttons, {x:750,y:175,w:25,h:10}, this.gameScale)
+        this.button1 = createNewButton(this, this.buttons, {x:200,y:650,w:25,h:10}, this.gameScale, "buttonup")
+        this.button2 = createNewButton(this, this.buttons, {x:1012,y:425,w:25,h:10}, this.gameScale, "buttonup")
+        this.button3 = createNewButton(this, this.buttons, {x:750,y:175,w:25,h:10}, this.gameScale, "buttonup")
 
         //setting the colliders that trigger an event when a button is pressed
         this.physics.add.overlap(this.players, this.buttons, handleButtonPress)
@@ -63,8 +96,8 @@ class Level3 extends Phaser.Scene{
 
         //creating levers physics group and a lever
         this.levers = this.physics.add.staticGroup()
-        this.lever1 = createNewLever(this, this.levers, {x:1650,y:650,w:50,h:10}, this.gameScale)
-        this.lever2 = createNewLever(this, this.levers, {x:625,y:425,w:50,h:10}, this.gameScale)
+        this.lever1 = createNewLever(this, this.levers, {x:1650,y:650,w:50,h:10}, this.gameScale, "lever")
+        this.lever2 = createNewLever(this, this.levers, {x:625,y:425,w:50,h:10}, this.gameScale, "lever")
 
         //setting collsion event between players and levers
         this.physics.add.overlap(this.players, this.levers, handleLeverPress)
@@ -74,10 +107,10 @@ class Level3 extends Phaser.Scene{
 
         //moving platforms physics group and 2 moving platforms
         this.movingPlatforms = this.physics.add.group()
-        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:625,w:200,h:50}, {x:400,y:500}, {x:0,y:-1}, this.lever1, this.gameScale)
-        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:250,w:200,h:50}, {x:400,y:400}, {x:0,y:1}, this.button3, this.gameScale)
-        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:1450,y:625,w:200,h:50}, {x:1350,y:500}, {x:0,y:-1}, this.lever2, this.gameScale)
-        this.movingPlatform4 = createNewMovingPlatform(this, this.movingPlatforms, {x:875,y:400,w:150,h:50}, {x:875,y:200}, {x:0,y:-1}, this.button2, this.gameScale)
+        this.movingPlatform1 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:625,w:200,h:50}, {x:400,y:500}, {x:0,y:-1}, this.lever1, this.gameScale, "movingPlatform")
+        this.movingPlatform2 = createNewMovingPlatform(this, this.movingPlatforms, {x:400,y:250,w:200,h:50}, {x:400,y:400}, {x:0,y:1}, this.button3, this.gameScale, "movingPlatform")
+        this.movingPlatform3 = createNewMovingPlatform(this, this.movingPlatforms, {x:1450,y:625,w:200,h:50}, {x:1350,y:500}, {x:0,y:-1}, this.lever2, this.gameScale, "movingPlatform")
+        this.movingPlatform4 = createNewMovingPlatform(this, this.movingPlatforms, {x:875,y:400,w:150,h:50}, {x:875,y:200}, {x:0,y:-1}, this.button2, this.gameScale, "movingPlatform")
 
         //setting colliders
         this.physics.add.collider(this.players, this.movingPlatforms)
@@ -88,7 +121,7 @@ class Level3 extends Phaser.Scene{
 
         //creating the spikes physics group and 2 spike sets
         this.spikes = this.physics.add.staticGroup()
-        createNewSpikeSet(this, this.spikes, {x:800,y:650}, 16, this.gameScale)
+        createNewSpikeSet(this, this.spikes, {x:800,y:650}, 16, this.gameScale, "spike")
 
         //setting the colliders for colliders for spikes
         this.physics.add.collider(this.players, this.spikes, handleSpikeCollision)
@@ -98,19 +131,21 @@ class Level3 extends Phaser.Scene{
 
         //create the eniemies physics group and 2 enemies
         this.enemies = this.physics.add.group()
-        this.enemy1 = createNewEnemy(this, this.enemies, {x:1100,y:360}, 1275, 50, this.gameScale)
+        this.enemy1 = createNewEnemy(this, this.enemies, {x:1100,y:360}, 1275, 50, this.gameScale, "enemy1")
 
         //set colliders for enemies including an event for between players and enemies
         this.physics.add.collider(this.enemies, this.platforms)
         this.physics.add.overlap(this.players, this.enemies, handleEnemyCollision)
         this.physics.add.overlap(this.enemies, this.buttons, handleButtonPress)
+        this.physics.add.collider(this.enemies, this.walls)
 
         //send enemy data
         setEnemyData([{x:1100,y:360}])
 
         //creating the exit doors physics group and an exit door
         this.exitDoors = this.physics.add.group()
-        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:575,y:200}, this.platforms.children.entries[this.platforms.children.entries.length-1], this.gameScale)
+        this.exitDoor = createNewExitDoor(this, this.exitDoors, {x:575,y:200}, this.platforms.children.entries[this.platforms.children.entries.length-1], this.gameScale, "door")
+        this.exitDoors.setDepth(-1)
 
         //creating an overlap event bewtween the players and the door
         this.physics.add.overlap(this.players, this.exitDoors, handleExitDoorCollision)
@@ -119,7 +154,7 @@ class Level3 extends Phaser.Scene{
         setExitDoorData([{x:575,y:200}])
 
         //creating a trap
-        this.trap = createNewTrap(this, this.platforms, this.button1, [{x:140,y:550,w:50,h:200},{x:260,y:550,w:50,h:200}])
+        this.trap = createNewTrap(this, this.platforms, this.button1, [{x:140,y:550,w:50,h:200},{x:260,y:550,w:50,h:200}], "snow")
 
         //creating the game text for the level
         this.texts = this.add.group()
@@ -158,8 +193,9 @@ class Level3 extends Phaser.Scene{
         checkInteractionKeyPress(this)
         moveEnemies(this)
         checkEnemyDistanceToPlayer(this, this.gameScale)
-        moveExitDoor(this)
+        moveExitDoor(this, this.gameScale)
         checkTrap(this, this.trap, createNewPlatforms, addTrapPlatforms)
+        checkButtonAnim(this)
         this.levelComplete = checkPlayersAtExit(this)
 
         //checks whether to pause the game
@@ -178,7 +214,8 @@ class Level3 extends Phaser.Scene{
         //functions to send data to puppet scene
         updatePlayerPositions(this.players.children.entries)
         updateMovingPlatformPositions(this.movingPlatforms.children.entries)
-        upadateLeverRotation(this.levers.children.entries)
+        updateButtonAnimation(this.buttons.children.entries)
+        updateLeverRotation(this.levers.children.entries)
         updateEnemyPosition(this.enemies.children.entries)
         updateExitDoorPosition(this.exitDoors.children.entries)
     }

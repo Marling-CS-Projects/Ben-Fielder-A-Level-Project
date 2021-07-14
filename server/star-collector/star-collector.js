@@ -80,7 +80,9 @@ function create(){
             left: false,
             right: false,
             up: false
-          }
+          },
+          animation: "rest",
+          flip: false
         }
         //add the player to the game
         addPlayer(game, players[socket.id])

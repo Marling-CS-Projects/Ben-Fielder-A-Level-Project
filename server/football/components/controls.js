@@ -14,14 +14,20 @@ function handlePlayerInput(game, players, playerId, input) {
 function updatePlayerVelocity(game, players){
     game.players.getChildren().forEach((player) => {
         let input = players[player.playerId].input
+        let animation = ""
         if(input.left){
             player.body.setVelocityX(-100)
+            animation = "run"
+            players[player.playerId].flip = true
         }
         else if(input.right){
             player.body.setVelocityX(100)
+            animation = "run"
+            players[player.playerId].flip = false
         }
         else{
             player.body.setVelocityX(0)
+            animation = "rest"
         }
     
         if(input.up && player.body.touching.down){
@@ -30,5 +36,6 @@ function updatePlayerVelocity(game, players){
     
         players[player.playerId].x = player.x
         players[player.playerId].y = player.y
+        players[player.playerId].animation = animation
     })
 }
