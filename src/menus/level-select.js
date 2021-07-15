@@ -38,7 +38,7 @@ class LevelSelect extends Phaser.Scene{
 
         //Create the text for the title
         this.texts = this.add.group()
-        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text:"Level Selection", font: "75px Arial", fill: "#552eff"})
+        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text:"Level Selection", font: "75px Future", fill: "#552eff"})
 
         //creating the button physics groups
         this.levelButtons = this.add.group()
@@ -47,18 +47,18 @@ class LevelSelect extends Phaser.Scene{
         //creating the buttons to select the levels
         let i = 0
         for(i; i < this.levelsComplete+1; i++){
-            let button = createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:(i+1).toString(), font: "50px Arial", fill: "#0000ff"}, 0x00ff00, loadLevel, {game:this, levelToStart:i+1}, "ui-button-green")
+            let button = createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:(i+1).toString(), font: "40px Future", fill: "#0000ff"}, 0x00ff00, loadLevel, {game:this, levelToStart:i+1}, "ui-button-green")
             button.level = i + 1
         }
 
         //creating the black buttons for spaces where there would be levels that the user hasn't unlocked
         for(i; i < 5; i++){
-            createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:"", font: "50px Arial", fill: "#0000ff"}, 0x555555, null)
+            createNewButton(this, this.levelButtons, {x:80+i*160,y:300,w:50,h:50}, this.gameScale, {text:"", font: "40px Future", fill: "#0000ff"}, 0x555555, null)
         }
 
         //creating a back button to return to the main menu
         this.uiButtons = this.add.group()
-        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
+        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "40px Future", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)

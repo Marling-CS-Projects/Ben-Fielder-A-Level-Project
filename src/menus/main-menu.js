@@ -20,6 +20,11 @@ class MainMenu extends Phaser.Scene{
     preload(){
         //loading all the sprites for use in the scene
         this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+
+        //loading in the custom font (It only needs to be loaded here as it is the first scene to be opened)
+        new FontFace("Future", "url(fonts/Kenney_Future_Narrow.ttf)").load().then((font)=>{
+            document.fonts.add(font)
+        })
     }
     create(){
 
@@ -27,14 +32,14 @@ class MainMenu extends Phaser.Scene{
 
         //Create the text for the title
         this.texts = this.add.group()
-        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Menu", font: "75px Arial", fill: "#552eff"})
+        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Menu", font: "75px Future", fill: "#552eff"})
 
         //create the buttons for new game, load game, minigame and to see the controls
         this.buttons = this.add.group()
-        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, this.gameScale, {text:"New Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, restartSave, this, "ui-button")
-        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, this.gameScale, {text:"Load Game", font: "50px Arial", fill: "#00ff00"}, 0xff0000, continueGame, this, "ui-button")
-        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, this.gameScale, {text:"Minigames", font: "50px Arial", fill: "#00ff00"}, 0xff0000, openMinigames, this, "ui-button")
-        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, this.gameScale, {text:"Controls", font: "50px Arial", fill: "#00ff00"}, 0xff0000, seeControls, this, "ui-button")
+        this.newGameButton = createNewButton(this, this.buttons, {x:400, y:200, w:300, h:50}, this.gameScale, {text:"New Game", font: "40px Future", fill: "#00ff00"}, 0xff0000, restartSave, this, "ui-button")
+        this.startButton = createNewButton(this, this.buttons, {x:400, y:300, w:300, h:50}, this.gameScale, {text:"Load Game", font: "40px Future", fill: "#00ff00"}, 0xff0000, continueGame, this, "ui-button")
+        this.minigameButton = createNewButton(this, this.buttons, {x:400, y:400, w:300, h:50}, this.gameScale, {text:"Minigames", font: "40px Future", fill: "#00ff00"}, 0xff0000, openMinigames, this, "ui-button")
+        this.controlsButton = createNewButton(this, this.buttons, {x:400, y:500, w:300, h:50}, this.gameScale, {text:"Controls", font: "40px Future", fill: "#00ff00"}, 0xff0000, seeControls, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)

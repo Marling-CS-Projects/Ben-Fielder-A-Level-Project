@@ -275,7 +275,7 @@ export function createNewGameText(game, group, info, text, lines, scale){
                 word++
             }
         }
-        group.add(game.add.text(info.x*scale, (info.y+j*20)*scale, currentText, {font: "20px Arial", fill: "#552eff"}).setOrigin(0.5, 0.5))
+        group.add(game.add.text(info.x*scale, (info.y+j*20)*scale, currentText, {font: "20px Future", fill: "#552eff"}).setOrigin(0.5, 0.5))
     }
     
 }

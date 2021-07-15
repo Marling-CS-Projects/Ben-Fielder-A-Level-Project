@@ -2,7 +2,7 @@
 
 ### Credits for Assets
 
-Kenny - Background for levels 1, 2, 3 and 5, platforms, ineractable objects and enemies
+Kenny - Background for levels 1, 2, 3 and 5, platforms, ineractable objects, enemies and font
 
 PWL - Background for level 4
 

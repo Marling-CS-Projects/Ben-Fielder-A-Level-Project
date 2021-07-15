@@ -24,16 +24,16 @@ class MinigameMenu extends Phaser.Scene{
 
         //Create the text for the title
         this.texts = this.add.group()
-        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Choose Minigame", font: "50px Arial", fill: "#552eff"})
+        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Choose Minigame", font: "50px Future", fill: "#552eff"})
 
         //create the buttons for the mingames
         this.buttons = this.add.group()
-        this.starCollector = createNewButton(this, this.buttons, {x:400, y:250, w:300, h:50}, this.gameScale, {text:"Star Collector", font: "40px Arial", fill: "#00ff00"}, 0xff0000, startStarCollector, this, "ui-button")
-        this.football = createNewButton(this, this.buttons, {x:400, y:350, w:300, h:50}, this.gameScale, {text:"Football", font: "40px Arial", fill: "#00ff00"}, 0xff0000, startFootball, this, "ui-button")
+        this.starCollector = createNewButton(this, this.buttons, {x:400, y:250, w:300, h:50}, this.gameScale, {text:"Star Collector", font: "30px Future", fill: "#00ff00"}, 0xff0000, startStarCollector, this, "ui-button")
+        this.football = createNewButton(this, this.buttons, {x:400, y:350, w:300, h:50}, this.gameScale, {text:"Football", font: "40px Future", fill: "#00ff00"}, 0xff0000, startFootball, this, "ui-button")
 
         //creating a back button to return to the main menu
         this.uiButtons = this.add.group()
-        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "50px Arial", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
+        this.backButton = createNewButton(this, this.uiButtons, {x:600,y:500,w:150,h:50}, this.gameScale, {text:"Back", font: "40px Future", fill: "#00ff00"}, 0xff0000, returnToMenu, this, "ui-button")
 
         //restart the puppet scene and tell it not to run
         restartScene(false)
