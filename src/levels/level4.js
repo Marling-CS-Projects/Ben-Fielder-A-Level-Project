@@ -47,10 +47,15 @@ class Level4 extends Phaser.Scene{
         this.load.image("movingPlatform", "moving-platform/moving-platform.png")
 
         this.load.image("background-cave", "background/cave.png")
+
+        this.load.audio("dungeon", "music/dungeon.mp3")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.music = this.sound.add("dungeon")
+        this.music.play({loop:true})
 
         this.add.sprite(400*this.gameScale, 1100*this.gameScale, "background-cave").setDisplaySize(2200*this.gameScale, 2200*this.gameScale).setDepth(-2)
         setBackgroundData("background-cave")
@@ -215,7 +220,8 @@ class Level4 extends Phaser.Scene{
         //checks if the level has been completed
         if(this.levelComplete){
             levelComplete(4)
-            this.scene.start("LevelSelect")
+            this.music.stop()
+            this.scene.start("LevelSelect", {needToPlayMusic:true})
         }
 
         //functions to send data to puppet scene

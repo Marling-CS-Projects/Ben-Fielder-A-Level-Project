@@ -4,6 +4,7 @@ import Phaser from "phaser"
 import {IonPhaser} from "@ion-phaser/react"
 
 //importing the Menu scenes
+import PreloadScene from "./menus/preload-scene"
 import MainMenu from "./menus/main-menu"
 import LevelSelect from "./menus/level-select"
 import MinigameMenu from "./menus/minigame-menu"
@@ -44,8 +45,9 @@ class Game1 extends React.Component{
                 }
             },
             //This is where to add the scenes to the game.
-            //MainMenu is the first scene called as it is the first listed
+            //PreloadScene is the first scene called as it is the first listed
             scene: [
+                PreloadScene,
                 MainMenu,
                 LevelSelect,
                 MinigameMenu,

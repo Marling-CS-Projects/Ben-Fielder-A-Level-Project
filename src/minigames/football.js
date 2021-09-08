@@ -20,9 +20,7 @@ class Football extends Phaser.Scene{
     preload(){
         //loading all the sprites for use in the level
         this.load.image("player", "player/stand.png")
-        this.load.image("player1l", "player/walk1l.png")
         this.load.image("player1r", "player/walk1r.png")
-        this.load.image("player2l", "player/walk2l.png")
         this.load.image("player2r", "player/walk2r.png")
 
         this.load.image("grass", "ground/grass.png")
@@ -33,6 +31,8 @@ class Football extends Phaser.Scene{
         this.load.image("goal", "football/goal.png")
 
         this.load.image("background", "background/grass.png")
+
+        this.load.audio("intro", "music/intro.mp3")
     }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
@@ -40,10 +40,15 @@ class Football extends Phaser.Scene{
 
         this.gameScale = this.scale.canvas.width/800
 
-        this.add.sprite(400*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale)
+        //play the music
+        this.music = this.sound.add("intro")
+        this.music.play({loop:true})
+
+        this.add.sprite(400*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-1)
         
         //this is the socket.io reference
         this.socket = io()
+        console.log(this.socket)
 
         //creating the players group
         this.players = this.add.group()
@@ -63,8 +68,8 @@ class Football extends Phaser.Scene{
         this.blueScore = 0
 
         //creating the display text for the team scores
-        this.redScoreText = this.add.text(125*this.gameScale, 50*this.gameScale, "Red: " + this.redScore, {font: "60px Arial", fill: "#ff0000"}).setOrigin(0.5, 0.5)
-        this.blueScoreText = this.add.text(675*this.gameScale, 50*this.gameScale, "Blue: " + this.blueScore, {font: "60px Arial", fill: "#0000ff"}).setOrigin(0.5, 0.5)
+        this.redScoreText = this.add.text(125*this.gameScale, 50*this.gameScale, "Red: " + this.redScore, {font: "60px Future", fill: "#ff0000"}).setOrigin(0.5, 0.5)
+        this.blueScoreText = this.add.text(675*this.gameScale, 50*this.gameScale, "Blue: " + this.blueScore, {font: "60px Future", fill: "#0000ff"}).setOrigin(0.5, 0.5)
 
         //setting the camera bounds
         this.cameras.main.setBounds(0, 0, 800*this.gameScale, 600*this.gameScale)

@@ -47,10 +47,15 @@ class Level5 extends Phaser.Scene{
         this.load.image("movingPlatform", "moving-platform/moving-platform.png")
 
         this.load.image("background-shroom", "background/shroom.png")
+
+        this.load.audio("mushroom", "music/mushroom.mp3")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.music = this.sound.add("mushroom")
+        this.music.play({loop:true})
 
         for(let i = 0; i < Math.ceil(3200/1024); i++){
             this.add.sprite((512+i*1024)*this.gameScale, 400*this.gameScale, "background-shroom").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
@@ -233,7 +238,8 @@ class Level5 extends Phaser.Scene{
         //checks if the level has been completed
         if(this.levelComplete){
             levelComplete(5)
-            this.scene.start("LevelSelect")
+            this.music.stop()
+            this.scene.start("LevelSelect", {needToPlayMusic:true})
         }
 
         //functions to send data to puppet scene

@@ -17,10 +17,14 @@ class MinigameMenu extends Phaser.Scene{
     preload(){
         //loading all the sprites for use in the scene
         this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+
+        this.load.image("background", "background/grass.png")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.add.sprite(512*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
 
         //Create the text for the title
         this.texts = this.add.group()
@@ -46,11 +50,13 @@ class MinigameMenu extends Phaser.Scene{
 }
 
 function startStarCollector(game){
+    game.sound.stopAll()
     //start the star collector minigame scene
     game.scene.start("StarCollector")
 }
 
 function startFootball(game){
+    game.sound.stopAll()
     //start the football minigame scene
     game.scene.start("Football")
 }

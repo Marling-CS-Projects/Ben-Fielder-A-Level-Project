@@ -21,9 +21,7 @@ class StarCollector extends Phaser.Scene{
     preload(){
         //loading all the sprites for use in the level
         this.load.image("player", "player/stand.png")
-        this.load.image("player1l", "player/walk1l.png")
         this.load.image("player1r", "player/walk1r.png")
-        this.load.image("player2l", "player/walk2l.png")
         this.load.image("player2r", "player/walk2r.png")
 
         this.load.image("grass", "ground/grass.png")
@@ -32,12 +30,18 @@ class StarCollector extends Phaser.Scene{
         this.load.image("star", "star-collector/star.png")
 
         this.load.image("background", "background/grass.png")
+
+        this.load.audio("intro", "music/intro.mp3")
     }
     create(){
         //this is needed when writing code within socket events as "this" won't refer to the game
         let game = this
 
         this.gameScale = this.scale.canvas.width/800
+
+        //play the music
+        this.music = this.sound.add("intro")
+        this.music.play({loop:true})
 
         for(let i = 0; i < Math.ceil(1600/1024); i++){
             this.add.sprite((512+i*1024)*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale)
@@ -64,7 +68,7 @@ class StarCollector extends Phaser.Scene{
         this.cameras.main.setBounds(0, 0, 1600*this.gameScale, 600*this.gameScale)
 
         //creating the ui text
-        this.nameText = this.add.text(16*this.gameScale, 16*this.gameScale, "", { fontSize: "32px Arial", fill: '#0000ff' })
+        this.nameText = this.add.text(16*this.gameScale, 16*this.gameScale, "", { fontSize: "32px Future", fill: '#0000ff' })
         this.highscoreTexts = this.add.group()
         createHighScoreText(this, this.highscoreTexts, {x:500,y:16}, 5, this.gameScale)
 

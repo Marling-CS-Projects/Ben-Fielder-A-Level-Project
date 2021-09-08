@@ -21,14 +21,13 @@ class MainMenu extends Phaser.Scene{
         //loading all the sprites for use in the scene
         this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
 
-        //loading in the custom font (It only needs to be loaded here as it is the first scene to be opened)
-        new FontFace("Future", "url(fonts/Kenney_Future_Narrow.ttf)").load().then((font)=>{
-            document.fonts.add(font)
-        })
+        this.load.image("background", "background/grass.png")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.add.sprite(512*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
 
         //Create the text for the title
         this.texts = this.add.group()
@@ -47,9 +46,6 @@ class MainMenu extends Phaser.Scene{
     update(){
         //checks for button presses in the buttons group
         checkButtonPress(this, this.buttons)
-    }
-    continueGame(){
-        this.scene.start("LevelSelect")
     }
 }
 

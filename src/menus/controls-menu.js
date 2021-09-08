@@ -16,21 +16,25 @@ class ControlsMenu extends Phaser.Scene{
     preload(){
         //loading all the sprites for use in the scene
         this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
+
+        this.load.image("background", "background/grass.png")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.add.sprite(512*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
 
         //Create the text for the title
         this.texts = this.add.group()
         this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text:"Controls", font: "50px Future", fill: "#552eff"})
 
         //creating text to display the controls for the game
-        this.player1Text1 = createNewText(this, this.texts, {x:400,y:200}, this.gameScale, {text:"Player 1 controls: move left - left arrow, move right - right arrow,", font: "18px Future", fill: "#ffffff"})
-        this.player1Text2 = createNewText(this, this.texts, {x:400,y:225}, this.gameScale, {text:"jump - up arrow, interact - backslash", font: "18px Future", fill: "#ffffff"})
-        this.player2Text1 = createNewText(this, this.texts, {x:400,y:300}, this.gameScale, {text:"Player 2 controls: move left - A, move right - D,", font: "18px Future", fill: "#ffffff"})
-        this.player2Text2 = createNewText(this, this.texts, {x:400,y:325}, this.gameScale, {text:"jump - W, interact - E", font: "18px Future", fill: "#ffffff"})
-        this.UniversalText = createNewText(this, this.texts, {x:400,y:400}, this.gameScale, {text:"Universal controls: pause - P", font: "18px Future", fill: "#ffffff"})
+        this.player1Text1 = createNewText(this, this.texts, {x:400,y:200}, this.gameScale, {text:"Player 1 controls: move left - left arrow, move right - right arrow,", font: "18px Future", fill: "#000000"})
+        this.player1Text2 = createNewText(this, this.texts, {x:400,y:225}, this.gameScale, {text:"jump - up arrow, interact - backslash", font: "18px Future", fill: "#000000"})
+        this.player2Text1 = createNewText(this, this.texts, {x:400,y:300}, this.gameScale, {text:"Player 2 controls: move left - A, move right - D,", font: "18px Future", fill: "#000000"})
+        this.player2Text2 = createNewText(this, this.texts, {x:400,y:325}, this.gameScale, {text:"jump - W, interact - E", font: "18px Future", fill: "#000000"})
+        this.UniversalText = createNewText(this, this.texts, {x:400,y:400}, this.gameScale, {text:"Universal controls: pause - P", font: "18px Future", fill: "#000000"})
 
         //creating a back button to return to the main menu
         this.uiButtons = this.add.group()

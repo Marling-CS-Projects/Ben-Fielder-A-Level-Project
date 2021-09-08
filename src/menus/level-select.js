@@ -15,7 +15,7 @@ class LevelSelect extends Phaser.Scene{
     constructor(){
         super("LevelSelect")
     }
-    init(){
+    init(data){
         //load the data from the save file
         let levelsComplete = load("levels-complete")
         //if the data exists then set the value of the save to a variable
@@ -26,15 +26,31 @@ class LevelSelect extends Phaser.Scene{
         else{
             this.levelsComplete = 0
         }
+
+        //check to see if music needs to be played
+        if(data){
+            this.needToPlayMusic = data.needToPlayMusic
+        }
     }
     preload(){
         //loading all the sprites for use in the scene
         this.load.spritesheet("ui-button", "ui-button/ui-button.png", {frameWidth: 190, frameHeight: 49})
         this.load.spritesheet("ui-button-green", "ui-button/ui-button-green.png", {frameWidth: 49, frameHeight: 49})
+
+        this.load.image("background", "background/grass.png")
+
+        this.load.audio("worldmap", "music/worldmap.mp3")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        if(this.needToPlayMusic){
+            this.music = this.sound.add("worldmap")
+            this.music.play({loop:true})
+        }
+
+        this.add.sprite(512*this.gameScale, 300*this.gameScale, "background").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
 
         //Create the text for the title
         this.texts = this.add.group()
@@ -72,6 +88,7 @@ class LevelSelect extends Phaser.Scene{
 }
 
 function loadLevel(obj){
+    obj.game.sound.stopAll()
     //load the level corresponding to the button pressed
     obj.game.scene.start("Level"+obj.levelToStart.toString())
 }

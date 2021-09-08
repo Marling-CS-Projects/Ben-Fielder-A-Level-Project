@@ -26,7 +26,7 @@ class PauseMenu extends Phaser.Scene{
 
         //creating the title text
         this.texts = this.add.group()
-        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Game Paused", font: "75px Arial", fill: "#552eff"})
+        this.titleText = createNewText(this, this.texts, {x:400,y:100}, this.gameScale, {text: "Game Paused", font: "75px Future", fill: "#552eff"})
 
         //creating the buttons. One will resume the level when pressed, the other will return the player to the main menu
         this.buttons = this.add.group()
@@ -50,13 +50,16 @@ function resume(game){
 
 //function to restart the current level
 function restartLevel(game){
+    game.sound.stopAll()
     game.scene.start(currentScene)
 }
 
-//function to go to the main menu. Stops the current level and starts the main menu scene
+//function to go to the main menu. Stops the current level and reloads the page.
 function goToMenu(game){
+    game.sound.stopAll()
     game.scene.stop(currentScene)
-    game.scene.start("MainMenu")
+    game.scene.stop("PauseMenu")
+    // game.scene.start("PreloadScene")
     // eslint-disable-next-line no-restricted-globals
     location.reload()
 }

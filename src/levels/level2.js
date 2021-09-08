@@ -45,10 +45,15 @@ class Level2 extends Phaser.Scene{
         this.load.image("movingPlatform", "moving-platform/moving-platform.png")
 
         this.load.image("background-desert", "background/desert.png")
+        
+        this.load.audio("desert", "music/desert.mp3")
     }
     create(){
 
         this.gameScale = this.scale.canvas.width/800
+
+        this.music = this.sound.add("desert")
+        this.music.play({loop:true})
 
         for(let i = 0; i < Math.ceil(1800/1024); i++){
             this.add.sprite((512+i*1024)*this.gameScale, 300*this.gameScale, "background-desert").setDisplaySize(1024*this.gameScale, 1024*this.gameScale).setDepth(-2)
@@ -202,7 +207,8 @@ class Level2 extends Phaser.Scene{
         //checks if the level has been completed
         if(this.levelComplete){
             levelComplete(2)
-            this.scene.start("LevelSelect")
+            this.music.stop()
+            this.scene.start("LevelSelect", {needToPlayMusic:true})
         }
 
         //functions to send data to puppet scene

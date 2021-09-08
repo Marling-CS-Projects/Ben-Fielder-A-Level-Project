@@ -19,7 +19,7 @@ export function createNewPlatforms(game, group, platformData, scale, sprite){
 //create the highscore text for the star collector minigame
 export function createHighScoreText(game, group, info, count, scale){
   for(let i = 0; i < count; i++){
-    group.add(game.add.text(info.x*scale, info.y+i*20*scale, "", {font: "16px Arial", fill: "#ff0000"}))
+    group.add(game.add.text(info.x*scale, info.y+i*20*scale, "", {font: "16px Future", fill: "#ff0000"}))
   }
 }
 
