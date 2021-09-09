@@ -27,8 +27,6 @@ import Football from "./minigames/football"
 ****  and then restarts game2 which gives the impression
 *///  that game2 has changed scenes as well.
 
-//This line is so I can make another commit
-
 //Class to initialise the Phaser game
 class Game1 extends React.Component{
     //Phaser configuration

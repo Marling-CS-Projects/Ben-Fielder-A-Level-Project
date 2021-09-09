@@ -68,7 +68,7 @@ class StarCollector extends Phaser.Scene{
         this.cameras.main.setBounds(0, 0, 1600*this.gameScale, 600*this.gameScale)
 
         //creating the ui text
-        this.nameText = this.add.text(16*this.gameScale, 16*this.gameScale, "", { fontSize: "32px Future", fill: '#0000ff' })
+        this.nameText = this.add.text(16*this.gameScale, 16*this.gameScale, "", { font: "32px Future", fill: '#0000ff' })
         this.highscoreTexts = this.add.group()
         createHighScoreText(this, this.highscoreTexts, {x:500,y:16}, 5, this.gameScale)
 
