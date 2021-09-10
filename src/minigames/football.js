@@ -48,7 +48,6 @@ class Football extends Phaser.Scene{
         
         //this is the socket.io reference
         this.socket = io()
-        console.log(this.socket)
 
         //creating the players group
         this.players = this.add.group()
