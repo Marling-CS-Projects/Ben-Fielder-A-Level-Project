@@ -2,8 +2,8 @@
 
 ## Build instructions
 
-Run the command ```bash npm run start-game ``` to build the project and host it on a local server.
-If you have a build, you can run ```bash node index ``` or ```bash npm run host-game ``` to host the current build.
+Run the command ```npm run start-game``` to build the project and host it on a local server.
+If you have a build, you can run ```node index``` or ```npm run host-game``` to host the current build.
 
 ## Playing the Game
 
