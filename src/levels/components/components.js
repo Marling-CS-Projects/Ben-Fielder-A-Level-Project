@@ -82,7 +82,7 @@ export function createNewKeys(game){
     game.player1.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
     game.player1.right = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     game.player1.up = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-    game.player1.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACK_SLASH)
+    game.player1.interactionKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
     game.player1.interactionKey.pressed = false
 
     game.player2.left = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)

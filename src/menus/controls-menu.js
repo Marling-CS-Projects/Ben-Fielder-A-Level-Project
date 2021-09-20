@@ -31,7 +31,7 @@ class ControlsMenu extends Phaser.Scene{
 
         //creating text to display the controls for the game
         this.player1Text1 = createNewText(this, this.texts, {x:400,y:200}, this.gameScale, {text:"Player 1 controls: move left - left arrow, move right - right arrow,", font: "18px Future", fill: "#000000"})
-        this.player1Text2 = createNewText(this, this.texts, {x:400,y:225}, this.gameScale, {text:"jump - up arrow, interact - backslash", font: "18px Future", fill: "#000000"})
+        this.player1Text2 = createNewText(this, this.texts, {x:400,y:225}, this.gameScale, {text:"jump - up arrow, interact - enter", font: "18px Future", fill: "#000000"})
         this.player2Text1 = createNewText(this, this.texts, {x:400,y:300}, this.gameScale, {text:"Player 2 controls: move left - A, move right - D,", font: "18px Future", fill: "#000000"})
         this.player2Text2 = createNewText(this, this.texts, {x:400,y:325}, this.gameScale, {text:"jump - W, interact - E", font: "18px Future", fill: "#000000"})
         this.UniversalText = createNewText(this, this.texts, {x:400,y:400}, this.gameScale, {text:"Universal controls: pause - P", font: "18px Future", fill: "#000000"})
