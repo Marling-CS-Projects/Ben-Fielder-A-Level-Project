@@ -23,9 +23,12 @@ class Level3 extends Phaser.Scene{
     }
     preload(){
         //loading all the sprites for use in the level
-        this.load.image("player", "player/stand.png")
-        this.load.image("player1r", "player/walk1r.png")
-        this.load.image("player2r", "player/walk2r.png")
+        this.load.image("p1", "player/stand.png")
+        this.load.image("p1run1", "player/walk1r.png")
+        this.load.image("p1run2", "player/walk2r.png")
+        this.load.image("p2", "player/p2-stand.png")
+        this.load.image("p2run1", "player/p2-walk1.png")
+        this.load.image("p2run2", "player/p2-walk2.png")
 
         this.load.image("buttonup", "button/buttonup.png")
         this.load.image("buttondown", "button/buttondown.png")
@@ -62,8 +65,8 @@ class Level3 extends Phaser.Scene{
 
         //creating the players physics group and a player
         this.players = this.physics.add.group()
-        this.player1 = createNewPlayer(this, this.players, 50, 625, this.gameScale, "player")
-        this.player2 = createNewPlayer(this, this.players, 1750, 625, this.gameScale, "player")
+        this.player1 = createNewPlayer(this, this.players, 50, 625, this.gameScale, "p1")
+        this.player2 = createNewPlayer(this, this.players, 1750, 625, this.gameScale, "p2")
         this.players.setDepth(1)
 
         //send player data to puppet scene

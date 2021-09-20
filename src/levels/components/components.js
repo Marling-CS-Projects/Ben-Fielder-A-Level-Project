@@ -33,21 +33,39 @@ export function createNewPlatforms(game, physicsGroup, platformData, scale, spri
 //creating a new player and returning it
 export function createNewPlayer(game, physicsGroup, x, y, scale, sprite){
     let player
-    if(sprite){
+    if(sprite === "p1"){
         player = game.add.sprite(x*scale, y*scale, sprite)
         player.setDisplaySize(50*scale, 50*scale)
         game.anims.create({
-            key: "run",
-            frames: [{key: "player1r"}, {key: "player2r"}],
+            key: "run1",
+            frames: [{key: "p1run1"}, {key: "p1run2"}],
             frameRate: 5,
             repeat: -1
         })
         game.anims.create({
-            key: "rest",
-            frames: [{key: "player"}],
+            key: "rest1",
+            frames: [{key: "p1"}],
             frameRate: 20
         })
-        player.animation = "rest"
+        player.animation = "rest1"
+        player.playerNum = "1"
+    }
+    else if(sprite === "p2"){
+        player = game.add.sprite(x*scale, y*scale, sprite)
+        player.setDisplaySize(50*scale, 50*scale)
+        game.anims.create({
+            key: "run2",
+            frames: [{key: "p2run1"}, {key: "p2run2"}],
+            frameRate: 5,
+            repeat: -1
+        })
+        game.anims.create({
+            key: "rest2",
+            frames: [{key: "p2"}],
+            frameRate: 20
+        })
+        player.animation = "rest2"
+        player.playerNum = "2"
     }
     else{
         player = game.add.rectangle(x*scale, y*scale, 50*scale, 50*scale, 0xff0000)

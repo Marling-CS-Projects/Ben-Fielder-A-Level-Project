@@ -4,24 +4,24 @@ export function handleUserInput(game, scale){
     if(player.left.isDown){
       player.body.setVelocityX(-100*scale)
       if(player.anims){
-        player.anims.play("run", true)
-        player.animation = "run"
+        player.anims.play("run"+player.playerNum, true)
+        player.animation = "run"+player.playerNum
         player.flipX = true
       }
     }
     else if(player.right.isDown){
       player.body.setVelocityX(100*scale)
       if(player.anims){
-        player.anims.play("run", true)
-        player.animation = "run"
+        player.anims.play("run"+player.playerNum, true)
+        player.animation = "run"+player.playerNum
         player.flipX = false
       }
     }
     else{
       player.body.setVelocityX(0)
       if(player.anims){
-        player.anims.play("rest", true)
-        player.animation = "rest"
+        player.anims.play("rest"+player.playerNum, true)
+        player.animation = "rest"+player.playerNum
       }
     }
     if(player.up.isDown && player.body.touching.down){
