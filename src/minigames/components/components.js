@@ -30,7 +30,6 @@ export function createNewPlayer(game, group, playerInfo, scale, sprite){
   if(playerInfo.team){
     if(playerInfo.team === "red"){
       //red team players are displayed as red
-      //player = game.add.rectangle(playerInfo.x*scale, playerInfo.y*scale, 50*scale, 50*scale, 0xff0000)
       player = game.add.sprite(playerInfo.x*scale, playerInfo.y*scale, sprite).setTint(0xff0000).setDisplaySize(50*scale, 50*scale)
     }
     else{
@@ -60,6 +59,9 @@ export function createNewPlayer(game, group, playerInfo, scale, sprite){
   player.playerId = playerInfo.playerId
   player.score = playerInfo.score
   player.name = playerInfo.name
+
+  player.nameText = game.add.text(playerInfo.x*scale, (playerInfo-50)*scale, player.name, {font: "12px Future", fill: "#000000"}).setOrigin(0.5, 0.5)
+
   if(player.playerId === game.socket.id){
     game.player = player
     game.cameras.main.startFollow(player)

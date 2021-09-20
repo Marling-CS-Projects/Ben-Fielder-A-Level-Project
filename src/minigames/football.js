@@ -77,7 +77,7 @@ class Football extends Phaser.Scene{
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-        this.interaction = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACK_SLASH)
+        this.interaction = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.pauseButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
 
         //restart game 2 and tell it not to run
@@ -107,6 +107,7 @@ class Football extends Phaser.Scene{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
                         player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
+                        player.nameText.setPosition(players[id].x*this.gameScale, (players[id].y-50)*this.gameScale)
                         player.anims.play(players[id].animation, true)
                         player.flipX = players[id].flip
                     }

@@ -105,6 +105,7 @@ class StarCollector extends Phaser.Scene{
                 game.players.getChildren().forEach((player)=>{
                     if(players[id].playerId === player.playerId){
                         player.setPosition(players[id].x*this.gameScale, players[id].y*this.gameScale)
+                        player.nameText.setPosition(players[id].x*this.gameScale, (players[id].y-50)*this.gameScale)
                         player.anims.play(players[id].animation, true)
                         player.flipX = players[id].flip
                     }
