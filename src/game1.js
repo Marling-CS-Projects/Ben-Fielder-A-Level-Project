@@ -10,6 +10,7 @@ import LevelSelect from "./menus/level-select"
 import MinigameMenu from "./menus/minigame-menu"
 import ControlsMenu from "./menus/controls-menu"
 import PauseMenu from "./menus/pause-menu"
+import CreditsMenu from "./menus/credits-menu"
 
 //importing the level scenes
 import Level1 from "./levels/level1"
@@ -52,6 +53,7 @@ class Game1 extends React.Component{
                 LevelSelect,
                 MinigameMenu,
                 ControlsMenu,
+                CreditsMenu,
                 PauseMenu,
                 Level1,
                 Level2,

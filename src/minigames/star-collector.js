@@ -139,6 +139,7 @@ class StarCollector extends Phaser.Scene{
             //remove the player who disconnected from the game
             game.players.getChildren().forEach((player)=>{
                 if(playerId === player.playerId){
+                    player.nameText.setText("")
                     player.destroy()
                 }
             })

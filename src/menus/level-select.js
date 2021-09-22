@@ -10,7 +10,7 @@ import { restartScene } from "../game2"
 //function to load the number of levels complete from the save file
 import { load } from "../saving/saving-system"
 
-//Creating the Main Menu scene. The create function is called at the start of the scene and the update function is called every frame
+//Creating the Level Select scene. The create function is called at the start of the scene and the update function is called every frame
 class LevelSelect extends Phaser.Scene{
     constructor(){
         super("LevelSelect")
